@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}План возвратов - DepositOne{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Возвраты на следующий день</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID вклада</th>
+                <th>Дней</th>
+                <th>Начисленные проценты</th>
+                <th>Сумма к возврату</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in tomorrow_items %}
+            <tr>
+                <td>{{ item.deposit_id }}</td>
+                <td>{{ item.days }}</td>
+                <td>{{ item.interest_amount }}</td>
+                <td>{{ item.total_amount }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">На завтра возвратов нет.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2>План возвратов за месяц</h2>
+    <p><strong>Общая сумма к возврату за месяц:</strong> {{ month_plan.total_sum }}</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID вклада</th>
+                <th>Количество дней</th>
+                <th>Проценты</th>
+                <th>Итоговая сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in month_plan["items"] %}
+            <tr>
+                <td>{{ item.deposit_id }}</td>
+                <td>{{ item.days }}</td>
+                <td>{{ item.interest_amount }}</td>
+                <td>{{ item.total_amount }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">Нет данных по возвратам за месяц.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

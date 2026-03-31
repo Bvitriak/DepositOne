@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Отчеты - DepositOne{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Приходно-расходные отчеты</h2>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <h3>За сегодня</h3>
+        <p>Приход: {{ today_report.income }}</p>
+        <p>Расход: {{ today_report.expense }}</p>
+        <p><strong>Баланс: {{ today_report.balance }}</strong></p>
+    </div>
+
+    <div class="card">
+        <h3>За месяц</h3>
+        <p>Приход: {{ month_report.income }}</p>
+        <p>Расход: {{ month_report.expense }}</p>
+        <p><strong>Баланс: {{ month_report.balance }}</strong></p>
+    </div>
+
+    <div class="card">
+        <h3>За год</h3>
+        <p>Приход: {{ year_report.income }}</p>
+        <p>Расход: {{ year_report.expense }}</p>
+        <p><strong>Баланс: {{ year_report.balance }}</strong></p>
+    </div>
+
+    <div class="card">
+        <h3>За пятилетие</h3>
+        <p>Приход: {{ five_year_report.income }}</p>
+        <p>Расход: {{ five_year_report.expense }}</p>
+        <p><strong>Баланс: {{ five_year_report.balance }}</strong></p>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Сводка по вкладчикам</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ФИО</th>
+                <th>Количество вкладов</th>
+                <th>Общая сумма вкладов</th>
+                <th>Начисленные проценты</th>
+                <th>Приход</th>
+                <th>Расход</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in depositors_summary %}
+            <tr>
+                <td>{{ item.depositor_id }}</td>
+                <td>{{ item.full_name }}</td>
+                <td>{{ item.deposits_count }}</td>
+                <td>{{ item.total_deposit_amount }}</td>
+                <td>{{ item.total_interest }}</td>
+                <td>{{ item.total_income }}</td>
+                <td>{{ item.total_expense }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7">Нет данных для отчета.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

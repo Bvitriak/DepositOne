@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DepositOne{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <h1 class="logo">DepositOne</h1>
+            <nav class="main-nav">
+                <a href="{{ url_for('index') }}">Главная</a>
+                <a href="{{ url_for('depositors') }}">Вкладчики</a>
+                <a href="{{ url_for('deposits') }}">Вклады</a>
+                <a href="{{ url_for('contracts') }}">Договоры</a>
+                <a href="{{ url_for('reports') }}">Отчеты</a>
+                <a href="{{ url_for('returnPlan') }}">План возвратов</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

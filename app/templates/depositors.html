@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Вкладчики - DepositOne{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="actions">
+        <a class="btn" href="{{ url_for('createDepositor') }}">Добавить вкладчика</a>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Список вкладчиков</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ФИО</th>
+                <th>Паспорт</th>
+                <th>Телефон</th>
+                <th>Email</th>
+                <th>Адрес</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for depositor in depositors %}
+            <tr>
+                <td>{{ depositor.id }}</td>
+                <td>{{ depositor.last_name }} {{ depositor.first_name }} {{ depositor.middle_name or "" }}</td>
+                <td>{{ depositor.passport_series }} {{ depositor.passport_number }}</td>
+                <td>{{ depositor.phone or "-" }}</td>
+                <td>{{ depositor.email or "-" }}</td>
+                <td>{{ depositor.address or "-" }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">Нет данных о вкладчиках.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

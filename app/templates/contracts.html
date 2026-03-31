@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Договоры - DepositOne{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Список договоров</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Номер договора</th>
+                <th>Дата</th>
+                <th>ID вкладчика</th>
+                <th>ID вклада</th>
+                <th>Подписан</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contract in contracts %}
+            <tr>
+                <td>{{ contract.id }}</td>
+                <td>{{ contract.contract_number }}</td>
+                <td>{{ contract.contract_date }}</td>
+                <td>{{ contract.depositor_id }}</td>
+                <td>{{ contract.deposit_id }}</td>
+                <td>{{ "Да" if contract.is_signed else "Нет" }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">Нет созданных договоров.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

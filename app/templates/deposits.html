@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Вклады - DepositOne{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="actions">
+        <a class="btn" href="{{ url_for('createDeposit') }}">Открыть вклад</a>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Список вкладов</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Вкладчик</th>
+                <th>Тип вклада</th>
+                <th>Сумма</th>
+                <th>Ставка</th>
+                <th>Срок</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deposit in deposits %}
+            <tr>
+                <td>{{ deposit.id }}</td>
+                <td>
+                    {{ deposit.depositor.last_name }} {{ deposit.depositor.first_name }}
+                </td>
+                <td>{{ deposit.deposit_type }}</td>
+                <td>{{ deposit.amount }}</td>
+                <td>{{ deposit.interest_rate }}%</td>
+                <td>{{ deposit.start_date }} — {{ deposit.end_date }}</td>
+                <td>{{ deposit.status }}</td>
+                <td>
+                    <div class="actions">
+                        <a class="btn" href="{{ url_for('createContract', deposit_id=deposit.id) }}">Договор</a>
+                        <form method="post" action="{{ url_for('createAccrual', deposit_id=deposit.id) }}" class="inline-form">
+                            <button type="submit">Начислить %</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8">Нет открытых вкладов.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
