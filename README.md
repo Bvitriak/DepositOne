@@ -182,11 +182,12 @@ deposit_bank/
 git clone https://github.com/Bvitriak/DepositOne.git
 cd deposit_bank
 ```
-2. Установка зависимостей
+2. Создать в корне проекта папку `database`
+3. Установка зависимостей
 ```commandline
 pip install -r requirements.txt
 ```
-3. Настройка окружения
+4. Настройка окружения
 ```commandline
 cp .env.example .env
 ```
