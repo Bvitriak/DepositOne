@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Пополнение вклада{% endblock %}
+{% block content %}
+<div class="deposit-form-page">
+    <section class="deposit-form-hero">
+        <div class="deposit-form-hero-content">
+            <span class="deposit-form-badge">Пополнение депозита</span>
+            <h2>Пополнение вклада #{{ deposit.id }}</h2>
+            <p>
+                Клиент: {{ deposit.lastname }} {{ deposit.firstname }} {{ deposit.middlename or '' }}.
+                Тип вклада: {{ deposit.deposittype }}.
+            </p>
+        </div>
+    </section>
+
+    <form method="post" class="entity-filter-card">
+        <div class="deposit-form-main">
+            <section class="entity-filter-card">
+                <div class="deposit-form-panel-head">
+                    <div>
+                        <h3>Текущие данные</h3>
+                        <p class="muted">Проверьте вклад перед пополнением.</p>
+                    </div>
+                </div>
+                <div class="deposit-form-grid deposit-form-grid-2">
+                    <div class="form-field">
+                        <label>ID вклада</label>
+                        <input type="text" value="{{ deposit.id }}" readonly>
+                    </div>
+                    <div class="form-field">
+                        <label>Статус</label>
+                        <input type="text" value="{{ deposit.status }}" readonly>
+                    </div>
+                    <div class="form-field">
+                        <label>Текущая сумма</label>
+                        <input type="text" value="{{ deposit.amount }}" readonly>
+                    </div>
+                    <div class="form-field">
+                        <label>Валюта</label>
+                        <input type="text" value="{{ deposit.currency }}" readonly>
+                    </div>
+                </div>
+            </section>
+
+            <section class="entity-filter-card">
+                <div class="deposit-form-panel-head">
+                    <div>
+                        <h3>Сумма пополнения</h3>
+                        <p class="muted">После подтверждения сумма вклада будет увеличена.</p>
+                    </div>
+                </div>
+
+                <div class="deposit-form-grid">
+                    <div class="form-field form-field-full">
+                        <label for="amount">Сумма</label>
+                        <input type="number" step="0.01" min="0.01" id="amount" name="amount" value="{{ request.form.get('amount', '') }}" placeholder="10000.00" required>
+                    </div>
+                </div>
+            </section>
+
+            <div class="entity-filter-card">
+                <div class="actions deposit-form-actions">
+                    <button type="submit">Пополнить вклад</button>
+                    <a class="btn btn-secondary" href="{{ url_for('deposits') }}">Назад</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

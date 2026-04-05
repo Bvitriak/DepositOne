@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Создать договор{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>Создание договора для вклада №{{ deposit.id }}</h2>
+    <p><strong>Вкладчик:</strong> {{ deposit.last_name }} {{ deposit.first_name }}</p>
+    <p><strong>Сумма:</strong> {{ deposit.amount }}</p>
+    <p><strong>Ставка:</strong> {{ deposit.interest_rate }}%</p>
+    <p><strong>Срок:</strong> {{ deposit.start_date }} — {{ deposit.end_date }}</p>
+
+    <form method="post">
+        <div>
+            <label for="term_description">Описание срока</label>
+            <input type="text" id="term_description" name="term_description" placeholder="Например: срочный вклад">
+        </div>
+        <div>
+            <label for="special_conditions">Особые условия</label>
+            <textarea id="special_conditions" name="special_conditions" rows="5"></textarea>
+        </div>
+        <div class="actions">
+            <button type="submit">Создать договор</button>
+            <a class="btn btn-secondary" href="{{ url_for('contracts') }}">Назад</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

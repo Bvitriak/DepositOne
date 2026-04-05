@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% block title %}Вклады — DepositOne{% endblock %}
+{% block content %}
+<div class="deposits-page">
+    <section class="entity-hero entity-hero-deposits">
+        <div class="entity-hero-content">
+            <span class="entity-badge">Deposits registry</span>
+            <h2>Управление вкладными продуктами и договорной базой</h2>
+            <p>
+                Просмотр, фильтрация и сопровождение вкладов с контролем суммы, ставки,
+                валюты, срока действия, начислений и связанных договоров.
+            </p>
+        </div>
+        <div class="entity-hero-actions">
+            <a class="btn" href="{{ url_for('create_deposit') }}">Открыть вклад</a>
+        </div>
+    </section>
+
+    <section class="entity-filter-card">
+        <div class="entity-section-head">
+            <div>
+                <h3>Фильтры по вкладам</h3>
+                <p class="muted">Выбери параметры для поиска по депозитному портфелю.</p>
+            </div>
+        </div>
+        <form method="get" class="filters-form entity-filters-form deposits-filters-form">
+            <div class="grid">
+                <div>
+                    <label for="search">Поиск</label>
+                    <input type="text" id="search" name="search" value="{{ filters.search }}" placeholder="ФИО вкладчика или тип вклада">
+                </div>
+                <div>
+                    <label for="status">Статус</label>
+                    <select id="status" name="status">
+                        <option value="">Все</option>
+                        <option value="active" {% if filters.status== "active" %}selected{% endif %}>active</option>
+                        <option value="closed" {% if filters.status== "closed" %}selected{% endif %}>closed</option>
+                        <option value="blocked" {% if filters.status== "blocked" %}selected{% endif %}>blocked</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="currency">Валюта</label>
+                    <select id="currency" name="currency">
+                        <option value="">Все</option>
+                        <option value="RUB" {% if filters.currency== "RUB" %}selected{% endif %}>RUB</option>
+                        <option value="USD" {% if filters.currency== "USD" %}selected{% endif %}>USD</option>
+                        <option value="EUR" {% if filters.currency== "EUR" %}selected{% endif %}>EUR</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="min_amount">Сумма от</label>
+                    <input type="number" step="0.01" id="min_amount" name="min_amount" value="{{ filters.min_amount }}" placeholder="0.00">
+                </div>
+                <div>
+                    <label for="max_amount">Сумма до</label>
+                    <input type="number" step="0.01" id="max_amount" name="max_amount" value="{{ filters.max_amount }}" placeholder="1000000.00">
+                </div>
+                <div>
+                    <label for="sort_by">Сортировка</label>
+                    <select id="sort_by" name="sort_by">
+                        <option value="id" {% if sorting.sort_by== "id" %}selected{% endif %}>ID</option>
+                        <option value="amount" {% if sorting.sort_by== "amount" %}selected{% endif %}>Сумма</option>
+                        <option value="interest_rate" {% if sorting.sort_by== "interest_rate" %}selected{% endif %}>Ставка</option>
+                        <option value="start_date" {% if sorting.sort_by== "start_date" %}selected{% endif %}>Дата начала</option>
+                        <option value="end_date" {% if sorting.sort_by== "end_date" %}selected{% endif %}>Дата окончания</option>
+                        <option value="status" {% if sorting.sort_by== "status" %}selected{% endif %}>Статус</option>
+                        <option value="deposit_type" {% if sorting.sort_by== "deposit_type" %}selected{% endif %}>Тип вклада</option>
+                        <option value="lastname" {% if sorting.sort_by== "lastname" %}selected{% endif %}>Фамилия</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="sort_order">Порядок</label>
+                    <select id="sort_order" name="sort_order">
+                        <option value="desc" {% if sorting.sort_order== "desc" %}selected{% endif %}>По убыванию</option>
+                        <option value="asc" {% if sorting.sort_order== "asc" %}selected{% endif %}>По возрастанию</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="page_size">На странице</label>
+                    <select id="page_size" name="page_size">
+                        <option value="10" {% if pagination.page_size== 10 %}selected{% endif %}>10</option>
+                        <option value="20" {% if pagination.page_size== 20 %}selected{% endif %}>20</option>
+                        <option value="50" {% if pagination.page_size== 50 %}selected{% endif %}>50</option>
+                        <option value="100" {% if pagination.page_size== 100 %}selected{% endif %}>100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="actions">
+                <button type="submit">Применить фильтры</button>
+                <a class="btn btn-secondary" href="{{ url_for('deposits') }}">Сбросить</a>
+            </div>
+        </form>
+    </section>
+
+    <section class="entity-table-panel">
+        <div class="table-header entity-table-header">
+            <div>
+                <h3>Список вкладов</h3>
+                <p class="muted">Найдено записей: {{ pagination.total }}</p>
+            </div>
+            <div class="entity-table-actions">
+                <a class="btn btn-secondary" href="{{ url_for('create_deposit') }}">Новый вклад</a>
+            </div>
+        </div>
+        <div class="entity-table-wrap">
+            <table class="entity-table deposits-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Вкладчик</th>
+                        <th>Тип</th>
+                        <th>Сумма</th>
+                        <th>Ставка</th>
+                        <th>Срок</th>
+                        <th>Статус</th>
+                        <th>Валюта</th>
+                        <th>Опции</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for deposit in deposits %}
+                <tr>
+                    <td class="entity-id-cell">{{ deposit.id }}</td>
+                    <td>
+                        <div class="entity-person">
+                            <strong>{{ deposit.lastname }} {{ deposit.firstname }} {{ deposit.middlename or ''
+                                }}</strong>
+                        </div>
+                    </td>
+                    <td>
+                      <span class="deposit-type-pill">
+                        {{ deposit.deposit_type }}
+                      </span>
+                    </td>
+                    <td class="deposit-amount-cell">
+                        {{ '%.2f'|format(deposit.amount) }}
+                    </td>
+                    <td class="deposit-rate-cell">
+                        {{ '%.2f'|format(deposit.interest_rate) }}%
+                    </td>
+                    <td class="deposit-dates-cell">
+                        <span>{{ deposit.start_date }}</span>
+                        <span class="muted">—</span>
+                        <span>{{ deposit.end_date }}</span>
+                    </td>
+                    <td>
+                        {% set status_map = {
+                        'active': 'a',
+                        'closed': 'c',
+                        'blocked': 'b'
+                        } %}
+                        <span class="status-badge status-badge-{{ deposit.status }}">
+                    {{ status_map.get(deposit.status, deposit.status[:1]|lower) }}
+                  </span>
+                    </td>
+                    <td>
+                  <span class="currency-badge currency-badge-{{ deposit.currency|lower }}">
+                    {{ deposit.currency }}
+                  </span>
+                    </td>
+                    <td>
+                        <div class="deposit-flags">
+                            {% if deposit.capitalization %}
+                            <span class="deposit-flag" title="Капитализация">К</span>
+                            {% endif %}
+                            {% if deposit.auto_renewal %}
+                            <span class="deposit-flag" title="Автопролонгация">А</span>
+                            {% endif %}
+                            {% if not deposit.capitalization and not deposit.auto_renewal %}
+                            <span class="muted">—</span>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="actions entity-row-actions deposit-row-actions">
+                            <a class="btn" href="{{ url_for('create_contract', deposit_id=deposit.id) }}">Договор</a>
+                            <a class="btn btn-secondary" href="{{ url_for('edit_deposit', deposit_id=deposit.id) }}">Изменить</a>
+                            <a class="btn btn-secondary" href="{{ url_for('topup_deposit', deposit_id=deposit.id) }}">Пополнить</a>
+                            <form method="post" action="{{ url_for('accrue_deposit', deposit_id=deposit.id) }}"
+                                  class="inline-form">
+                                <button type="submit" class="btn btn-secondary">Начислить</button>
+                            </form>
+                            <form method="post" action="{{ url_for('delete_deposit', deposit_id=deposit.id) }}"
+                                  class="inline-form"
+                                  onsubmit="return confirm('Удалить вклад #{{ deposit.id }}?')">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="10">
+                        <div class="entity-empty">Список вкладов пуст.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            {% if pagination.has_prev %}
+            <a class="btn btn-secondary" href="{{ url_for('deposits', search=filters.search, status=filters.status, currency=filters.currency, min_amount=filters.min_amount, max_amount=filters.max_amount, sort_by=sorting.sort_by, sort_order=sorting.sort_order, page=pagination.page - 1, page_size=pagination.page_size) }}">
+                Назад
+            </a>
+            {% endif %}
+            <span>Страница {{ pagination.page }} из {{ pagination.total_pages if pagination.total_pages else 1 }}</span>
+            {% if pagination.has_next %}
+            <a class="btn btn-secondary" href="{{ url_for('deposits', search=filters.search, status=filters.status, currency=filters.currency, min_amount=filters.min_amount, max_amount=filters.max_amount, sort_by=sorting.sort_by, sort_order=sorting.sort_order, page=pagination.page + 1, page_size=pagination.page_size) }}">
+                Вперёд
+            </a>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}

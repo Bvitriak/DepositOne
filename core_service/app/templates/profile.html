@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Профиль {{ profile_user.username }} — DepositOne{% endblock %}
+{% block content %}
+<div class="profile-page">
+    <section class="profile-hero">
+        <div class="profile-hero-main">
+            <span class="profile-badge">Account center</span>
+            <h2>{{ profile_user.username }}</h2>
+            <p class="profile-subtitle">
+                Персональный профиль пользователя, данные учётной записи и доступ к JWT access token
+                для работы с API и внутренними сервисами.
+            </p>
+            <div class="profile-hero-meta">
+                <div class="profile-meta-chip">
+                    <span>Роль</span>
+                    <strong>{{ profile_user.role }}</strong>
+                </div>
+                <div class="profile-meta-chip">
+                    <span>Статус</span>
+                    <strong>
+                        {% if profile_user.is_active %}
+                        Активен
+                        {% else %}
+                        Отключён
+                        {% endif %}
+                    </strong>
+                </div>
+                <div class="profile-meta-chip">
+                    <span>ID</span>
+                    <strong>#{{ profile_user.id }}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="profile-hero-side">
+            <div class="profile-avatar">
+                {{ profile_user.username[:1]|upper }}
+            </div>
+            <div class="profile-identity">
+                <strong>{{ profile_user.username }}</strong>
+                <span>{{ profile_user.email or "Email не указан" }}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="profile-grid">
+        <section class="profile-panel">
+            <div class="profile-panel-head">
+                <div>
+                    <h3>Данные аккаунта</h3>
+                    <p class="muted">Основная информация об авторизованном пользователе.</p>
+                </div>
+            </div>
+            <div class="profile-info-list">
+                <div class="profile-info-row">
+                    <span>ID</span>
+                    <strong>{{ profile_user.id }}</strong>
+                </div>
+                <div class="profile-info-row">
+                    <span>Username</span>
+                    <strong>{{ profile_user.username }}</strong>
+                </div>
+                <div class="profile-info-row">
+                    <span>Email</span>
+                    <strong>{{ profile_user.email or "-" }}</strong>
+                </div>
+                <div class="profile-info-row">
+                    <span>Role</span>
+                    <strong>{{ profile_user.role }}</strong>
+                </div>
+                <div class="profile-info-row">
+                    <span>Статус</span>
+                    <strong class="{% if profile_user.is_active %}profile-status-ok{% else %}profile-status-off{% endif %}">
+                        {% if profile_user.is_active %}
+                        Активен
+                        {% else %}
+                        Неактивен
+                        {% endif %}
+                    </strong>
+                </div>
+                <div class="profile-info-row">
+                    <span>Создан</span>
+                    <strong>{{ profile_user.created_at }}</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="profile-panel profile-token-panel">
+            <div class="profile-panel-head">
+                <div>
+                    <h3>JWT access token</h3>
+                    <p class="muted">
+                        Токен используется для обращения к защищённым endpoint и интеграции с API.
+                    </p>
+                </div>
+            </div>
+            <div class="profile-token-actions">
+                <button type="button" id="refresh-token-btn" class="btn">
+                    Обновить токен
+                </button>
+                <button type="button" id="copy-token-btn" class="btn btn-secondary">
+                    Скопировать
+                </button>
+            </div>
+            <p id="token-status" class="profile-token-status muted"></p>
+            <div class="profile-token-box">
+                <label for="token-output">Access token</label>
+                <textarea id="token-output" rows="12" readonly placeholder="{{ profile_user.token or '' }}">{{ profile_user.token or '' }}</textarea>
+            </div>
+            <div class="profile-token-hint">
+                Храни токен как секрет, не вставляй его в клиентский код и не публикуй в репозиториях.
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const refreshBtn = document.getElementById("refresh-token-btn");
+      const copyBtn = document.getElementById("copy-token-btn");
+      const output = document.getElementById("token-output");
+      const status = document.getElementById("token-status");
+
+      refreshBtn.addEventListener("click", async function () {
+        refreshBtn.disabled = true;
+        status.textContent = "Обновление токена...";
+
+        try {
+          const response = await fetch("{{ url_for('issue_token') }}", {
+            method: "POST",
+            headers: {
+              "X-Requested-With": "XMLHttpRequest"
+            }
+          });
+
+          const data = await response.json();
+
+          if (!response.ok || !data.access_token) {
+            throw new Error(data.message || "Не удалось обновить токен.");
+          }
+
+          output.value = data.access_token;
+          status.textContent = "Токен успешно обновлён.";
+          status.className = "profile-token-status profile-token-status-success";
+        } catch (error) {
+          output.value = "";
+          status.textContent = error.message;
+          status.className = "profile-token-status profile-token-status-error";
+        } finally {
+          refreshBtn.disabled = false;
+        }
+      });
+
+      copyBtn.addEventListener("click", async function () {
+        if (!output.value) {
+          status.textContent = "Нет токена для копирования.";
+          status.className = "profile-token-status profile-token-status-error";
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(output.value);
+          status.textContent = "Токен скопирован в буфер обмена.";
+          status.className = "profile-token-status profile-token-status-success";
+        } catch (error) {
+          status.textContent = "Не удалось скопировать токен.";
+          status.className = "profile-token-status profile-token-status-error";
+        }
+      });
+    });
+</script>
+{% endblock %}

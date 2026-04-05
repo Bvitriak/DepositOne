@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}План возвратов — DepositOne{% endblock %}
+{% block content %}
+<div class="return-plan-page">
+    <section class="return-plan-hero">
+        <div class="return-plan-hero-content">
+            <span class="entity-badge">Return planning</span>
+            <h2>План возвратов по вкладам</h2>
+            <p>
+                Оперативный список возвратов на завтра и расширенный месячный план
+                с расчётом процентов и итоговых сумм к выплате.
+            </p>
+        </div>
+        <div class="return-plan-total-card">
+            <span class="return-plan-total-label">Итого за месяц</span>
+            <strong class="return-plan-total-value">{{ month_plan.total_sum }}</strong>
+            <span class="return-plan-total-note">Сумма всех плановых возвратов по активным вкладам.</span>
+        </div>
+    </section>
+
+    <section class="return-plan-section">
+        <div class="return-plan-section-head">
+            <div>
+                <h3>Возвраты на завтра</h3>
+                <p class="muted">
+                    Приоритетный список вкладов, по которым ожидается возврат в ближайший день.
+                </p>
+            </div>
+            <div class="return-plan-count-chip">
+                {{ tomorrow_items|length }} поз.
+            </div>
+        </div>
+        <div class="return-plan-highlight-grid">
+            {% for item in tomorrow_items %}
+            <article class="return-plan-highlight-card">
+                <div class="return-plan-highlight-top">
+                    <span class="return-plan-highlight-id">Вклад #{{ item.deposit_id }}</span>
+                    <span class="return-plan-highlight-days">{{ item.days }} дн.</span>
+                </div>
+                <div class="return-plan-highlight-body">
+                    <div>
+                        <span class="return-plan-caption">Проценты</span>
+                        <strong class="return-plan-money return-plan-interest">
+                            {{ item.interest_amount }}
+                        </strong>
+                    </div>
+                    <div>
+                        <span class="return-plan-caption">К возврату</span>
+                        <strong class="return-plan-money return-plan-total">
+                            {{ item.total_amount }}
+                        </strong>
+                    </div>
+                </div>
+            </article>
+            {% else %}
+            <div class="entity-empty return-plan-empty">
+                На завтра возвратов не запланировано.
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="return-plan-section return-plan-month-panel">
+        <div class="return-plan-section-head">
+            <div>
+                <h3>Месячный план возвратов</h3>
+                <p class="muted">
+                    Полный перечень вкладов, срок возврата которых приходится на текущий месяц.
+                </p>
+            </div>
+            <div class="return-plan-summary-box">
+                <span>Общая сумма</span>
+                <strong>{{ month_plan.total_sum }}</strong>
+            </div>
+        </div>
+
+        <div class="return-plan-table-wrap">
+            <table class="entity-table return-plan-table">
+                <thead>
+                <tr>
+                    <th>ID вклада</th>
+                    <th>Срок, дней</th>
+                    <th>Начисленные проценты</th>
+                    <th>Итого к возврату</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in month_plan_items %}
+                <tr>
+                    <td class="entity-id-cell">{{ item.deposit_id }}</td>
+                    <td>
+                        <span class="return-plan-days-pill">{{ item.days }}</span>
+                    </td>
+                    <td class="return-plan-money-cell return-plan-interest-cell">
+                        {{ item.interest_amount }}
+                    </td>
+                    <td class="return-plan-money-cell return-plan-total-cell">
+                        {{ item.total_amount }}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">
+                        <div class="entity-empty">
+                            В текущем месяце возвраты не запланированы.
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title %}Новый вклад — DepositOne{% endblock %}
+{% block content %}
+<div class="deposit-form-page">
+    <section class="deposit-form-hero">
+        <div class="deposit-form-hero-content">
+            <span class="deposit-form-badge">Deposit opening</span>
+            <h2>Новый вклад</h2>
+            <p>
+                Оформите новый вклад: выберите вкладчика, укажите параметры договора,
+                сумму, ставку, сроки и дополнительные опции начисления.
+            </p>
+        </div>
+        <div class="deposit-form-hero-note">
+            <strong>Что важно проверить</strong>
+            <span>Срок вклада, валюту, статус и корректность процентной ставки перед сохранением.</span>
+        </div>
+    </section>
+
+    <form method="post" class="deposit-form-layout">
+        <div class="deposit-form-main">
+            <section class="deposit-form-panel">
+                <div class="deposit-form-panel-head">
+                    <div>
+                        <h3>Вкладчик и продукт</h3>
+                        <p class="muted">Основные параметры договора и выбор клиента.</p>
+                    </div>
+                </div>
+                <div class="deposit-form-grid">
+                    <div class="form-field form-field-full">
+                        <label for="depositor_id">Вкладчик</label>
+                        <select id="depositor_id" name="depositor_id" required>
+                            <option value="">Выберите вкладчика</option>
+                            {% for depositor in depositors %}
+                            <option value="{{ depositor.id }}" {% if request.form.get('depositor_id') == depositor.id|string %}selected{% endif %} > {{ depositor.lastname }} {{ depositor.firstname }} {{ depositor.middlename or "" }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-field form-field-full">
+                        <label for="deposit_type">Тип вклада</label>
+                        <input type="text" id="deposit_type" name="deposit_type" value="{{ request.form.get('deposit_type', '') }}" required placeholder="Например: Классический, Пенсионный, Premium">
+                    </div>
+                    <div class="form-field">
+                        <label for="currency">Валюта</label>
+                        <select id="currency" name="currency" required>
+                            {% for item in currencyoptions %}
+                            <option value="{{ item }}" {% if request.form.get('currency', defaultcurrency) == item %}selected{% endif %} > {{ item }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="status">Статус</label>
+                        <select id="status" name="status" required>
+                            {% for item in statusoptions %}
+                            <option value="{{ item }}" {% if request.form.get('status', defaultstatus) == item %}selected{% endif %} > {{ item }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="deposit-form-panel">
+                <div class="deposit-form-panel-head">
+                    <div>
+                        <h3>Финансовые параметры</h3>
+                        <p class="muted">Сумма вклада и процентная ставка.</p>
+                    </div>
+                </div>
+                <div class="deposit-form-grid deposit-form-grid-2">
+                    <div class="form-field">
+                        <label for="amount">Сумма вклада</label>
+                        <input type="number" step="0.01" min="0" id="amount" name="amount" value="{{ request.form.get('amount', '') }}" required placeholder="100000.00">
+                    </div>
+                    <div class="form-field">
+                        <label for="interest_rate">Процентная ставка</label>
+                        <input type="number" step="0.01" min="0" id="interest_rate" name="interest_rate" value="{{ request.form.get('interest_rate', '') }}" required placeholder="10.50">
+                    </div>
+                </div>
+            </section>
+
+            <section class="deposit-form-panel">
+                <div class="deposit-form-panel-head">
+                    <div>
+                        <h3>Срок размещения</h3>
+                        <p class="muted">Дата начала и дата окончания вклада.</p>
+                    </div>
+                </div>
+                <div class="deposit-form-grid deposit-form-grid-2">
+                    <div class="form-field">
+                        <label for="start_date">Дата начала</label>
+                        <input type="date" id="start_date" name="start_date" value="{{ request.form.get('start_date', '') }}" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="end_date">Дата окончания</label>
+                        <input type="date" id="end_date" name="end_date" value="{{ request.form.get('end_date', '') }}" required>
+                    </div>
+                </div>
+            </section>
+
+            <section class="deposit-form-panel">
+                <div class="deposit-form-panel-head">
+                    <div>
+                        <h3>Дополнительные опции</h3>
+                        <p class="muted">Настройки капитализации и автоматического продления.</p>
+                    </div>
+                </div>
+                <div class="deposit-form-options">
+                    <label class="deposit-option-card">
+                        <input type="checkbox" name="capitalization" {% if request.form.get('capitalization') %}checked{% endif %}>
+                        <span class="deposit-option-card-body">
+              <strong>Капитализация процентов</strong>
+              <span>Начисленные проценты добавляются к телу вклада.</span>
+            </span>
+                    </label>
+                    <label class="deposit-option-card">
+                        <input type="checkbox" name="auto_renewal" {% if request.form.get('auto_renewal') %}checked{% endif %}>
+                        <span class="deposit-option-card-body">
+                          <strong>Автопродление</strong>
+                          <span>После окончания срока вклад может быть продлён автоматически.</span>
+                        </span>
+                    </label>
+                </div>
+            </section>
+        </div>
+
+        <aside class="deposit-form-sidebar">
+            <section class="deposit-form-sidecard">
+                <h3>Подсказки</h3>
+                <ul class="deposit-form-checklist">
+                    <li>Выбери правильного вкладчика из списка.</li>
+                    <li>Проверь валюту и статус перед сохранением.</li>
+                    <li>Убедись, что дата окончания больше даты начала.</li>
+                    <li>Используй капитализацию только для соответствующих продуктов.</li>
+                </ul>
+            </section>
+
+            <section class="deposit-form-sidecard deposit-form-sidecard-accent">
+                <h3>После создания</h3>
+                <p>
+                    Запись появится в списке вкладов, после чего можно будет оформить договор,
+                    начислить проценты и редактировать параметры вклада.
+                </p>
+            </section>
+        </aside>
+        <div class="deposit-form-footer">
+            <div class="deposit-form-hint">
+                После сохранения вклад станет доступен в общем реестре вкладов и для дальнейших операций.
+            </div>
+
+            <div class="actions deposit-form-actions">
+                <button type="submit">Сохранить вклад</button>
+                <a class="btn btn-secondary" href="{{ url_for('deposits') }}">Назад к списку</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

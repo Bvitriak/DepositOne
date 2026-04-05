@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Главная — DepositOne{% endblock %}
+{% block content %}
+<div class="home-page">
+    <section class="home-hero">
+        <div class="home-hero-content">
+            <span class="home-badge">Deposit Management Platform</span>
+            <h2>Управление вкладчиками, вкладами, договорами и аналитикой в одной системе</h2>
+            <p>
+                DepositOne — внутренняя банковская платформа для операционного учёта вкладов,
+                контроля договоров, просмотра аналитики, cash flow и работы с JWT API.
+            </p>
+            <div class="home-actions">
+                <a class="btn" href="{{ url_for('dashboard') }}">Открыть Dashboard</a>
+                <a class="btn btn-secondary" href="{{ url_for('about') }}">О проекте</a>
+            </div>
+        </div>
+        <div class="home-hero-side">
+            <div class="home-highlight-card">
+                <span class="home-highlight-label">Состояние системы</span>
+                <strong>Рабочая панель готова к операциям</strong>
+                <p>Быстрый доступ к данным по клиентам, вкладам, договорам и отчётам.</p>
+            </div>
+            <div class="home-mini-grid">
+                <div class="home-mini-card">
+                    <span>JWT API</span>
+                    <strong>Подключено</strong>
+                </div>
+                <div class="home-mini-card">
+                    <span>Dashboard</span>
+                    <strong>Готов</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-stats">
+        <article class="home-stat-card">
+            <span class="home-stat-label">Вкладчики</span>
+            <strong>{{ depositors_count }}</strong>
+            <p>Зарегистрированные клиенты в системе.</p>
+        </article>
+        <article class="home-stat-card">
+            <span class="home-stat-label">Вклады</span>
+            <strong>{{ deposits_count }}</strong>
+            <p>Активные и архивные договорённости по депозитам.</p>
+        </article>
+        <article class="home-stat-card">
+            <span class="home-stat-label">Договоры</span>
+            <strong>{{ contracts_count }}</strong>
+            <p>Подготовленные и оформленные договоры по вкладам.</p>
+        </article>
+        <article class="home-stat-card">
+            <span class="home-stat-label">Транзакции</span>
+            <strong>{{ transactions_count }}</strong>
+            <p>Операции движения средств и начисления процентов.</p>
+        </article>
+    </section>
+
+    <section class="home-grid">
+        <article class="home-panel">
+            <div class="home-panel-head">
+                <h3>Быстрые действия</h3>
+                <span class="home-panel-icon">↗</span>
+            </div>
+            <div class="home-quick-links">
+                <a href="{{ url_for('createdepositor') }}" class="home-quick-link">Добавить вкладчика</a>
+                <a href="{{ url_for('create_deposit') }}" class="home-quick-link">Открыть вклад</a>
+                <a href="{{ url_for('contracts') }}" class="home-quick-link">Перейти к договорам</a>
+                <a href="{{ url_for('reports') }}" class="home-quick-link">Открыть отчёты</a>
+            </div>
+        </article>
+        <article class="home-panel">
+            <div class="home-panel-head">
+                <h3>Что доступно</h3>
+                <span class="home-panel-icon">◎</span>
+            </div>
+            <ul class="home-feature-list">
+                <li>CRUD-операции по вкладчикам и вкладам.</li>
+                <li>Регистрация и сопровождение договоров.</li>
+                <li>Dashboard с Chart.js и сводной аналитикой.</li>
+                <li>Отчёты, план возвратов и JWT API endpoints.</li>
+            </ul>
+        </article>
+    </section>
+</div>
+{% endblock %}

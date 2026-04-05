@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Новый вкладчик — DepositOne{% endblock %}
+{% block content %}
+<div class="depositor-form-page">
+    <section class="depositor-form-hero">
+        <div class="depositor-form-hero-content">
+            <span class="depositor-form-badge">Depositor onboarding</span>
+            <h2>Новый вкладчик</h2>
+            <p>
+                Создайте карточку вкладчика с паспортными и контактными данными.
+            </p>
+        </div>
+    </section>
+
+    <form method="post" action="{{ url_for('createdepositor') }}" class="depositor-form-shell">
+        <section class="depositor-form-panel">
+            <h3>Персональные данные</h3>
+            <div class="depositor-form-grid">
+                <div class="form-field">
+                    <label for="lastname">Фамилия</label>
+                    <input type="text" id="lastname" name="lastname" value="{{ request.form.get('lastname', '') }}" required placeholder="Иванов">
+                </div>
+                <div class="form-field">
+                    <label for="firstname">Имя</label>
+                    <input type="text" id="firstname" name="firstname" value="{{ request.form.get('firstname', '') }}" required placeholder="Иван">
+                </div>
+                <div class="form-field">
+                    <label for="middlename">Отчество</label>
+                    <input type="text" id="middlename" name="middlename" value="{{ request.form.get('middlename', '') }}" placeholder="Иванович">
+                </div>
+            </div>
+        </section>
+
+        <section class="depositor-form-panel">
+            <h3>Паспортные данные</h3>
+            <div class="depositor-form-grid depositor-form-grid-2">
+                <div class="form-field">
+                    <label for="passportseries">Серия паспорта</label>
+                    <input type="text" id="passportseries" name="passportseries" value="{{ request.form.get('passportseries', '') }}" required placeholder="4510">
+                </div>
+                <div class="form-field">
+                    <label for="passportnumber">Номер паспорта</label>
+                    <input type="text" id="passportnumber" name="passportnumber" value="{{ request.form.get('passportnumber', '') }}" required placeholder="123456">
+                </div>
+                <div class="form-field form-field-full">
+                    <label for="issued_by">Кем выдан</label>
+                    <input type="text" id="issued_by" name="issued_by" value="{{ request.form.get('issued_by', '') }}" placeholder="ОВД района Арбат г. Москвы">
+                </div>
+            </div>
+        </section>
+
+        <section class="depositor-form-panel">
+            <h3>Контактная информация</h3>
+            <div class="depositor-form-grid">
+                <div class="form-field">
+                    <label for="phone">Телефон</label>
+                    <input type="text" id="phone" name="phone" value="{{ request.form.get('phone', '') }}" placeholder="+7 (999) 123-45-67">
+                </div>
+                <div class="form-field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="{{ request.form.get('email', '') }}" placeholder="client@example.com">
+                </div>
+                <div class="form-field form-field-full">
+                    <label for="address">Адрес</label>
+                    <input type="text" id="address" name="address" value="{{ request.form.get('address', '') }}" placeholder="г. Москва, ул. Примерная, д. 10, кв. 5">
+                </div>
+            </div>
+        </section>
+
+        <div class="depositor-form-footer">
+            <div class="actions depositor-form-actions">
+                <button type="submit">Сохранить вкладчика</button>
+                <a class="btn btn-secondary" href="{{ url_for('depositors') }}">Назад к списку</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

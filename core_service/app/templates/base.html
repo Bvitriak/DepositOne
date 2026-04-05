@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DepositOne{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="site-header">
+    <div class="header-inner">
+        <div class="header-side header-side-left">
+            <h1 class="logo">DepositOne</h1>
+        </div>
+        <nav class="main-nav">
+            <a href="{{ url_for('index') }}">Главная</a>
+            <a href="{{ url_for('about') }}">О проекте</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('depositors') }}">Вкладчики</a>
+            <a href="{{ url_for('deposits') }}">Вклады</a>
+            <a href="{{ url_for('contracts') }}">Договоры</a>
+            <a href="{{ url_for('reports') }}">Отчёты</a>
+            <a href="{{ url_for('return_plan') }}">План возвратов</a>
+        </nav>
+        <div class="header-side header-side-right">
+            {% if current_user.is_authenticated %}
+            <div class="user-menu">
+                <button type="button" class="user-menu-trigger">
+                    {{ current_user.username }}
+                </button>
+                <div class="user-menu-panel">
+                    <a href="{{ url_for('profile', username=current_user.username) }}" class="user-menu-item">
+                        Профиль
+                    </a>
+                    <form method="post" action="{{ url_for('logout') }}" class="user-menu-form">
+                        <button type="submit" class="user-menu-item">
+                            Выйти
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="auth-button">
+                Регистрация / Вход
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</main>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

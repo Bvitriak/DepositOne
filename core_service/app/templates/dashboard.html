@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — DepositOne{% endblock %}
+{% block content %}
+<div class="dashboard-page">
+    <section class="dashboard-hero">
+        <div class="dashboard-hero-content">
+            <span class="dashboard-badge">Analytics center</span>
+            <h2>Операционная аналитика по вкладам, портфелю и cash flow</h2>
+            <p>
+                Единая панель мониторинга для контроля клиентской базы, активных вкладов,
+                структуры портфеля и движения денежных средств.
+            </p>
+        </div>
+        <div class="dashboard-hero-meta">
+            <div class="dashboard-meta-card">
+                <span>Последнее обновление</span>
+                <strong id="dashboard-generated-at">—</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard-kpi-grid">
+        <article class="kpi-card kpi-card-accent">
+            <h3>Вкладчики</h3>
+            <p id="kpi-depositors">0</p>
+            <span class="kpi-note">Общее число клиентов в системе</span>
+        </article>
+        <article class="kpi-card">
+            <h3>Вклады</h3>
+            <p id="kpi-deposits">0</p>
+            <span class="kpi-note">Все открытые и завершённые вклады</span>
+        </article>
+        <article class="kpi-card">
+            <h3>Активные</h3>
+            <p id="kpi-active">0</p>
+            <span class="kpi-note">Вклады в текущем рабочем статусе</span>
+        </article>
+        <article class="kpi-card">
+            <h3>Портфель</h3>
+            <p id="kpi-portfolio">0.00</p>
+            <span class="kpi-note">Совокупный объём депозитного портфеля</span>
+        </article>
+        <article class="kpi-card">
+            <h3>Начисленные проценты</h3>
+            <p id="kpi-interest">0.00</p>
+            <span class="kpi-note">Суммарные начисления по вкладам</span>
+        </article>
+    </section>
+
+    <section class="dashboard-chart-grid">
+        <article class="dashboard-panel chart-card">
+            <div class="dashboard-panel-head">
+                <div>
+                    <h3>Структура по статусам</h3>
+                    <p class="muted">Распределение вкладов по текущим состояниям.</p>
+                </div>
+            </div>
+            <div class="chart-wrap">
+                <canvas id="statusChart"></canvas>
+            </div>
+        </article>
+        <article class="dashboard-panel chart-card">
+            <div class="dashboard-panel-head">
+                <div>
+                    <h3>Валютная структура</h3>
+                    <p class="muted">Объём портфеля по валютам вкладов.</p>
+                </div>
+            </div>
+            <div class="chart-wrap">
+                <canvas id="currencyChart"></canvas>
+            </div>
+        </article>
+    </section>
+
+    <section class="dashboard-wide-grid">
+        <article class="dashboard-panel chart-card dashboard-panel-wide">
+            <div class="dashboard-panel-head">
+                <div>
+                    <h3>Cash flow за 6 месяцев</h3>
+                    <p class="muted">Сравнение income, expense и результирующего баланса.</p>
+                </div>
+            </div>
+            <div class="chart-wrap chart-wrap-lg">
+                <canvas id="cashFlowChart"></canvas>
+            </div>
+        </article>
+        <article class="dashboard-panel dashboard-top-panel">
+            <div class="table-header">
+                <h3>Топ вкладчиков</h3>
+                <span class="muted">По сумме депозитного портфеля</span>
+            </div>
+            <div class="dashboard-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ФИО</th>
+                            <th>Кол-во вкладов</th>
+                            <th>Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topDepositorsTable">
+                        <tr>
+                            <td colspan="4">Загрузка данных...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const DASHBOARD_API_URL = "/api/dashboard";
+
+    function formatMoney(value) {
+      const amount = Number(value || 0);
+      return new Intl.NumberFormat("ru-RU", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(amount);
+    }
+
+    function setText(id, value) {
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    }
+
+    function buildStatusChart(items) {
+      const ctx = document.getElementById("statusChart");
+      if (!ctx) return;
+
+      new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: items.map(item => item.status),
+          datasets: [{
+            data: items.map(item => item.count),
+            backgroundColor: ["#0f766e", "#1d4ed8", "#f59e0b", "#dc2626", "#7c3aed"],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: 64,
+          plugins: { legend: { position: "bottom" } }
+        }
+      });
+    }
+
+    function buildCurrencyChart(items) {
+      const ctx = document.getElementById("currencyChart");
+      if (!ctx) return;
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: items.map(item => item.currency),
+          datasets: [{
+            label: "Сумма",
+            data: items.map(item => Number(item.amount)),
+            backgroundColor: "#0f766e",
+            borderRadius: 10,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: "rgba(148, 163, 184, 0.18)" } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function buildCashFlowChart(items) {
+      const ctx = document.getElementById("cashFlowChart");
+      if (!ctx) return;
+
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: items.map(item => item.month),
+          datasets: [
+            {
+              label: "Income",
+              data: items.map(item => Number(item.income)),
+              borderColor: "#16a34a",
+              backgroundColor: "rgba(22, 163, 74, 0.12)",
+              tension: 0.35,
+              fill: false
+            },
+            {
+              label: "Expense",
+              data: items.map(item => Number(item.expense)),
+              borderColor: "#dc2626",
+              backgroundColor: "rgba(220, 38, 38, 0.12)",
+              tension: 0.35,
+              fill: false
+            },
+            {
+              label: "Balance",
+              data: items.map(item => Number(item.balance)),
+              borderColor: "#0f766e",
+              backgroundColor: "rgba(15, 118, 110, 0.12)",
+              tension: 0.35,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: { legend: { position: "bottom" } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: "rgba(148, 163, 184, 0.18)" } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function renderTopDepositors(items) {
+      const tbody = document.getElementById("topDepositorsTable");
+      if (!tbody) return;
+
+      if (!items.length) {
+        tbody.innerHTML = `<tr><td colspan="4">Нет данных.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = items.map(item => `
+        <tr>
+          <td>${item.depositor_id}</td>
+          <td>${item.full_name}</td>
+          <td>${item.deposits_count}</td>
+          <td>${formatMoney(item.total_deposit_amount)}</td>
+        </tr>
+      `).join("");
+    }
+
+    async function loadDashboard() {
+      try {
+        const response = await fetch(DASHBOARD_API_URL, {
+          headers: { "Accept": "application/json" }
+        });
+
+        const result = await response.json();
+        if (!result.ok) throw new Error(result.message || "Не удалось загрузить dashboard.");
+
+        const data = result.data || {};
+        const kpi = data.kpi || {};
+
+        setText("kpi-depositors", kpi.depositors_count ?? 0);
+        setText("kpi-deposits", kpi.deposits_count ?? 0);
+        setText("kpi-active", kpi.active_deposits_count ?? 0);
+        setText("kpi-portfolio", formatMoney(kpi.portfolio_amount));
+        setText("kpi-interest", formatMoney(kpi.accrued_interest_total));
+        setText("dashboard-generated-at", data.generated_at || "-");
+
+        buildStatusChart(data.deposits_by_status || []);
+        buildCurrencyChart(data.deposits_by_currency || []);
+        buildCashFlowChart(data.cash_flow_6m || []);
+        renderTopDepositors(data.top_depositors || []);
+      } catch (error) {
+        console.error(error);
+        setText("dashboard-generated-at", "—");
+        const tbody = document.getElementById("topDepositorsTable");
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="4">Не удалось загрузить dashboard.</td></tr>`;
+        }
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadDashboard);
+</script>
+{% endblock %}

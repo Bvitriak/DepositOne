@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}Договоры — DepositOne{% endblock %}
+{% block content %}
+<div class="contracts-page">
+    <section class="entity-hero entity-hero-contracts">
+        <div class="entity-hero-content">
+            <span class="entity-badge">Contracts registry</span>
+            <h2>Управление договорной базой по депозитным продуктам</h2>
+            <p>
+                Поиск, просмотр и контроль подписания договоров по вкладам с быстрым
+                переходом к связанным сущностям и проверкой статуса оформления.
+            </p>
+        </div>
+    </section>
+
+    <section class="entity-filter-card">
+        <div class="entity-section-head">
+            <div>
+                <h3>Фильтры по договорам</h3>
+                <p class="muted">Используй параметры ниже для поиска и сортировки договоров.</p>
+            </div>
+        </div>
+        <form method="get" class="filters-form entity-filters-form contracts-filters-form">
+            <div class="grid">
+                <div>
+                    <label for="search">Поиск</label>
+                    <input type="text" id="search" name="search" value="{{ filters.search }}"
+                           placeholder="Номер договора, ID вклада, ФИО">
+                </div>
+                <div>
+                    <label for="is_signed">Подписание</label>
+                    <select id="is_signed" name="is_signed">
+                        <option value="" {% if filters.is_signed==
+                        "" %}selected{% endif %}>Все</option>
+                        <option value="1" {% if filters.is_signed==
+                        "1" %}selected{% endif %}>Подписан</option>
+                        <option value="0" {% if filters.is_signed==
+                        "0" %}selected{% endif %}>Не подписан</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="sort_by">Сортировка</label>
+                    <select id="sort_by" name="sort_by">
+                        <option value="id" {% if sorting.sort_by==
+                        "id" %}selected{% endif %}>ID</option>
+                        <option value="contract_number" {% if sorting.sort_by==
+                        "contract_number" %}selected{% endif %}>Номер договора</option>
+                        <option value="contract_date" {% if sorting.sort_by==
+                        "contract_date" %}selected{% endif %}>Дата договора</option>
+                        <option value="deposit_id" {% if sorting.sort_by==
+                        "deposit_id" %}selected{% endif %}>ID вклада</option>
+                        <option value="last_name" {% if sorting.sort_by==
+                        "last_name" %}selected{% endif %}>Фамилия</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="sort_order">Порядок</label>
+                    <select id="sort_order" name="sort_order">
+                        <option value="desc" {% if sorting.sort_order==
+                        "desc" %}selected{% endif %}>По убыванию</option>
+                        <option value="asc" {% if sorting.sort_order==
+                        "asc" %}selected{% endif %}>По возрастанию</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="page_size">На странице</label>
+                    <select id="page_size" name="page_size">
+                        <option value="10" {% if pagination.page_size== 10 %}selected{% endif %}>10</option>
+                        <option value="20" {% if pagination.page_size== 20 %}selected{% endif %}>20</option>
+                        <option value="50" {% if pagination.page_size== 50 %}selected{% endif %}>50</option>
+                        <option value="100" {% if pagination.page_size== 100 %}selected{% endif %}>100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="actions">
+                <button type="submit">Применить фильтры</button>
+                <a class="btn btn-secondary" href="{{ url_for('contracts') }}">Сбросить</a>
+            </div>
+        </form>
+    </section>
+
+    <section class="entity-table-panel">
+        <div class="table-header entity-table-header">
+            <div>
+                <h3>Список договоров</h3>
+                <p class="muted">Найдено записей: {{ pagination.total }}</p>
+            </div>
+        </div>
+
+        <div class="entity-table-wrap">
+            <table class="entity-table contracts-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Номер договора</th>
+                    <th>Дата</th>
+                    <th>Вкладчик</th>
+                    <th>ID вклада</th>
+                    <th>Статус</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for contract in contracts %}
+                <tr>
+                    <td class="entity-id-cell">{{ contract.id }}</td>
+                    <td>
+                  <span class="contract-number-pill">
+                      {{ contract.contract_number }}
+                  </span>
+                    </td>
+                    <td class="contract-date-cell">
+                        {{ contract.contract_date }}
+                    </td>
+                    <td>
+                        <div class="entity-person">
+                            <strong>{{ contract.lastname }} {{ contract.firstname }} {{ contract.middlename or '' }}</strong>
+                        </div>
+                    </td>
+                    <td>
+                  <span class="contract-deposit-pill">
+                    {{ contract.deposit_id }}
+                  </span>
+                    </td>
+                    <td>
+                        {% if contract.issigned %}
+                        <span class="contract-status-badge contract-status-signed">Подписан</span>
+                        {% else %}
+                        <span class="contract-status-badge contract-status-pending">Не подписан</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">
+                        <div class="entity-empty">Список договоров пуст.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            {% if pagination.has_prev %}
+            <a class="btn btn-secondary"
+               href="{{ url_for( 'contracts', search=filters.search, is_signed=filters.is_signed, sort_by=sorting.sort_by, sort_order=sorting.sort_order, page=pagination.page - 1, page_size=pagination.page_size) }}">
+                Назад
+            </a>
+            {% endif %}
+            <span>Страница {{ pagination.page }} из {{ pagination.total_pages if pagination.total_pages else 1 }}</span>
+            {% if pagination.has_next %}
+            <a class="btn btn-secondary"
+               href="{{ url_for( 'contracts', search=filters.search, is_signed=filters.is_signed, sort_by=sorting.sort_by, sort_order=sorting.sort_order, page=pagination.page + 1, page_size=pagination.page_size) }}">
+                Вперёд
+            </a>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}

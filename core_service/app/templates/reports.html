@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Отчёты — DepositOne{% endblock %}
+{% block content %}
+<div class="reports-page">
+    <section class="reports-hero">
+        <div class="reports-hero-content">
+            <span class="entity-badge">Reports center</span>
+            <h2>Финансовые отчёты и сводная аналитика по депозитному портфелю</h2>
+            <p>
+                Оперативный срез по движениям денежных средств за день, месяц, год и
+                пятилетний период, а также агрегированная сводка по вкладчикам.
+            </p>
+        </div>
+    </section>
+
+    <section class="reports-summary">
+        <div class="reports-section-head">
+            <div>
+                <h3>Сводка по периодам</h3>
+                <p class="muted">Ключевые показатели cash flow в нескольких временных горизонтах.</p>
+            </div>
+        </div>
+        <div class="reports-kpi-grid">
+            <article class="report-kpi-card report-kpi-day">
+                <div class="report-kpi-head">
+                    <span class="report-kpi-label">Сегодня</span>
+                    <span class="report-kpi-dot"></span>
+                </div>
+                <div class="report-kpi-values">
+                    <p><strong>Доход:</strong> {{ today_report.income }}</p>
+                    <p><strong>Расход:</strong> {{ today_report.expense }}</p>
+                    <p class="report-kpi-balance">
+                        <strong>Баланс:</strong> {{ today_report.balance }}
+                    </p>
+                </div>
+            </article>
+            <article class="report-kpi-card report-kpi-month">
+                <div class="report-kpi-head">
+                    <span class="report-kpi-label">Месяц</span>
+                    <span class="report-kpi-dot"></span>
+                </div>
+                <div class="report-kpi-values">
+                    <p><strong>Доход:</strong> {{ month_report.income }}</p>
+                    <p><strong>Расход:</strong> {{ month_report.expense }}</p>
+                    <p class="report-kpi-balance">
+                        <strong>Баланс:</strong> {{ month_report.balance }}
+                    </p>
+                </div>
+            </article>
+            <article class="report-kpi-card report-kpi-year">
+                <div class="report-kpi-head">
+                    <span class="report-kpi-label">Год</span>
+                    <span class="report-kpi-dot"></span>
+                </div>
+                <div class="report-kpi-values">
+                    <p><strong>Доход:</strong> {{ year_report.income }}</p>
+                    <p><strong>Расход:</strong> {{ year_report.expense }}</p>
+                    <p class="report-kpi-balance">
+                        <strong>Баланс:</strong> {{ year_report.balance }}
+                    </p>
+                </div>
+            </article>
+            <article class="report-kpi-card report-kpi-long">
+                <div class="report-kpi-head">
+                    <span class="report-kpi-label">5 лет</span>
+                    <span class="report-kpi-dot"></span>
+                </div>
+                <div class="report-kpi-values">
+                    <p><strong>Доход:</strong> {{ five_year_report.income }}</p>
+                    <p><strong>Расход:</strong> {{ five_year_report.expense }}</p>
+                    <p class="report-kpi-balance">
+                        <strong>Баланс:</strong> {{ five_year_report.balance }}
+                    </p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="reports-table-panel">
+        <div class="table-header reports-table-header">
+            <div>
+                <h3>Сводка по вкладчикам</h3>
+                <p class="muted">
+                    Агрегированный отчёт по количеству вкладов, общей сумме, процентам,
+                    доходам и расходам.
+                </p>
+            </div>
+        </div>
+        <div class="reports-table-wrap">
+            <table class="entity-table reports-table">
+                <thead>
+                <tr>
+                    <th>ID вкладчика</th>
+                    <th>ФИО</th>
+                    <th>Кол-во вкладов</th>
+                    <th>Сумма вкладов</th>
+                    <th>Проценты</th>
+                    <th>Доход</th>
+                    <th>Расход</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in depositors_summary %}
+                <tr>
+                    <td class="entity-id-cell">{{ item.depositor_id }}</td>
+                    <td>
+                        <div class="entity-person">
+                            <strong>{{ item.full_name }}</strong>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="report-count-pill">{{ item.deposits_count }}</span>
+                    </td>
+                    <td class="report-money-cell">{{ item.total_deposit_amount }}</td>
+                    <td class="report-money-cell report-interest-cell">{{ item.total_interest }}</td>
+                    <td class="report-money-cell report-income-cell">{{ item.total_income }}</td>
+                    <td class="report-money-cell report-expense-cell">{{ item.total_expense }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7">
+                        <div class="entity-empty">
+                            Нет данных для построения отчёта по вкладчикам.
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}

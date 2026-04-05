@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}О проекте — {{ about.name }}{% endblock %}
+{% block content %}
+<div class="about-page">
+    <section class="about-hero">
+        <div class="about-hero-overlay"></div>
+        <div class="about-badge-row">
+            <span class="about-badge">Обзор проекта</span>
+            <span class="about-badge about-badge-soft">Внутренняя банковская платформа</span>
+        </div>
+        <h2>
+            {{ about.name }}
+            <span class="about-version">v{{ about.version }}</span>
+        </h2>
+        <p class="about-tagline">{{ about.tagline }}</p>
+        <p class="about-description">{{ about.description }}</p>
+        <div class="about-hero-actions">
+            <a class="about-api-link" href="{{ url_for('api_about') }}" target="_blank" rel="noopener noreferrer">
+                Открыть API /about
+            </a>
+        </div>
+        <div class="about-stats">
+            <div class="about-stat-card">
+                <span class="about-stat-label">Модулей</span>
+                <strong>{{ about.modules|length }}</strong>
+            </div>
+            <div class="about-stat-card">
+                <span class="about-stat-label">Функций</span>
+                <strong>{{ about.features|length }}</strong>
+            </div>
+            <div class="about-stat-card">
+                <span class="about-stat-label">Технологий</span>
+                <strong>{{ about.stack|length }}</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-grid about-grid-2">
+        <article class="about-panel">
+            <div class="about-panel-head">
+                <h3>Возможности</h3>
+            </div>
+            <ul class="about-list">
+                {% for feature in about.features %}
+                <li>{{ feature }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+        <article class="about-panel">
+            <div class="about-panel-head">
+                <h3>Технологический стек</h3>
+            </div>
+            <ul class="about-stack-list">
+                {% for item in about.stack %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+    </section>
+
+    <section class="about-grid about-grid-2">
+        <article class="about-panel about-panel-wide">
+            <div class="about-panel-head">
+                <h3>Архитектурные модули</h3>
+            </div>
+            <div class="about-modules-grid">
+                {% for module in about.modules %}
+                <div class="about-module">
+                    <strong>{{ module.name }}</strong>
+                    <span>{{ module.purpose }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </article>
+        <article class="about-panel">
+            <div class="about-panel-head">
+                <h3>Метаданные</h3>
+            </div>
+            <div class="about-meta">
+                <div><span>Название</span><strong>{{ about.name }}</strong></div>
+                <div><span>Версия</span><strong>{{ about.version }}</strong></div>
+                <div><span>Автор</span><strong>{{ about.author }}</strong></div>
+                <div><span>Репозиторий</span><strong>{{ about.repository }}</strong></div>
+                <div><span>Обновлено</span><strong>{{ about.updated_at }}</strong></div>
+            </div>
+        </article>
+    </section>
+</div>
+{% endblock %}
