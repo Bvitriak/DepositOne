@@ -1,0 +1,10 @@
+.git
+.github
+docs
+*.md
+LICENSE
+docker-compose.yml
+Dockerfile
+.dockerignore
+.DS_Store
+**/.DS_Store
