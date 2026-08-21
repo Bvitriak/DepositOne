@@ -1,0 +1,17 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1140" height="640" viewBox="0 0 1140 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Sunset Glow" filter="url(#filter0_f_552_2748)">
+<ellipse cx="570" cy="320" rx="450" ry="200" fill="url(#paint0_radial_552_2748)"/>
+</g>
+<defs>
+<filter id="filter0_f_552_2748" x="0" y="0" width="1140" height="640" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="60" result="effect1_foregroundBlur_552_2748"/>
+</filter>
+<radialGradient id="paint0_radial_552_2748" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(570 320) scale(450 200)">
+<stop stop-color="#D97326" stop-opacity="0.35"/>
+<stop offset="0.4" stop-color="#B3401A" stop-opacity="0.15"/>
+<stop offset="1" stop-color="#4D1A0D" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>
