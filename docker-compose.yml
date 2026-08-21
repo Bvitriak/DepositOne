@@ -1,5 +1,46 @@
 services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: depositone
+      POSTGRES_USER: depositone
+      POSTGRES_PASSWORD: depositone
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U depositone"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  supporting:
+    build:
+      context: .
+      target: supporting
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_NAME: depositone
+      DATABASE_USER: depositone
+      DATABASE_PASSWORD: depositone
+      JWT_SECRET: change-me-in-prod
+    ports:
+      - "8001:8001"
+    depends_on:
+      db:
+        condition: service_healthy
+
   frontend:
-    build: .
+    build:
+      context: .
+      target: frontend
     ports:
       - "8080:80"
+    depends_on:
+      - supporting
+
+volumes:
+  db_data:
