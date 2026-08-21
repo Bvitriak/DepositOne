@@ -1,0 +1,56 @@
+import os
+from datetime import datetime, timedelta, timezone
+
+import bcrypt
+import jwt
+import psycopg
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+import database
+
+application = Flask(__name__)
+CORS(application)
+
+JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret")
+JWT_ALGORITHM = "HS256"
+ACCESS_TOKEN_LIFETIME = timedelta(hours=1)
+
+
+def make_access_token(user):
+    payload = {
+        "user_id": user["id"],
+        "username": user["username"],
+        "exp": datetime.now(timezone.utc) + ACCESS_TOKEN_LIFETIME,
+    }
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+
+
+@application.post("/api/login")
+def login():
+    data = request.get_json(silent=True) or {}
+    email = (data.get("email") or "").strip().lower()
+    password = data.get("password") or ""
+    if not email or not password:
+        return jsonify(error="email and password are required"), 400
+    try:
+        connection = database.connect()
+    except psycopg.OperationalError:
+        return jsonify(error="database unavailable", fallback=True), 503
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT id, username, password_hash FROM users WHERE email = %s",
+                (email,),
+            )
+            row = cursor.fetchone()
+        if not row or not bcrypt.checkpw(password.encode(), row[2].encode()):
+            return jsonify(error="invalid email or password"), 401
+        access_token = make_access_token({"id": row[0], "username": row[1]})
+    finally:
+        connection.close()
+    return jsonify(access_token=access_token)
+
+
+if __name__ == "__main__":
+    application.run(host="0.0.0.0", port=8001)
