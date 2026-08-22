@@ -26,6 +26,37 @@ def make_access_token(user):
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
 
+@application.post("/api/register")
+def register():
+    data = request.get_json(silent=True) or {}
+    username = (data.get("username") or "").strip()
+    email = (data.get("email") or "").strip().lower()
+    password = data.get("password") or ""
+    if not username or not email or not password:
+        return jsonify(error="username, email and password are required"), 400
+    try:
+        connection = database.connect()
+    except psycopg.OperationalError:
+        return jsonify(error="database unavailable", fallback=True), 503
+    try:
+        password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+        with connection.cursor() as cursor:
+            try:
+                cursor.execute(
+                    "INSERT INTO users (username, email, password_hash) VALUES (%s, %s, %s) RETURNING id, username",
+                    (username, email, password_hash),
+                )
+                row = cursor.fetchone()
+                connection.commit()
+            except psycopg.errors.UniqueViolation:
+                connection.rollback()
+                return jsonify(error="email or username already exists"), 409
+        access_token = make_access_token({"id": row[0], "username": row[1]})
+    finally:
+        connection.close()
+    return jsonify(access_token=access_token), 201
+
+
 @application.post("/api/login")
 def login():
     data = request.get_json(silent=True) or {}

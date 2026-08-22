@@ -1,12 +1,11 @@
 const API = "http://localhost:8001";
 
 const eye = document.getElementById("eye");
-const eyeIcon = eye.querySelector("img");
 const password = document.getElementById("password");
 eye.addEventListener("click", () => {
   const reveal = password.type === "password";
   password.type = reveal ? "text" : "password";
-  eyeIcon.src = reveal ? "../assets/img/eye-off.svg" : "../assets/img/eye.svg";
+  eye.classList.toggle("off", reveal);
   eye.setAttribute("aria-label", reveal ? "Hide password" : "Show password");
 });
 
