@@ -8,24 +8,6 @@
   background: linear-gradient(180deg, #05080f 0%, #0a0d1a 50%, #140f1a 75%, #1f140f 100%);
 }
 
-.auth-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-
-.auth-glow { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; }
-.auth-glow-sunset { width: 90%; height: 260px; }
-.auth-glow-ambient { width: 120%; height: 220px; }
-
-.auth-mtn { position: absolute; left: 0; bottom: 0; width: 100%; }
-.auth-mtn-far { height: 320px; }
-.auth-mtn-mid { height: 280px; }
-.auth-mtn-near { height: 220px; }
-.auth-mtn-fore { height: 160px; }
-
-.auth-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%);
-}
-
 .auth-card {
   position: relative;
   z-index: 1;
@@ -110,13 +92,6 @@
 .auth-reg a, .auth-forgot { font-weight: 700; font-size: 11px; }
 
 @media (min-width: 1024px) {
-  .auth-glow-sunset { width: 700px; height: 400px; }
-  .auth-glow-ambient { width: 1100px; height: 300px; }
-  .auth-mtn-far { height: 558px; }
-  .auth-mtn-mid { height: 488px; }
-  .auth-mtn-near { height: 378px; }
-  .auth-mtn-fore { height: 278px; }
-
   .auth-card { max-width: 560px; gap: 40px; padding: 36px 40px; border-radius: 25px; }
   .auth-logo { gap: 12px; }
   .auth-badge { font-size: 20px; }
@@ -133,13 +108,6 @@
 }
 
 @media (min-width: 1920px) {
-  .auth-glow-sunset { width: 900px; height: 400px; }
-  .auth-glow-ambient { width: 1400px; height: 300px; }
-  .auth-mtn-far { height: 770px; }
-  .auth-mtn-mid { height: 700px; }
-  .auth-mtn-near { height: 570px; }
-  .auth-mtn-fore { height: 410px; }
-
   .auth-card { max-width: 600px; gap: 75px; padding: 50px; }
   .auth-logo { gap: 20px; }
   .auth-badge { font-size: 28px; }

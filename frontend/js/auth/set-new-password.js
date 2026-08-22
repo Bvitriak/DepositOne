@@ -1,5 +1,3 @@
-const API = "http://localhost:8001";
-
 const form = document.getElementById("setPasswordForm");
 const error = document.getElementById("authError");
 
@@ -18,19 +16,15 @@ eye.addEventListener("click", () => {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   error.textContent = "";
-  try {
-    const response = await fetch(API + "/api/reset-password/confirm", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: form.email.value.trim(), password: password.value }),
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      error.textContent = data.error || "Reset failed";
-      return;
-    }
-    window.location.href = "login.html";
-  } catch {
-    error.textContent = "Service unavailable. Try again later.";
+  const response = await apiPost("/api/reset-password/confirm", {
+    email: form.email.value.trim(),
+    password: password.value,
+  });
+  if (!response) return;
+  const data = await response.json();
+  if (!response.ok) {
+    error.textContent = data.error || "Reset failed";
+    return;
   }
+  window.location.href = "login.html";
 });

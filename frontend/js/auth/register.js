@@ -1,5 +1,3 @@
-const API = "http://localhost:8001";
-
 document.querySelectorAll(".auth-eye").forEach((eye) => {
   const field = eye.previousElementSibling;
   eye.addEventListener("click", () => {
@@ -20,24 +18,17 @@ form.addEventListener("submit", async (event) => {
     error.textContent = "Passwords do not match";
     return;
   }
-  try {
-    const response = await fetch(API + "/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: form.username.value.trim(),
-        email: form.email.value.trim(),
-        password: form.password.value,
-      }),
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      error.textContent = data.error || "Registration failed";
-      return;
-    }
-    localStorage.setItem("access_token", data.access_token);
-    window.location.href = "../index.html";
-  } catch {
-    error.textContent = "Service unavailable. Try again later.";
+  const response = await apiPost("/api/register", {
+    username: form.username.value.trim(),
+    email: form.email.value.trim(),
+    password: form.password.value,
+  });
+  if (!response) return;
+  const data = await response.json();
+  if (!response.ok) {
+    error.textContent = data.error || "Registration failed";
+    return;
   }
+  localStorage.setItem("access_token", data.access_token);
+  window.location.href = "../../index.html";
 });
