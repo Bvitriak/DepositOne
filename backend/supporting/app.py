@@ -83,5 +83,53 @@ def login():
     return jsonify(access_token=access_token)
 
 
+@application.post("/api/reset-password/check")
+def reset_password_check():
+    data = request.get_json(silent=True) or {}
+    email = (data.get("email") or "").strip().lower()
+    if not email:
+        return jsonify(error="email is required"), 400
+    try:
+        connection = database.connect()
+    except psycopg.OperationalError:
+        return jsonify(error="database unavailable", fallback=True), 503
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT id FROM users WHERE email = %s", (email,))
+            row = cursor.fetchone()
+    finally:
+        connection.close()
+    if not row:
+        return jsonify(error="no account with this email"), 404
+    return jsonify(exists=True)
+
+
+@application.post("/api/reset-password/confirm")
+def reset_password_confirm():
+    data = request.get_json(silent=True) or {}
+    email = (data.get("email") or "").strip().lower()
+    password = data.get("password") or ""
+    if not email or not password:
+        return jsonify(error="email and password are required"), 400
+    try:
+        connection = database.connect()
+    except psycopg.OperationalError:
+        return jsonify(error="database unavailable", fallback=True), 503
+    try:
+        password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "UPDATE users SET password_hash = %s WHERE email = %s",
+                (password_hash, email),
+            )
+            updated = cursor.rowcount
+            connection.commit()
+    finally:
+        connection.close()
+    if not updated:
+        return jsonify(error="no account with this email"), 404
+    return jsonify(updated=True)
+
+
 if __name__ == "__main__":
     application.run(host="0.0.0.0", port=8001)
