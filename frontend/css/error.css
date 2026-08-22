@@ -1,0 +1,21 @@
+.error {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #05080f 0%, #0a0d1a 50%, #140f1a 75%, #1f140f 100%);
+}
+
+.error-code {
+  position: relative;
+  z-index: 1;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(128px, 18.5vw, 356px);
+  line-height: 0.8;
+  background: linear-gradient(180deg, #e30c0c 0%, #a20c0c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

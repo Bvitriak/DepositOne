@@ -6,6 +6,7 @@ LICENSE
 docker-compose.yml
 Dockerfile
 .dockerignore
+.env
 .DS_Store
 **/.DS_Store
 __pycache__/

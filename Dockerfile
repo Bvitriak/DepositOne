@@ -1,6 +1,7 @@
 FROM nginx:alpine AS frontend
 RUN rm -rf /usr/share/nginx/html/*
 COPY frontend/ /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 FROM python:3.12-alpine AS supporting
 WORKDIR /app
