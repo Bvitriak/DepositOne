@@ -117,14 +117,11 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   top: 12px;
   right: 16px;
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
   padding: 6px;
   background: none;
   border: 0;
 }
-.burger span { display: block; width: 22px; height: 2px; background: var(--white); }
+.burger img { display: block; width: 28px; height: 28px; }
 
 .hero-content {
   position: absolute;
@@ -240,10 +237,8 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   gap: 32px;
 }
 .footer-brand { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
-.footer-logo { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.footer-badge { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; color: var(--white); }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: #d8dbdf; }
-.footer-name { font-family: "Bebas Neue", sans-serif; font-size: 40px; }
+.footer-logo { display: block; }
+.footer-logo-image { display: block; width: auto; height: 48px; }
 .footer-desc { font-weight: 500; font-size: 16px; max-width: 500px; }
 
 .footer-nav {
@@ -305,10 +300,8 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   z-index: 2;
   background: none;
   border: 0;
-  color: var(--white);
-  font-size: 40px;
-  line-height: 1;
 }
+.menu-close img { display: block; width: 32px; height: 32px; }
 .menu-nav {
   position: relative;
   z-index: 2;
@@ -363,8 +356,7 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   .footer { padding: 40px 64px; }
   .footer-top { flex-direction: row; align-items: flex-start; justify-content: space-between; }
   .footer-brand { align-items: flex-start; text-align: left; }
-  .footer-logo { align-items: flex-start; }
-  .footer-name { font-size: 48px; }
+  .footer-logo-image { height: 56px; }
   .footer-desc { font-size: 20px; }
   .footer-nav {
     display: grid;
