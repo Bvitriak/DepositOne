@@ -24,5 +24,5 @@ form.addEventListener("submit", async (event) => {
     return;
   }
   localStorage.setItem("access_token", data.access_token);
-  window.location.href = "../../index.html";
+  window.location.href = "../dashboard.html";
 });
