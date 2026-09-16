@@ -43,5 +43,47 @@ def get_apis():
                 "description": "Return the list of available endpoints",
                 "auth": "JWT",
             },
+            {
+                "name": "Country List",
+                "type": "GET",
+                "path": "/api/countries",
+                "description": "Return the list of countries for depositor forms",
+                "auth": "JWT",
+            },
+            {
+                "name": "Depositor List",
+                "type": "GET",
+                "path": "/api/depositors",
+                "description": "Search, sort and page through depositors",
+                "auth": "JWT",
+            },
+            {
+                "name": "Depositor Create",
+                "type": "POST",
+                "path": "/api/depositors",
+                "description": "Create a new depositor card",
+                "auth": "JWT",
+            },
+            {
+                "name": "Depositor Read",
+                "type": "GET",
+                "path": "/api/depositors/",
+                "description": "Return a single depositor by identifier",
+                "auth": "JWT",
+            },
+            {
+                "name": "Depositor Update",
+                "type": "PUT",
+                "path": "/api/depositors/",
+                "description": "Save changes to an existing depositor",
+                "auth": "JWT",
+            },
+            {
+                "name": "Depositor Delete",
+                "type": "DELETE",
+                "path": "/api/depositors/",
+                "description": "Delete a depositor without active deposits",
+                "auth": "JWT",
+            },
         ]
     }

@@ -9,3 +9,10 @@ COPY backend/supporting/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/supporting/ .
 CMD ["python", "app.py"]
+
+FROM python:3.12-slim AS core
+WORKDIR /app
+COPY backend/core/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY backend/core/ .
+CMD ["python", "main.py"]
