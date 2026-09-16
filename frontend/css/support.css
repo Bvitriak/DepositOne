@@ -1,0 +1,150 @@
+.support-section { display: flex; flex-direction: column; gap: 16px; }
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(180deg, #141620 0%, #090a10 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.ticket-title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 26px; text-align: center; }
+
+.ticket-form { display: flex; flex-direction: column; gap: 16px; }
+.ticket-row { display: flex; flex-direction: column; gap: 16px; }
+.ticket-field { display: flex; flex-direction: column; gap: 10px; }
+.ticket-label { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 18px; }
+
+.ticket-control {
+  width: 100%;
+  height: 50px;
+  padding: 0 20px;
+  background: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--white);
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+}
+.ticket-control::placeholder { color: var(--white); opacity: 0.7; }
+.ticket-control:focus { outline: none; border-color: var(--white); }
+
+.ticket-textarea { height: auto; min-height: 110px; padding: 14px 20px; resize: vertical; }
+
+.ticket-select { position: relative; }
+.ticket-trigger { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; }
+.ticket-trigger-text { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ticket-arrow {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: -3px;
+  border-right: 2px solid var(--white);
+  border-bottom: 2px solid var(--white);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.ticket-select.open .ticket-arrow { margin-top: 3px; transform: rotate(-135deg); }
+
+.ticket-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  max-height: 60vh;
+  padding: 5px;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--dark);
+  border: 1px solid #bcc0c6;
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.ticket-select.open .ticket-options { visibility: visible; opacity: 1; transform: translateY(0); }
+
+.ticket-option {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background-color 0.2s ease;
+}
+.ticket-option:hover { background: rgba(244, 247, 251, 0.15); }
+.ticket-option:active { background: rgba(0, 0, 0, 0.25); }
+
+.ticket-status { font-size: 13px; text-align: center; color: #ff6b6b; }
+.ticket-status:empty { display: none; }
+
+.ticket-actions { display: flex; justify-content: center; }
+.ticket-submit {
+  width: 100%;
+  height: 50px;
+  border: 0;
+  border-radius: 15px;
+  background: var(--white);
+  color: var(--dark);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 20px;
+}
+.ticket-submit:hover { background: #c7cbd0; }
+.ticket-submit:active { background: #84898f; color: var(--white); }
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(180deg, #141620 0%, #090a10 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.contact-title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 26px; text-align: center; }
+.contact-rows { display: flex; flex-direction: column; gap: 10px; }
+.contact-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; }
+.contact-label { font-size: 14px; }
+.contact-value { font-size: 14px; text-align: right; word-break: break-word; }
+
+@media (min-width: 1024px) {
+  .support-section { flex-direction: row; align-items: flex-start; gap: 30px; }
+
+  .ticket-card { flex: 1; min-width: 0; gap: 25px; padding: 25px; border-radius: 25px; }
+  .ticket-title { font-size: 32px; text-align: left; }
+  .ticket-form { gap: 20px; }
+  .ticket-row { flex-direction: row; gap: 30px; }
+  .ticket-field { flex: 1; min-width: 0; }
+  .ticket-label { font-size: 24px; }
+  .ticket-control { height: 60px; font-size: 20px; }
+  .ticket-option { height: 60px; font-size: 20px; }
+  .ticket-textarea { min-height: 120px; }
+  .ticket-actions { justify-content: flex-end; }
+  .ticket-submit { width: auto; height: 49px; padding: 0 28px; font-size: 24px; }
+
+  .contact-card { flex-shrink: 0; width: 360px; gap: 20px; padding: 25px; border-radius: 25px; }
+  .contact-title { font-size: 32px; text-align: left; }
+  .contact-label, .contact-value { font-size: 16px; }
+}
+
+@media (min-width: 1440px) {
+  .ticket-title { font-size: 40px; }
+  .contact-card { width: 440px; }
+  .contact-title { font-size: 40px; }
+  .contact-label, .contact-value { font-size: 20px; }
+}
+
+@media (min-width: 1920px) {
+  .contact-card { width: 553px; }
+  .contact-label, .contact-value { font-size: 24px; }
+}
