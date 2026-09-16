@@ -62,7 +62,30 @@ async function loadDashboard() {
     window.location.href = "error.html?code=" + response.status;
     return;
   }
-  render(await response.json());
+  const data = await response.json();
+  const top = await loadTopDepositors(token);
+  data.depositors = top.list;
+  data.summary.depositors = top.total;
+  render(data);
+}
+
+async function loadTopDepositors(token) {
+  let response;
+  try {
+    response = await fetch("/api/depositors?page=1&page_size=10&sort=created&order=desc", { headers: { Authorization: "Bearer " + token } });
+  } catch {
+    return { list: [], total: null };
+  }
+  if (response.status === 401) {
+    localStorage.removeItem("access_token");
+    window.location.href = "auth/login.html";
+    return { list: [], total: null };
+  }
+  if (!response.ok) {
+    return { list: [], total: null };
+  }
+  const result = await response.json();
+  return { list: result.depositors.slice(0, 6), total: result.total };
 }
 
 loadDashboard();

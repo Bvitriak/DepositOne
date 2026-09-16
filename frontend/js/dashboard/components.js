@@ -29,17 +29,59 @@ function chartCard(total, legend) {
   </article>`;
 }
 
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatDate(isoDate) {
+  const parts = isoDate.split("-");
+  return parts[2] + "." + parts[1] + "." + parts[0];
+}
+
+function depositorCard(depositor) {
+  const fullName = escapeHtml(depositor.first_name + " " + depositor.last_name);
+  return `<a class="depositor-card" href="depositor-card.html?id=${depositor.id}">
+    <div class="depositor-card-head">
+      <p class="depositor-card-name">${fullName}</p>
+      <span class="depositor-card-badge">${depositor.active_deposits} DEPOSITS</span>
+    </div>
+    <div class="depositor-card-info">
+      <div class="depositor-card-field">
+        <span class="depositor-card-label">DOB:</span>
+        <span class="depositor-card-value">${formatDate(depositor.date_of_birth)}</span>
+      </div>
+      <div class="depositor-card-field">
+        <span class="depositor-card-label">COUNTRY:</span>
+        <span class="depositor-card-value">${escapeHtml(depositor.country)}</span>
+      </div>
+      <div class="depositor-card-field">
+        <span class="depositor-card-label">EMAIL:</span>
+        <span class="depositor-card-value">${escapeHtml(depositor.email)}</span>
+      </div>
+      <div class="depositor-card-field">
+        <span class="depositor-card-label">ADDRESS:</span>
+        <span class="depositor-card-value">${escapeHtml(depositor.address)}</span>
+      </div>
+    </div>
+  </a>`;
+}
+
 function depositorList(depositors) {
   const isEmpty = !depositors || depositors.length === 0;
   const body = isEmpty
     ? `<div class="no-content"><p class="no-content-text">No Depositors Found</p></div>`
-    : "";
+    : depositors.map(depositorCard).join("");
   return `<section class="depositors">
     <div class="depositors-heading">
       <p class="depositors-title">List of Top depositors</p>
       <p class="depositors-subtitle">By the amount of the deposit portfolio</p>
     </div>
-    <a class="action-button" href="#">See all Depositors<i class="action-button-arrow"></i></a>
+    <a class="action-button" href="depositors.html">See all Depositors<i class="action-button-arrow"></i></a>
     <div class="depositors-body">${body}</div>
   </section>`;
 }

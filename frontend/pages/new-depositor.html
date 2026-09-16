@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DepositOne Support</title>
+  <title>DepositOne New Depositor</title>
   <link rel="icon" type="image/png" href="../assets/favicons/favicon.png">
   <link rel="apple-touch-icon" href="../assets/favicons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/background.css">
   <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/support.css">
+  <link rel="stylesheet" href="../css/depositor-form.css">
 </head>
 <body>
   <div class="dashboard-page">
@@ -45,80 +45,88 @@
 
       <section class="dashboard-hero">
         <div class="container">
-          <h1 class="dashboard-hero-title">Contact the DepositOne team</h1>
+          <h1 class="dashboard-hero-title">New Depositor Card</h1>
         </div>
       </section>
 
       <section class="dashboard-section">
         <div class="container">
-          <div class="support-section">
-            <section class="ticket-card">
-              <h2 class="ticket-title">Create Ticket</h2>
-              <form class="ticket-form" id="ticketForm" novalidate>
-                <div class="ticket-row">
-                  <div class="ticket-field">
-                    <span class="ticket-label">Category</span>
-                    <div class="ticket-select" data-select>
-                      <button class="ticket-control ticket-trigger" type="button" data-trigger aria-haspopup="listbox" aria-expanded="false">
-                        <span class="ticket-trigger-text" data-text>Choose category</span>
-                        <i class="ticket-arrow"></i>
-                      </button>
-                      <input type="hidden" id="category" name="category">
-                      <ul class="ticket-options" data-options role="listbox" aria-label="Category">
-                        <li class="ticket-option" role="option" data-value="Deposit">Deposit</li>
-                        <li class="ticket-option" role="option" data-value="Contract">Contract</li>
-                        <li class="ticket-option" role="option" data-value="Payment">Payment</li>
-                        <li class="ticket-option" role="option" data-value="Account">Account</li>
-                        <li class="ticket-option" role="option" data-value="Technical issue">Technical issue</li>
-                        <li class="ticket-option" role="option" data-value="Other">Other</li>
-                      </ul>
-                    </div>
+          <div class="depositor-form-layout">
+            <section class="form-card">
+              <h2 class="form-card-title">Personal Data</h2>
+              <form class="depositor-form" id="depositorForm" novalidate>
+                <div class="form-row">
+                  <div class="field">
+                    <label class="field-label" for="first_name">First name</label>
+                    <input class="field-control" id="first_name" type="text" placeholder="Enter first name" autocomplete="off">
                   </div>
-                  <div class="ticket-field">
-                    <span class="ticket-label">Priority</span>
-                    <div class="ticket-select" data-select>
-                      <button class="ticket-control ticket-trigger" type="button" data-trigger aria-haspopup="listbox" aria-expanded="false">
-                        <span class="ticket-trigger-text" data-text>Choose priority</span>
-                        <i class="ticket-arrow"></i>
-                      </button>
-                      <input type="hidden" id="priority" name="priority">
-                      <ul class="ticket-options" data-options role="listbox" aria-label="Priority">
-                        <li class="ticket-option" role="option" data-value="Low">Low</li>
-                        <li class="ticket-option" role="option" data-value="Medium">Medium</li>
-                        <li class="ticket-option" role="option" data-value="High">High</li>
-                        <li class="ticket-option" role="option" data-value="Urgent">Urgent</li>
-                      </ul>
-                    </div>
+                  <div class="field">
+                    <label class="field-label" for="last_name">Last name</label>
+                    <input class="field-control" id="last_name" type="text" placeholder="Enter last name" autocomplete="off">
                   </div>
                 </div>
-                <div class="ticket-field">
-                  <label class="ticket-label" for="theme">Theme</label>
-                  <input class="ticket-control" id="theme" name="theme" type="text" placeholder="Enter theme" autocomplete="off">
+                <div class="form-row">
+                  <div class="field">
+                    <span class="field-label">Date of Birth</span>
+                    <div class="field-date" data-calendar>
+                      <button class="field-control field-trigger" type="button" data-trigger>
+                        <span class="field-trigger-text" data-text>Choose date</span>
+                        <img class="field-calendar-icon" src="../assets/img/calendar.svg" alt="">
+                      </button>
+                      <input type="hidden" id="date_of_birth">
+                      <div class="field-calendar" data-panel></div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <span class="field-label">Country</span>
+                    <div class="field-select" data-select>
+                      <button class="field-control field-trigger" type="button" data-trigger>
+                        <span class="field-trigger-text" data-text>Choose country</span>
+                        <i class="field-arrow"></i>
+                      </button>
+                      <input type="hidden" id="country_id">
+                      <ul class="field-options" data-options></ul>
+                    </div>
+                  </div>
                 </div>
-                <div class="ticket-field">
-                  <label class="ticket-label" for="description">Description</label>
-                  <textarea class="ticket-control ticket-textarea" id="description" name="description" placeholder="Please describe your problem in detail"></textarea>
+                <div class="form-row">
+                  <div class="field">
+                    <label class="field-label" for="passport">Passport</label>
+                    <input class="field-control" id="passport" type="text" placeholder="Enter passport" autocomplete="off">
+                  </div>
+                  <div class="field">
+                    <label class="field-label" for="tin">TIN</label>
+                    <input class="field-control" id="tin" type="text" placeholder="Enter tax id" autocomplete="off">
+                  </div>
                 </div>
-                <p class="ticket-status" id="ticketStatus"></p>
-                <div class="ticket-actions">
-                  <button class="ticket-submit" type="submit">Send Ticket</button>
+                <div class="form-row">
+                  <div class="field">
+                    <label class="field-label" for="phone">Phone</label>
+                    <input class="field-control" id="phone" type="text" placeholder="Enter phone" autocomplete="off">
+                  </div>
+                  <div class="field">
+                    <label class="field-label" for="email">Email</label>
+                    <input class="field-control" id="email" type="text" placeholder="Enter email" autocomplete="off">
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="address">Address</label>
+                  <input class="field-control" id="address" type="text" placeholder="Enter address" autocomplete="off">
+                </div>
+                <p class="form-status" id="formStatus"></p>
+                <div class="form-actions">
+                  <button class="form-button" type="button" id="cancelButton">Cancel</button>
+                  <button class="form-button" type="submit" id="submitButton">Create Depositor</button>
                 </div>
               </form>
             </section>
 
-            <section class="contact-card">
-              <h2 class="contact-title">Contact Info</h2>
-              <div class="contact-rows">
-                <div class="contact-row">
-                  <span class="contact-label">Email</span>
-                  <span class="contact-value">support@depositone.com</span>
-                </div>
-                <div class="contact-row">
-                  <span class="contact-label">Phone</span>
-                  <span class="contact-value">+7(495) 124-04-08</span>
-                </div>
-              </div>
-            </section>
+            <aside class="depositor-form-side">
+              <section class="data-card">
+                <h2 class="data-card-title">Depositor Card</h2>
+                <div class="data-card-rows" id="previewRows"></div>
+              </section>
+            </aside>
           </div>
         </div>
       </section>
@@ -170,6 +178,8 @@
   </div>
 
   <script src="../js/stars.js"></script>
-  <script src="../js/support/support.js"></script>
+  <script src="../js/depositors/calendar.js"></script>
+  <script src="../js/depositors/form.js"></script>
+  <script src="../js/depositors/new-depositor.js"></script>
 </body>
 </html>
