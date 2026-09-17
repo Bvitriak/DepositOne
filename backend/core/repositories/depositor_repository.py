@@ -77,6 +77,13 @@ def count_depositors(connection, search):
     return total
 
 
+def list_options(connection):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT id, first_name, last_name FROM depositors ORDER BY last_name ASC, first_name ASC")
+        rows = cursor.fetchall()
+    return [{"id": row[0], "name": row[1] + " " + row[2]} for row in rows]
+
+
 def get_depositor(connection, depositor_id):
     query = (
         "SELECT " + SELECT_COLUMNS + " FROM depositors d "

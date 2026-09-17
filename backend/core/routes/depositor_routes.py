@@ -18,6 +18,11 @@ async def create_depositor(request: Request, connection=Depends(get_connection),
     return depositor_controller.create_depositor(connection, body, user)
 
 
+@router.get("/api/depositors/options")
+def list_options(connection=Depends(get_connection), user=Depends(require_user)):
+    return depositor_controller.list_options(connection)
+
+
 @router.get("/api/depositors/{depositor_id}")
 def get_depositor(depositor_id: int, connection=Depends(get_connection), user=Depends(require_user)):
     return depositor_controller.get_depositor(connection, depositor_id)

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DepositOne Dashboard</title>
+  <title>DepositOne Deposits</title>
   <link rel="icon" type="image/png" href="../assets/favicons/favicon.png">
   <link rel="apple-touch-icon" href="../assets/favicons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/background.css">
   <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/deposits.css">
 </head>
 <body>
   <div class="dashboard-page">
@@ -29,7 +30,7 @@
 
       <header class="dashboard-header">
         <nav class="dashboard-nav">
-          <a class="dashboard-nav-link" href="dashboard.html" aria-current="page">Dashboard</a>
+          <a class="dashboard-nav-link" href="dashboard.html">Dashboard</a>
           <a class="dashboard-nav-link" href="depositors.html">Depositor</a>
           <a class="dashboard-nav-link" href="deposits.html">Deposit</a>
           <a class="dashboard-nav-link" href="#">Contract</a>
@@ -44,25 +45,17 @@
 
       <section class="dashboard-hero">
         <div class="container">
-          <h1 class="dashboard-hero-title">Operational analytics</h1>
-          <p class="dashboard-hero-subtitle">A unified dashboard for monitoring active deposits, portfolio structure, and cash flows.</p>
+          <h1 class="dashboard-hero-title">Management of Deposit</h1>
+          <p class="dashboard-hero-subtitle">View and manage your deposits with information monitoring.</p>
         </div>
       </section>
 
       <section class="dashboard-section">
-        <div class="container">
-          <div class="summary-cards" id="summary"></div>
-        </div>
+        <div class="container" id="searchArea"></div>
       </section>
 
       <section class="dashboard-section">
-        <div class="container">
-          <div class="chart-cards" id="status"></div>
-        </div>
-      </section>
-
-      <section class="dashboard-section">
-        <div class="container" id="depositors"></div>
+        <div class="container" id="depositList"></div>
       </section>
     </div>
 
@@ -112,7 +105,7 @@
   </div>
 
   <script src="../js/stars.js"></script>
-  <script src="../js/dashboard/components.js"></script>
-  <script src="../js/dashboard/dashboard.js"></script>
+  <script src="../js/deposits/components.js"></script>
+  <script src="../js/deposits/deposits.js"></script>
 </body>
 </html>

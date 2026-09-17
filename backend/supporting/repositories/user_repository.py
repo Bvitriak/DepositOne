@@ -12,6 +12,13 @@ def create(connection, username, email, password_hash):
     return User(id=row[0], username=row[1])
 
 
+def count(connection):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT count(*) FROM users")
+        total = cursor.fetchone()[0]
+    return total
+
+
 def find_by_email(connection, email):
     with connection.cursor() as cursor:
         cursor.execute(
