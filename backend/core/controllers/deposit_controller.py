@@ -44,6 +44,11 @@ def list_deposits(connection, query_params):
     return JSONResponse(result, status_code=status)
 
 
+def list_options(connection):
+    result, status = deposit_service.list_options(connection)
+    return JSONResponse(result, status_code=status)
+
+
 def get_stats(connection):
     result, status = deposit_service.get_stats(connection)
     return JSONResponse(result, status_code=status)

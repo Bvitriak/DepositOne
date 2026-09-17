@@ -85,5 +85,40 @@ def get_apis():
                 "description": "Delete a depositor without active deposits",
                 "auth": "JWT",
             },
+            {
+                "name": "Contract List",
+                "type": "GET",
+                "path": "/api/contracts",
+                "description": "Search, sort and page through contracts",
+                "auth": "JWT",
+            },
+            {
+                "name": "Contract Create",
+                "type": "POST",
+                "path": "/api/contracts",
+                "description": "Create a new contract card",
+                "auth": "JWT",
+            },
+            {
+                "name": "Contract Read",
+                "type": "GET",
+                "path": "/api/contracts/",
+                "description": "Return a single contract by identifier",
+                "auth": "JWT",
+            },
+            {
+                "name": "Contract Update",
+                "type": "PUT",
+                "path": "/api/contracts/",
+                "description": "Save changes to an existing contract",
+                "auth": "JWT",
+            },
+            {
+                "name": "Contract Delete",
+                "type": "DELETE",
+                "path": "/api/contracts/",
+                "description": "Delete an existing contract",
+                "auth": "JWT",
+            },
         ]
     }

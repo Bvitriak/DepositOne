@@ -111,6 +111,29 @@ def list_deposits(connection, search, sort, order, page, page_size):
     return {"deposits": items, "total": total, "page": page, "pages": pages, "page_size": page_size}, 200
 
 
+def list_options(connection):
+    rows = deposit_repository.list_options(connection)
+    options = []
+    for row in rows:
+        term = term_months(row["start_date"], row["end_date"])
+        amount = float(row["amount"])
+        interest_rate = float(row["interest_rate"])
+        term_end_accruals = round(amount * interest_rate / 100 * term / 12, 2)
+        options.append({
+            "id": row["id"],
+            "number": "D-" + str(row["ordinal"]).zfill(4),
+            "depositor_id": row["depositor_id"],
+            "depositor": row["depositor_name"],
+            "currency": row["code"],
+            "amount": amount,
+            "interest_rate": interest_rate,
+            "term_end_accruals": term_end_accruals,
+            "start_date": row["start_date"].isoformat(),
+            "end_date": row["end_date"].isoformat(),
+        })
+    return {"deposits": options}, 200
+
+
 def get_stats(connection):
     counts = deposit_repository.count_by_status(connection)
     active = counts.get("Active", 0)

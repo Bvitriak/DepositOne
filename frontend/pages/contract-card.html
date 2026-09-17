@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DepositOne Depositor Card</title>
+  <title>DepositOne Contract Card</title>
   <link rel="icon" type="image/png" href="../assets/favicons/favicon.png">
   <link rel="apple-touch-icon" href="../assets/favicons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/background.css">
   <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/depositor-form.css">
+  <link rel="stylesheet" href="../css/contract-form.css">
 </head>
 <body>
   <div class="dashboard-page">
@@ -45,73 +45,86 @@
 
       <section class="dashboard-hero">
         <div class="container">
-          <h1 class="dashboard-hero-title">Depositor Card</h1>
+          <h1 class="dashboard-hero-title">Contract Card</h1>
         </div>
       </section>
 
       <section class="dashboard-section">
         <div class="container">
-          <div class="depositor-form-layout">
+          <div class="contract-form-layout">
             <section class="form-card">
-              <h2 class="form-card-title">Personal Data</h2>
-              <form class="depositor-form" id="depositorForm" novalidate>
+              <h2 class="form-card-title is-centered">Contract Parameters</h2>
+              <form class="contract-form" id="contractForm" novalidate>
                 <div class="form-row">
                   <div class="field">
-                    <label class="field-label" for="first_name">First name</label>
-                    <input class="field-control" id="first_name" type="text" placeholder="Enter first name" autocomplete="off">
-                  </div>
-                  <div class="field">
-                    <label class="field-label" for="last_name">Last name</label>
-                    <input class="field-control" id="last_name" type="text" placeholder="Enter last name" autocomplete="off">
+                    <label class="field-label" for="contract_number">Contract Number</label>
+                    <input class="field-control" id="contract_number" type="text" placeholder="# year/month/Deposit ID" readonly>
+                    <span class="field-hint">Automatically generated prefix - year/month/Deposit ID</span>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="field">
-                    <span class="field-label">Date of Birth</span>
-                    <div class="field-date" data-calendar>
+                    <span class="field-label">Date of the contract</span>
+                    <div class="field-date" data-calendar="contract_date">
                       <button class="field-control field-trigger" type="button" data-trigger>
-                        <span class="field-trigger-text" data-text>Choose date</span>
+                        <span class="field-trigger-text" data-text>Choose date of the contract</span>
                         <img class="field-calendar-icon" src="../assets/img/calendar.svg" alt="">
                       </button>
-                      <input type="hidden" id="date_of_birth">
+                      <input type="hidden" id="contract_date">
                       <div class="field-calendar" data-panel></div>
                     </div>
                   </div>
                   <div class="field">
-                    <span class="field-label">Country</span>
-                    <div class="field-select" data-select>
+                    <span class="field-label">Signing status</span>
+                    <div class="field-select" data-select="signing_status">
                       <button class="field-control field-trigger" type="button" data-trigger>
-                        <span class="field-trigger-text" data-text>Choose country</span>
+                        <span class="field-trigger-text" data-text>Choose status</span>
                         <i class="field-arrow"></i>
                       </button>
-                      <input type="hidden" id="country_id">
+                      <input type="hidden" id="signing_status">
+                      <ul class="field-options" data-options>
+                        <li class="field-option" data-value="Signed">Signed</li>
+                        <li class="field-option" data-value="Pending">Pending</li>
+                        <li class="field-option" data-value="Rejected">Rejected</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field">
+                    <span class="field-label">Deposit ID</span>
+                    <div class="field-select" data-select="deposit_id">
+                      <button class="field-control field-trigger" type="button" data-trigger>
+                        <span class="field-trigger-text" data-text>Choose deposit</span>
+                        <i class="field-arrow"></i>
+                      </button>
+                      <input type="hidden" id="deposit_id">
+                      <ul class="field-options" data-options></ul>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <span class="field-label">Depositor</span>
+                    <div class="field-select" data-select="depositor_id">
+                      <button class="field-control field-trigger" type="button" data-trigger>
+                        <span class="field-trigger-text" data-text>Choose depositor</span>
+                        <i class="field-arrow"></i>
+                      </button>
+                      <input type="hidden" id="depositor_id">
                       <ul class="field-options" data-options></ul>
                     </div>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="field">
-                    <label class="field-label" for="passport">Passport</label>
-                    <input class="field-control" id="passport" type="text" placeholder="Enter passport" autocomplete="off">
-                  </div>
-                  <div class="field">
-                    <label class="field-label" for="tin">TIN</label>
-                    <input class="field-control" id="tin" type="text" placeholder="Enter tax id" autocomplete="off">
+                    <label class="field-label" for="description">Description of the term</label>
+                    <input class="field-control" id="description" type="text" placeholder="Enter description of the term" autocomplete="off">
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="field">
-                    <label class="field-label" for="phone">Phone</label>
-                    <input class="field-control" id="phone" type="text" placeholder="Enter phone" autocomplete="off">
+                    <label class="field-label" for="special_conditions">Special conditions</label>
+                    <input class="field-control" id="special_conditions" type="text" placeholder="Enter special conditions" autocomplete="off">
                   </div>
-                  <div class="field">
-                    <label class="field-label" for="email">Email</label>
-                    <input class="field-control" id="email" type="text" placeholder="Enter email" autocomplete="off">
-                  </div>
-                </div>
-                <div class="field">
-                  <label class="field-label" for="address">Address</label>
-                  <input class="field-control" id="address" type="text" placeholder="Enter address" autocomplete="off">
                 </div>
                 <p class="form-status" id="formStatus"></p>
                 <div class="form-actions">
@@ -122,14 +135,10 @@
               </form>
             </section>
 
-            <aside class="depositor-form-side">
+            <aside class="contract-form-side">
               <section class="data-card">
-                <h2 class="data-card-title">Depositor Card</h2>
+                <h2 class="data-card-title">Contract Card</h2>
                 <div class="data-card-rows" id="previewRows"></div>
-              </section>
-              <section class="deletion-card" id="deletionCard" hidden>
-                <h2 class="deletion-card-title">Deletion is impossible</h2>
-                <p class="deletion-card-text">There are active deposits assigned to the card. Close them before deleting.</p>
               </section>
             </aside>
           </div>
@@ -183,8 +192,8 @@
   </div>
 
   <script src="../js/stars.js"></script>
-  <script src="../js/depositors/calendar.js"></script>
-  <script src="../js/depositors/form.js"></script>
-  <script src="../js/depositors/depositor-card.js"></script>
+  <script src="../js/contracts/calendar.js"></script>
+  <script src="../js/contracts/form.js"></script>
+  <script src="../js/contracts/contract-card.js"></script>
 </body>
 </html>
