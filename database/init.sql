@@ -28,6 +28,28 @@ CREATE TABLE depositors (
 CREATE INDEX depositors_created_at_index ON depositors (created_at DESC);
 CREATE INDEX depositors_country_id_index ON depositors (country_id);
 
+CREATE TABLE currencies (
+    id SERIAL PRIMARY KEY,
+    code TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE deposits (
+    id SERIAL PRIMARY KEY,
+    depositor_id INTEGER NOT NULL REFERENCES depositors (id),
+    currency_id INTEGER NOT NULL REFERENCES currencies (id),
+    status TEXT NOT NULL,
+    amount NUMERIC(15, 2) NOT NULL,
+    interest_rate NUMERIC(5, 2) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    created_by INTEGER REFERENCES users (id),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX deposits_created_at_index ON deposits (created_at DESC);
+CREATE INDEX deposits_depositor_id_index ON deposits (depositor_id);
+CREATE INDEX deposits_status_index ON deposits (status);
+
 INSERT INTO countries (name) VALUES
     ('Australia'),
     ('Austria'),
@@ -56,3 +78,8 @@ INSERT INTO countries (name) VALUES
     ('Turkey'),
     ('United Kingdom'),
     ('United States');
+
+INSERT INTO currencies (code) VALUES
+    ('USD'),
+    ('EUR'),
+    ('RUB');

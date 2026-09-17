@@ -9,6 +9,7 @@ const summaryFields = [
 const chartGroups = [
   {
     key: "statuses",
+    centerLabel: "Deposits",
     legend: [
       { key: "active", name: "Active", color: "#b5b5b5" },
       { key: "pending", name: "Pending", color: "#535353" },
@@ -17,7 +18,9 @@ const chartGroups = [
     ],
   },
   {
-    key: "currencies",
+    key: "amounts",
+    centerLabel: "Amount",
+    money: true,
     legend: [
       { key: "usd", name: "USD", color: "#b5b5b5" },
       { key: "eur", name: "EUR", color: "#535353" },
@@ -26,6 +29,16 @@ const chartGroups = [
   },
 ];
 
+function chartValueText(value, money) {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  if (money) {
+    return formatMoney(value);
+  }
+  return String(value);
+}
+
 function render(data) {
   document.getElementById("summary").innerHTML = summaryFields
     .map((field) => summaryCard(field.label, field.description, data.summary[field.key]))
@@ -33,8 +46,13 @@ function render(data) {
   document.getElementById("status").innerHTML = chartGroups
     .map((group) => {
       const groupData = data[group.key];
-      const legend = group.legend.map((item) => ({ name: item.name, color: item.color, value: groupData[item.key] }));
-      return chartCard(groupData.total, legend);
+      const legend = group.legend.map((item) => ({
+        name: item.name,
+        color: item.color,
+        value: groupData[item.key],
+        text: chartValueText(groupData[item.key], group.money),
+      }));
+      return chartCard(chartValueText(groupData.total, group.money), group.centerLabel, legend);
     })
     .join("");
   document.getElementById("depositors").innerHTML = depositorList(data.depositors);
@@ -66,7 +84,31 @@ async function loadDashboard() {
   const top = await loadTopDepositors(token);
   data.depositors = top.list;
   data.summary.depositors = top.total;
+  const stats = await loadDepositStats(token);
+  if (stats) {
+    data.summary.deposits = stats.total;
+    data.statuses = stats.statuses;
+    data.amounts = stats.amounts;
+  }
   render(data);
+}
+
+async function loadDepositStats(token) {
+  let response;
+  try {
+    response = await fetch("/api/deposits/stats", { headers: { Authorization: "Bearer " + token } });
+  } catch {
+    return null;
+  }
+  if (response.status === 401) {
+    localStorage.removeItem("access_token");
+    window.location.href = "auth/login.html";
+    return null;
+  }
+  if (!response.ok) {
+    return null;
+  }
+  return await response.json();
 }
 
 async function loadTopDepositors(token) {

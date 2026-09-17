@@ -9,12 +9,12 @@
   border: 1px solid var(--border);
   border-radius: 20px;
 }
-.ticket-title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 26px; text-align: center; }
+.ticket-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
 
 .ticket-form { display: flex; flex-direction: column; gap: 16px; }
 .ticket-row { display: flex; flex-direction: column; gap: 16px; }
 .ticket-field { display: flex; flex-direction: column; gap: 10px; }
-.ticket-label { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 18px; }
+.ticket-label { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 18px; }
 
 .ticket-control {
   width: 100%;
@@ -96,7 +96,7 @@
   border-radius: 15px;
   background: var(--white);
   color: var(--dark);
-  font-family: "Bebas Neue", sans-serif;
+  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
   font-size: 20px;
 }
 .ticket-submit:hover { background: #c7cbd0; }
@@ -111,7 +111,7 @@
   border: 1px solid var(--border);
   border-radius: 20px;
 }
-.contact-title { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 26px; text-align: center; }
+.contact-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
 .contact-rows { display: flex; flex-direction: column; gap: 10px; }
 .contact-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; }
 .contact-label { font-size: 14px; }

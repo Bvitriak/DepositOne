@@ -23,7 +23,7 @@
 }
 .search-bar-input::placeholder { color: var(--muted); }
 
-.depositor-list {
+.deposit-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -32,13 +32,13 @@
   border: 1px solid var(--border);
   border-radius: 20px;
 }
-.depositor-list-head { display: flex; flex-direction: column; gap: 16px; }
-.depositor-list-heading { display: flex; flex-direction: column; gap: 6px; }
-.depositor-list-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 26px; }
-.depositor-list-count { font-weight: 700; font-size: 12px; }
-.depositor-list-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.deposit-list-head { display: flex; flex-direction: column; gap: 16px; }
+.deposit-list-heading { display: flex; flex-direction: column; gap: 6px; }
+.deposit-list-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 26px; }
+.deposit-list-count { font-weight: 700; font-size: 12px; }
+.deposit-list-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 
-.add-depositor {
+.add-deposit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -50,8 +50,8 @@
   font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
   font-size: 18px;
 }
-.add-depositor:hover { background: #c7cbd0; }
-.add-depositor:active { background: #84898f; color: var(--white); }
+.add-deposit:hover { background: #c7cbd0; }
+.add-deposit:active { background: #84898f; color: var(--white); }
 
 .page-size { position: relative; flex-shrink: 0; }
 .page-size-trigger {
@@ -115,10 +115,10 @@
 .page-size-option:hover { background: rgba(244, 247, 251, 0.15); }
 .page-size-option.is-active { background: var(--white); color: var(--dark); }
 
-.depositor-list-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.depositor-list-grid .no-content { grid-column: 1 / -1; }
+.deposit-list-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.deposit-list-grid .no-content { grid-column: 1 / -1; }
 
-.depositor-card {
+.deposit-card {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -128,10 +128,10 @@
   border-radius: 16px;
   transition: border-color 0.2s ease;
 }
-.depositor-card:hover { border-color: var(--muted); }
-.depositor-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.depositor-card-name { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
-.depositor-card-badge {
+.deposit-card:hover { border-color: var(--muted); }
+.deposit-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.deposit-card-name { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
+.deposit-card-badge {
   flex-shrink: 0;
   padding: 5px 12px;
   background: var(--dark);
@@ -141,12 +141,12 @@
   font-size: 16px;
   white-space: nowrap;
 }
-.depositor-card-info { display: grid; grid-template-columns: 1fr; gap: 8px; }
-.depositor-card-field { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
-.depositor-card-label { flex-shrink: 0; font-weight: 700; font-size: 12px; color: var(--muted); }
-.depositor-card-value { min-width: 0; font-size: 14px; word-break: break-word; }
+.deposit-card-info { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.deposit-card-field { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
+.deposit-card-label { flex-shrink: 0; font-weight: 700; font-size: 12px; color: var(--muted); }
+.deposit-card-value { min-width: 0; font-size: 14px; word-break: break-word; }
 
-.depositor-list-foot { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.deposit-list-foot { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .pagination-info { font-weight: 700; font-size: 14px; }
 .pagination-control { display: flex; align-items: center; gap: 5px; }
 .page-button {
@@ -173,33 +173,33 @@
   .search-bar-icon { width: 30px; height: 30px; }
   .search-bar-input { font-size: 20px; }
 
-  .depositor-list { gap: 20px; padding: 24px; border-radius: 25px; }
-  .depositor-list-head { flex-direction: row; align-items: flex-start; justify-content: space-between; }
-  .depositor-list-title { font-size: 32px; }
-  .depositor-list-count { font-size: 14px; }
-  .depositor-list-controls { justify-content: flex-end; gap: 16px; }
+  .deposit-list { gap: 20px; padding: 24px; border-radius: 25px; }
+  .deposit-list-head { flex-direction: row; align-items: flex-start; justify-content: space-between; }
+  .deposit-list-title { font-size: 32px; }
+  .deposit-list-count { font-size: 14px; }
+  .deposit-list-controls { justify-content: flex-end; gap: 16px; }
 
-  .add-depositor { height: 49px; padding: 0 24px; font-size: 20px; }
+  .add-deposit { height: 49px; padding: 0 24px; font-size: 20px; }
   .page-size-trigger { height: 49px; }
 
-  .depositor-card-name { font-size: 32px; }
-  .depositor-card-badge { font-size: 18px; }
-  .depositor-card-info { grid-template-columns: 1fr 1fr; column-gap: 16px; row-gap: 8px; }
-  .depositor-card-value { font-size: 16px; }
+  .deposit-card-name { font-size: 32px; }
+  .deposit-card-badge { font-size: 18px; }
+  .deposit-card-info { grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(3, auto); column-gap: 16px; row-gap: 8px; }
+  .deposit-card-value { font-size: 16px; }
 
-  .depositor-list-foot { flex-direction: row; justify-content: space-between; }
+  .deposit-list-foot { flex-direction: row; justify-content: space-between; }
   .pagination-info { font-size: 20px; }
   .page-button { min-width: 34px; height: 40px; font-size: 20px; }
 }
 
 @media (min-width: 1440px) {
-  .depositor-list-grid { grid-template-columns: 1fr 1fr; }
-  .depositor-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
-  .depositor-list-title { font-size: 40px; }
-  .depositor-list-count { font-size: 20px; }
-  .add-depositor { font-size: 24px; }
+  .deposit-list-grid { grid-template-columns: 1fr 1fr; }
+  .deposit-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .deposit-list-title { font-size: 40px; }
+  .deposit-list-count { font-size: 20px; }
+  .add-deposit { font-size: 24px; }
 }
 
-@media (max-width: 1023px) {
-  .dashboard-scene { padding-bottom: 12px; }
-}
+@media (max-width: 1023px) { .dashboard-scene { padding-bottom: 12px; } }
+@media (min-width: 1024px) { .dashboard-scene { padding-bottom: 20px; } }
+@media (min-width: 1920px) { .dashboard-scene { padding-bottom: 24px; } }

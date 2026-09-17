@@ -1,14 +1,16 @@
 from datetime import date
 
-from repositories import depositor_repository, country_repository
+from repositories import depositor_repository, country_repository, deposit_repository
 
 PAGE_SIZES = [10, 25, 50]
 
 
 def count_active_deposits(connection, depositor_id):
-    # Deposits are not implemented yet, so every depositor has zero active deposits.
-    # When the deposit entity exists this will count the depositor's open deposits.
-    return 0
+    return deposit_repository.count_active_by_depositor(connection, depositor_id)
+
+
+def list_options(connection):
+    return {"depositors": depositor_repository.list_options(connection)}, 200
 
 
 def serialize(depositor, active_deposits):
