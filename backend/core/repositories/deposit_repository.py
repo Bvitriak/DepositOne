@@ -110,6 +110,33 @@ def sum_by_currency(connection):
     return {row[0]: float(row[1]) for row in rows}
 
 
+def list_options(connection):
+    query = (
+        "SELECT d.id, " + ORDINAL + " AS ordinal, d.depositor_id, dep.first_name, dep.last_name, "
+        "c.code, d.amount, d.interest_rate, d.start_date, d.end_date "
+        "FROM deposits d "
+        "JOIN depositors dep ON dep.id = d.depositor_id "
+        "JOIN currencies c ON c.id = d.currency_id ORDER BY d.id ASC"
+    )
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        rows = cursor.fetchall()
+    return [
+        {
+            "id": row[0],
+            "ordinal": row[1],
+            "depositor_id": row[2],
+            "depositor_name": row[3] + " " + row[4],
+            "code": row[5],
+            "amount": row[6],
+            "interest_rate": row[7],
+            "start_date": row[8],
+            "end_date": row[9],
+        }
+        for row in rows
+    ]
+
+
 def count_active_by_depositor(connection, depositor_id):
     with connection.cursor() as cursor:
         cursor.execute(

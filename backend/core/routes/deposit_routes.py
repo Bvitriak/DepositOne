@@ -18,6 +18,11 @@ async def create_deposit(request: Request, connection=Depends(get_connection), u
     return deposit_controller.create_deposit(connection, body, user)
 
 
+@router.get("/api/deposits/options")
+def list_options(connection=Depends(get_connection), user=Depends(require_user)):
+    return deposit_controller.list_options(connection)
+
+
 @router.get("/api/deposits/stats")
 def get_stats(connection=Depends(get_connection), user=Depends(require_user)):
     return deposit_controller.get_stats(connection)

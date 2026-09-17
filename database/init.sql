@@ -50,6 +50,21 @@ CREATE INDEX deposits_created_at_index ON deposits (created_at DESC);
 CREATE INDEX deposits_depositor_id_index ON deposits (depositor_id);
 CREATE INDEX deposits_status_index ON deposits (status);
 
+CREATE TABLE contracts (
+    id SERIAL PRIMARY KEY,
+    deposit_id INTEGER NOT NULL REFERENCES deposits (id),
+    contract_date DATE NOT NULL,
+    signing_status TEXT NOT NULL,
+    description TEXT NOT NULL,
+    special_conditions TEXT NOT NULL,
+    created_by INTEGER REFERENCES users (id),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX contracts_created_at_index ON contracts (created_at DESC);
+CREATE INDEX contracts_deposit_id_index ON contracts (deposit_id);
+CREATE INDEX contracts_signing_status_index ON contracts (signing_status);
+
 INSERT INTO countries (name) VALUES
     ('Australia'),
     ('Austria'),
