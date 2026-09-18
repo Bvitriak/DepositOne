@@ -103,7 +103,7 @@
   text-align: center;
 }
 .chart-donut-value { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 22px; line-height: 1; }
-.chart-donut-label { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 11px; line-height: 1; color: var(--muted); }
+.chart-donut-label { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 11px; line-height: 1; color: var(--white); }
 .chart-legend { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
 .chart-legend-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .chart-legend-name { display: flex; align-items: center; gap: 8px; font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 15px; }
@@ -264,6 +264,7 @@
 
   .depositors { gap: 20px; padding: 24px; }
   .depositors-body { grid-template-columns: 1fr 1fr; }
+  .depositor-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .depositors-title { font-size: 40px; }
   .depositors-subtitle { font-size: 20px; }
   .no-content { height: 500px; }

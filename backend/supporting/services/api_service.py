@@ -134,5 +134,26 @@ def get_apis():
                 "description": "Return key cash flow indicators by period",
                 "auth": "JWT",
             },
+            {
+                "name": "Plan List",
+                "type": "GET",
+                "path": "/api/plans",
+                "description": "Search and page through return plans",
+                "auth": "JWT",
+            },
+            {
+                "name": "Plan Summary",
+                "type": "GET",
+                "path": "/api/plans/summary",
+                "description": "Return monthly results and the priority list",
+                "auth": "JWT",
+            },
+            {
+                "name": "Plan Read",
+                "type": "GET",
+                "path": "/api/plans/",
+                "description": "Return a single return plan by deposit identifier",
+                "auth": "JWT",
+            },
         ]
     }
