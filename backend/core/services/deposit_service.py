@@ -150,6 +150,7 @@ def get_stats(connection):
     amount_eur = amount_counts.get("EUR", 0.0)
     amount_rub = amount_counts.get("RUB", 0.0)
     amount_total = round(amount_usd + amount_eur + amount_rub, 2)
+    accrued = round(deposit_repository.sum_accrued(connection, date.today()), 2)
     next_number = "D-" + str(total + 1).zfill(4)
     return {
         "total": total,
@@ -158,6 +159,7 @@ def get_stats(connection):
         "statuses": {"total": total, "active": active, "pending": pending, "closed": closed, "blocked": blocked},
         "currencies": {"total": total, "usd": usd, "eur": eur, "rub": rub},
         "amounts": {"total": amount_total, "usd": amount_usd, "eur": amount_eur, "rub": amount_rub},
+        "accrued": accrued,
     }, 200
 
 

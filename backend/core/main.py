@@ -7,6 +7,7 @@ from routes.deposit_routes import router as deposit_router
 from routes.currency_routes import router as currency_router
 from routes.contract_routes import router as contract_router
 from routes.report_routes import router as report_router
+from routes.plan_routes import router as plan_router
 
 application = FastAPI()
 application.include_router(depositor_router)
@@ -15,6 +16,7 @@ application.include_router(deposit_router)
 application.include_router(currency_router)
 application.include_router(contract_router)
 application.include_router(report_router)
+application.include_router(plan_router)
 
 
 @application.exception_handler(Exception)

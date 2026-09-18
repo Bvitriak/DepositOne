@@ -2,8 +2,8 @@ const summaryFields = [
   { key: "depositors", label: "depositors", description: "Total number of depositors" },
   { key: "deposits", label: "deposits", description: "Total number of deposits" },
   { key: "active", label: "Active", description: "Total number of active accounts" },
-  { key: "portfolio", label: "portfolio", description: "Total portfolio value" },
-  { key: "percents", label: "Percents", description: "Total accrued interest" },
+  { key: "portfolio", label: "portfolio", description: "Total portfolio value", money: true },
+  { key: "percents", label: "Percents", description: "Total accrued interest", money: true },
 ];
 
 const chartGroups = [
@@ -29,6 +29,17 @@ const chartGroups = [
   },
 ];
 
+function summaryValue(field, summary) {
+  const value = summary[field.key];
+  if (value === null || value === undefined) {
+    return null;
+  }
+  if (field.money) {
+    return "$ " + formatCompactMoney(value);
+  }
+  return value;
+}
+
 function chartValueText(value, money) {
   if (value === null || value === undefined) {
     return null;
@@ -41,7 +52,7 @@ function chartValueText(value, money) {
 
 function render(data) {
   document.getElementById("summary").innerHTML = summaryFields
-    .map((field) => summaryCard(field.label, field.description, data.summary[field.key]))
+    .map((field) => summaryCard(field.label, field.description, summaryValue(field, data.summary)))
     .join("");
   document.getElementById("status").innerHTML = chartGroups
     .map((group) => {
@@ -87,6 +98,8 @@ async function loadDashboard() {
   const stats = await loadDepositStats(token);
   if (stats) {
     data.summary.deposits = stats.total;
+    data.summary.portfolio = stats.amounts.total;
+    data.summary.percents = stats.accrued;
     data.statuses = stats.statuses;
     data.amounts = stats.amounts;
   }

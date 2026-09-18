@@ -10,6 +10,21 @@ SORT_COLUMNS = {
 
 ORDINAL = "(SELECT count(*) FROM deposits dd WHERE dd.id <= d.id)"
 
+TERM_MONTHS = (
+    "(EXTRACT(YEAR FROM age(d.end_date, d.start_date)) * 12 "
+    "+ EXTRACT(MONTH FROM age(d.end_date, d.start_date)))"
+)
+
+ELAPSED_MONTHS = (
+    "(EXTRACT(YEAR FROM age(%s, d.start_date)) * 12 "
+    "+ EXTRACT(MONTH FROM age(%s, d.start_date)))"
+)
+
+ACCRUED = (
+    "(d.amount * d.interest_rate / 100 "
+    "* GREATEST(LEAST(" + ELAPSED_MONTHS + ", " + TERM_MONTHS + "), 0) / 12)"
+)
+
 SEARCH_CONDITION = (
     "(dep.first_name || ' ' || dep.last_name) ILIKE %s "
     "OR ('D-' || lpad(" + ORDINAL + "::text, 4, '0')) ILIKE %s "
@@ -108,6 +123,14 @@ def sum_by_currency(connection):
         )
         rows = cursor.fetchall()
     return {row[0]: float(row[1]) for row in rows}
+
+
+def sum_accrued(connection, today):
+    query = "SELECT COALESCE(sum(" + ACCRUED + "), 0) FROM deposits d"
+    with connection.cursor() as cursor:
+        cursor.execute(query, (today, today))
+        total = cursor.fetchone()[0]
+    return float(total)
 
 
 def list_options(connection):
