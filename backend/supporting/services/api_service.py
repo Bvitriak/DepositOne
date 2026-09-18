@@ -120,5 +120,19 @@ def get_apis():
                 "description": "Delete an existing contract",
                 "auth": "JWT",
             },
+            {
+                "name": "Report List",
+                "type": "GET",
+                "path": "/api/reports",
+                "description": "Search and page through depositor reports",
+                "auth": "JWT",
+            },
+            {
+                "name": "Report Cash Flow",
+                "type": "GET",
+                "path": "/api/reports/cash-flow",
+                "description": "Return key cash flow indicators by period",
+                "auth": "JWT",
+            },
         ]
     }
