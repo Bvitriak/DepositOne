@@ -49,6 +49,8 @@ CREATE TABLE deposits (
 CREATE INDEX deposits_created_at_index ON deposits (created_at DESC);
 CREATE INDEX deposits_depositor_id_index ON deposits (depositor_id);
 CREATE INDEX deposits_status_index ON deposits (status);
+CREATE INDEX deposits_start_date_index ON deposits (start_date);
+CREATE INDEX deposits_end_date_index ON deposits (end_date);
 
 CREATE TABLE contracts (
     id SERIAL PRIMARY KEY,

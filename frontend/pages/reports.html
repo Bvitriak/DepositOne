@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DepositOne Depositors</title>
+  <title>DepositOne Reports</title>
   <link rel="icon" type="image/png" href="../assets/favicons/favicon.png">
   <link rel="apple-touch-icon" href="../assets/favicons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/background.css">
   <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/depositors.css">
+  <link rel="stylesheet" href="../css/report.css">
 </head>
 <body>
   <div class="dashboard-page">
@@ -45,9 +45,13 @@
 
       <section class="dashboard-hero">
         <div class="container">
-          <h1 class="dashboard-hero-title">Depositor Administration</h1>
-          <p class="dashboard-hero-subtitle">Manage member records with powerful search and simplified data access.</p>
+          <h1 class="dashboard-hero-title">Financial reports</h1>
+          <p class="dashboard-hero-subtitle">Real-time cash flow by day, month, year and five-year period, as well as information on depositors.</p>
         </div>
+      </section>
+
+      <section class="dashboard-section">
+        <div class="container" id="cashFlow"></div>
       </section>
 
       <section class="dashboard-section">
@@ -55,7 +59,7 @@
       </section>
 
       <section class="dashboard-section">
-        <div class="container" id="depositorList"></div>
+        <div class="container" id="reportList"></div>
       </section>
     </div>
 
@@ -105,7 +109,7 @@
   </div>
 
   <script src="../js/stars.js"></script>
-  <script src="../js/depositors/components.js"></script>
-  <script src="../js/depositors/depositors.js"></script>
+  <script src="../js/reports/components.js"></script>
+  <script src="../js/reports/reports.js"></script>
 </body>
 </html>
