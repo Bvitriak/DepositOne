@@ -1,11 +1,12 @@
 let search = "";
 let page = 1;
 let pageSize = 10;
+let monthly = null;
 
 async function loadSummary(token) {
   let response;
   try {
-    response = await fetch("/api/plans/summary", { headers: { Authorization: "Bearer " + token } });
+    response = await fetch("/api/plans/summary?" + currencyQuery(), { headers: { Authorization: "Bearer " + token } });
   } catch {
     window.location.href = "error.html?code=503";
     return;
@@ -20,8 +21,15 @@ async function loadSummary(token) {
     return;
   }
   const data = await response.json();
-  document.getElementById("monthly").innerHTML = monthlyCard(data.monthly);
+  monthly = data.monthly;
+  renderMonthly();
   document.getElementById("priority").innerHTML = priorityList(data.priority);
+}
+
+function renderMonthly() {
+  if (monthly) {
+    document.getElementById("monthly").innerHTML = monthlyCard(monthly);
+  }
 }
 
 async function loadPlans() {

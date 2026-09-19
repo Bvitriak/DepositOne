@@ -1,5 +1,6 @@
 let allApis = [];
 let query = "";
+let method = "All";
 let pageSize = 10;
 let page = 1;
 let pages = 1;
@@ -9,12 +10,16 @@ function matchesQuery(api) {
   if (value === "") {
     return true;
   }
-  const fields = [api.name, api.type, api.path, api.auth, api.description];
+  const fields = [api.name, api.type, api.path, api.auth, api.description, api.module, api.service];
   return fields.some((field) => field.toLowerCase().includes(value));
 }
 
+function matchesMethod(api) {
+  return method === "All" || api.type === method;
+}
+
 function applyState() {
-  const filtered = allApis.filter(matchesQuery);
+  const filtered = allApis.filter((api) => matchesQuery(api) && matchesMethod(api));
   const total = filtered.length;
   pages = Math.max(1, Math.ceil(total / pageSize));
   if (page > pages) {
@@ -22,6 +27,7 @@ function applyState() {
   }
   const start = (page - 1) * pageSize;
   const visible = filtered.slice(start, start + pageSize);
+  document.getElementById("methodArea").innerHTML = methodFilter(method);
   document.getElementById("apiList").innerHTML = apiList(visible, total, page, pages, pageSize);
 }
 
@@ -52,6 +58,28 @@ async function loadApiList() {
   applyState();
 }
 
+function selectPath(button) {
+  const range = document.createRange();
+  range.selectNodeContents(button.parentElement.querySelector(".api-card-path"));
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function copyPath(button) {
+  if (!navigator.clipboard) {
+    selectPath(button);
+    return;
+  }
+  navigator.clipboard
+    .writeText(button.dataset.copy)
+    .then(() => {
+      button.classList.add("is-copied");
+      setTimeout(() => button.classList.remove("is-copied"), 1500);
+    })
+    .catch(() => selectPath(button));
+}
+
 document.getElementById("searchArea").innerHTML = searchBar();
 
 document.getElementById("search").addEventListener("input", (event) => {
@@ -60,15 +88,35 @@ document.getElementById("search").addEventListener("input", (event) => {
   applyState();
 });
 
+document.getElementById("methodArea").addEventListener("click", (event) => {
+  const chip = event.target.closest(".method-chip");
+  if (!chip) {
+    return;
+  }
+  method = chip.dataset.method;
+  page = 1;
+  applyState();
+});
+
 const apiListElement = document.getElementById("apiList");
-apiListElement.addEventListener("change", (event) => {
-  if (event.target.id === "pageSize") {
-    pageSize = Number(event.target.value);
+apiListElement.addEventListener("click", (event) => {
+  const copy = event.target.closest(".api-card-copy");
+  if (copy) {
+    copyPath(copy);
+    return;
+  }
+  const trigger = event.target.closest("[data-page-size-trigger]");
+  if (trigger) {
+    trigger.parentElement.classList.toggle("open");
+    return;
+  }
+  const option = event.target.closest(".page-size-option");
+  if (option) {
+    pageSize = Number(option.dataset.size);
     page = 1;
     applyState();
+    return;
   }
-});
-apiListElement.addEventListener("click", (event) => {
   const button = event.target.closest(".page-button");
   if (!button) {
     return;
@@ -82,6 +130,14 @@ apiListElement.addEventListener("click", (event) => {
     page = Number(value);
   }
   applyState();
+});
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".page-size")) {
+    const openSize = apiListElement.querySelector(".page-size.open");
+    if (openSize) {
+      openSize.classList.remove("open");
+    }
+  }
 });
 
 loadApiList();

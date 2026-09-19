@@ -11,7 +11,7 @@
 .error-code {
   position: relative;
   z-index: 1;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: clamp(128px, 18.5vw, 356px);
   line-height: 0.8;
   background: linear-gradient(180deg, #e30c0c 0%, #a20c0c 100%);

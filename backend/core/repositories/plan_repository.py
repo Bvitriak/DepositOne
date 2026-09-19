@@ -1,8 +1,13 @@
 from models.plan import Plan
+from utils import currency
+
+AMOUNT = currency.in_rubles("d.amount", "c.code")
+
+ACTIVE = "d.status = 'Active'"
 
 SORT_COLUMNS = {
     "payout": "d.end_date",
-    "amount": "d.amount",
+    "amount": AMOUNT,
     "rate": "d.interest_rate",
     "name": "dep.last_name",
 }
@@ -16,12 +21,9 @@ CONTRACT_ORDINAL = (
 
 DEPOSIT_NUMBER = "('D-' || lpad(" + DEPOSIT_ORDINAL + "::text, 4, '0'))"
 
-TERM_MONTHS = (
-    "(EXTRACT(YEAR FROM age(d.end_date, d.start_date)) * 12 "
-    "+ EXTRACT(MONTH FROM age(d.end_date, d.start_date)))"
-)
+TERM_DAYS = "(d.end_date - d.start_date)"
 
-TOTAL_REFUND = "(d.amount + d.amount * d.interest_rate / 100 * " + TERM_MONTHS + " / 12)"
+TOTAL_REFUND = "(" + AMOUNT + " + " + AMOUNT + " * d.interest_rate / 100 * " + TERM_DAYS + " / 365)"
 
 SEARCH_CONDITION = (
     DEPOSIT_NUMBER + " ILIKE %s "
@@ -63,10 +65,10 @@ def build_row(row):
 def list_plans(connection, search, sort, order, limit, offset):
     column = SORT_COLUMNS.get(sort, SORT_COLUMNS["payout"])
     direction = "DESC" if order == "desc" else "ASC"
-    where = ""
+    where = "WHERE " + ACTIVE
     parameters = []
     if search:
-        where = "WHERE " + SEARCH_CONDITION
+        where = where + " AND (" + SEARCH_CONDITION + ")"
         like = "%" + search + "%"
         parameters = [like, like, like, like]
     query = (
@@ -82,10 +84,10 @@ def list_plans(connection, search, sort, order, limit, offset):
 
 
 def count_plans(connection, search):
-    where = ""
+    where = "WHERE " + ACTIVE
     parameters = []
     if search:
-        where = "WHERE " + SEARCH_CONDITION
+        where = where + " AND (" + SEARCH_CONDITION + ")"
         like = "%" + search + "%"
         parameters = [like, like, like, like]
     query = "SELECT count(*) " + FROM_JOIN + where
@@ -108,7 +110,7 @@ def get_plan(connection, deposit_id):
 def list_priority(connection, today, limit):
     query = (
         "SELECT " + SELECT_COLUMNS + " " + FROM_JOIN +
-        "WHERE d.end_date >= %s ORDER BY d.end_date ASC LIMIT %s"
+        "WHERE " + ACTIVE + " AND d.end_date >= %s ORDER BY d.end_date ASC LIMIT %s"
     )
     with connection.cursor() as cursor:
         cursor.execute(query, (today, limit))
@@ -119,7 +121,8 @@ def list_priority(connection, today, limit):
 def get_month_totals(connection, first_day, last_day):
     query = (
         "SELECT COALESCE(sum(" + TOTAL_REFUND + "), 0), count(d.id) "
-        "FROM deposits d WHERE d.end_date BETWEEN %s AND %s"
+        "FROM deposits d JOIN currencies c ON c.id = d.currency_id "
+        "WHERE " + ACTIVE + " AND d.end_date BETWEEN %s AND %s"
     )
     with connection.cursor() as cursor:
         cursor.execute(query, (first_day, last_day))
@@ -128,7 +131,7 @@ def get_month_totals(connection, first_day, last_day):
 
 
 def count_returns(connection, first_day, last_day):
-    query = "SELECT count(d.id) FROM deposits d WHERE d.end_date BETWEEN %s AND %s"
+    query = "SELECT count(d.id) FROM deposits d WHERE " + ACTIVE + " AND d.end_date BETWEEN %s AND %s"
     with connection.cursor() as cursor:
         cursor.execute(query, (first_day, last_day))
         total = cursor.fetchone()[0]
@@ -136,7 +139,10 @@ def count_returns(connection, first_day, last_day):
 
 
 def get_reserve_amount(connection, last_day):
-    query = "SELECT COALESCE(sum(d.amount), 0) FROM deposits d WHERE d.end_date > %s"
+    query = (
+        "SELECT COALESCE(sum(" + AMOUNT + "), 0) FROM deposits d "
+        "JOIN currencies c ON c.id = d.currency_id WHERE " + ACTIVE + " AND d.end_date > %s"
+    )
     with connection.cursor() as cursor:
         cursor.execute(query, (last_day,))
         total = cursor.fetchone()[0]

@@ -8,8 +8,8 @@
   border: 1px solid var(--border);
   border-radius: 25px;
 }
-.plan-summary-label { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 20px; }
-.plan-summary-value { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 36px; word-break: break-word; }
+.plan-summary-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 20px; }
+.plan-summary-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 36px; word-break: break-word; }
 
 .plan-layout { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .plan-main { display: flex; flex-direction: column; gap: 12px; }
@@ -23,7 +23,7 @@
   border: 1px solid var(--border);
   border-radius: 16px;
 }
-.refund-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 28px; text-align: center; }
+.refund-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 28px; text-align: center; }
 .refund-details, .refund-summary { display: flex; flex-direction: column; }
 .refund-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 0; }
 .refund-label { font-size: 14px; }
@@ -39,7 +39,7 @@
   border: 1px solid var(--border);
   border-radius: 20px;
 }
-.accrual-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 28px; text-align: center; padding: 0 16px; }
+.accrual-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 28px; text-align: center; padding: 0 16px; }
 .accrual-scroll { overflow-x: auto; }
 .accrual-table { width: 100%; background: #13181f; border-collapse: collapse; }
 .accrual-table th {
@@ -47,7 +47,7 @@
   padding: 8px;
   background: #0b0e14;
   border: 1px solid var(--border);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-weight: 400;
   font-size: 14px;
   white-space: nowrap;
@@ -72,7 +72,7 @@
   border: 1px solid var(--border);
   border-radius: 16px;
 }
-.depositor-details-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 28px; text-align: center; }
+.depositor-details-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 28px; text-align: center; }
 .depositor-details { display: flex; flex-direction: column; }
 .depositor-details-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 0; }
 .depositor-details-label { font-size: 14px; }
@@ -98,7 +98,7 @@
   .refund-summary { gap: 10px; padding: 34px 20px 10px; }
   .refund-row { padding: 10px 0; }
   .refund-label { font-size: 20px; }
-  .refund-value { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; }
+  .refund-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 24px; }
 
   .accrual-card { gap: 20px; padding-top: 25px; border-radius: 25px; }
   .accrual-title { font-size: 40px; padding: 0 25px; }

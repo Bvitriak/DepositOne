@@ -26,6 +26,18 @@ body:active {
   cursor: url("../assets/cursors/webfishing_beam.cur"), text;
 }
 
+input, textarea {
+  cursor: url("../assets/cursors/webfishing_beam.cur"), text;
+}
+
+select, option, .field-option, .ticket-option, .calendar-cell {
+  cursor: url("../assets/cursors/webfishing_link.cur"), pointer;
+}
+
+input[readonly], input[disabled], button[disabled] {
+  cursor: url("../assets/cursors/webfishing_arrow.cur"), default;
+}
+
 ::selection { background: rgba(255, 255, 255, 0.35); }
 ::-moz-selection { background: rgba(255, 255, 255, 0.35); }
 
@@ -52,7 +64,7 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 24px;
   line-height: 1;
   padding: 16px 28px;
@@ -93,7 +105,7 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   right: 0;
   z-index: 3;
   text-align: center;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-weight: 400;
   font-size: clamp(64px, 18.5vw, 475px);
   line-height: 0.85;
@@ -154,7 +166,7 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
 .footer-section { margin-top: 24px; background: linear-gradient(100deg, #141620 0%, #090a10 100%); }
 
 .section-title {
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 36px;
   margin-bottom: 16px;
 }
@@ -180,7 +192,7 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   border-color: var(--border);
   color: var(--white);
 }
-.card-title { grid-area: title; font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 32px; }
+.card-title { grid-area: title; font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 32px; }
 .card-text { grid-area: text; font-size: 16px; }
 
 .move {
@@ -191,7 +203,7 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   gap: 6px;
   padding: 10px 14px;
   border-radius: 15px;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
   transition: background-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
 }
@@ -221,7 +233,7 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   border-radius: 24px;
 }
 .cta-text { display: flex; flex-direction: column; gap: 16px; }
-.cta-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 36px; }
+.cta-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 36px; }
 .cta-sub { font-size: 16px; }
 
 .footer-section .container { max-width: none; padding: 0; }

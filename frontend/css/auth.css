@@ -27,7 +27,7 @@
 .auth-logo-image { display: block; width: auto; height: 56px; }
 
 .auth-body { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%; }
-.auth-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 28px; text-align: center; }
+.auth-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 28px; text-align: center; }
 .auth-form { display: flex; flex-direction: column; gap: 16px; width: 100%; }
 .auth-fields { display: flex; flex-direction: column; gap: 14px; }
 
@@ -73,7 +73,7 @@
   border-radius: 16px;
   background: linear-gradient(180deg, #d6d9dd 0%, #babcbe 100%);
   color: var(--dark);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
   transition: filter 0.35s ease;
 }

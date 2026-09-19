@@ -2,15 +2,16 @@ const periods = ["Today", "Month", "Year", "5 Years"];
 let search = "";
 let page = 1;
 let pageSize = 10;
+let cashFlowCards = [];
 
 function emptyCashFlow() {
-  return periods.map((period) => ({ period: period, inflow: null, outflow: null, net: null }));
+  return periods.map((period) => ({ period: period, opening: null, inflow: null, outflow: null, net: null }));
 }
 
 async function loadCashFlow(token) {
   let response;
   try {
-    response = await fetch("/api/reports/cash-flow", { headers: { Authorization: "Bearer " + token } });
+    response = await fetch("/api/reports/cash-flow?" + currencyQuery(), { headers: { Authorization: "Bearer " + token } });
   } catch {
     return emptyCashFlow();
   }
@@ -33,7 +34,7 @@ async function loadReports() {
     return;
   }
   const query =
-    "?search=" + encodeURIComponent(search) + "&page=" + page + "&page_size=" + pageSize;
+    "?search=" + encodeURIComponent(search) + "&page=" + page + "&page_size=" + pageSize + "&" + currencyQuery();
   let response;
   try {
     response = await fetch("/api/reports" + query, { headers: { Authorization: "Bearer " + token } });
@@ -61,9 +62,13 @@ async function loadPage() {
     window.location.href = "auth/login.html";
     return;
   }
-  const cards = await loadCashFlow(token);
-  document.getElementById("cashFlow").innerHTML = cashFlow(cards);
+  cashFlowCards = await loadCashFlow(token);
+  renderCashFlow();
   await loadReports();
+}
+
+function renderCashFlow() {
+  document.getElementById("cashFlow").innerHTML = cashFlow(cashFlowCards);
 }
 
 document.getElementById("searchArea").innerHTML = reportSearchBar();

@@ -42,21 +42,6 @@ function formatMoney(value) {
   return groupThousands(String(Math.round(Number(value))));
 }
 
-function formatCompactMoney(value) {
-  const number = Number(value);
-  const absolute = Math.abs(number);
-  if (absolute >= 1000000000) {
-    return (number / 1000000000).toFixed(1) + " B";
-  }
-  if (absolute >= 1000000) {
-    return (number / 1000000).toFixed(1) + " M";
-  }
-  if (absolute >= 1000) {
-    return (number / 1000).toFixed(1) + " K";
-  }
-  return formatMoney(number);
-}
-
 function chartCard(centerValue, centerLabel, legend) {
   const rows = legend.map((item) => `<li class="chart-legend-row">
         <span class="chart-legend-name"><span class="chart-legend-marker" style="background:${item.color}"></span>${item.name}</span>

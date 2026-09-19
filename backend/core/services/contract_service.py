@@ -8,10 +8,10 @@ SIGNING_STATUSES = ["Signed", "Pending", "Rejected"]
 
 
 def serialize(contract):
-    term = deposit_service.term_months(contract.start_date, contract.end_date)
     amount = float(contract.amount)
     interest_rate = float(contract.interest_rate)
-    term_end_accruals = round(amount * interest_rate / 100 * term / 12, 2)
+    days = deposit_service.term_days(contract.start_date, contract.end_date)
+    term_end_accruals = deposit_service.interest(amount, interest_rate, days)
     deposit_number = "D-" + str(contract.deposit_ordinal).zfill(4)
     year = str(contract.contract_date.year)
     month = str(contract.contract_date.month).zfill(2)
@@ -36,13 +36,15 @@ def serialize(contract):
     }
 
 
-def validate(connection, payload):
+def validate(connection, payload, contract_id):
     try:
         payload["deposit_id"] = int(payload["deposit_id"])
     except (TypeError, ValueError):
         return "deposit is invalid"
     if not deposit_repository.get_deposit(connection, payload["deposit_id"]):
         return "deposit is invalid"
+    if contract_repository.count_by_deposit(connection, payload["deposit_id"], contract_id) > 0:
+        return "deposit already has a contract"
     if payload["signing_status"] not in SIGNING_STATUSES:
         return "signing status is invalid"
     try:
@@ -75,7 +77,7 @@ def get_contract(connection, contract_id):
 
 
 def create_contract(connection, payload, user_id):
-    error = validate(connection, payload)
+    error = validate(connection, payload, 0)
     if error:
         return {"error": error}, 400
     contract = contract_repository.create_contract(connection, payload, user_id)
@@ -83,7 +85,7 @@ def create_contract(connection, payload, user_id):
 
 
 def update_contract(connection, contract_id, payload):
-    error = validate(connection, payload)
+    error = validate(connection, payload, contract_id)
     if error:
         return {"error": error}, 400
     contract = contract_repository.update_contract(connection, contract_id, payload)

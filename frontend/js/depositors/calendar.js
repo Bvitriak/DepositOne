@@ -29,15 +29,19 @@ function attachCalendar(root, onChange) {
       selected.getDate() === day;
   }
 
-  function cell(label, action, value, active) {
-    return `<button type="button" class="calendar-cell ${active ? "is-active" : ""}" data-action="${action}" data-value="${value}">${label}</button>`;
+  function isFuture(targetYear, targetMonth, day) {
+    return new Date(targetYear, targetMonth, day) > today;
+  }
+
+  function cell(label, action, value, active, disabled) {
+    return `<button type="button" class="calendar-cell ${active ? "is-active" : ""}" data-action="${action}" data-value="${value}" ${disabled ? "disabled" : ""}>${label}</button>`;
   }
 
   function renderDays() {
     let cells = "";
     const total = daysInMonth(year, month);
     for (let day = 1; day <= total; day = day + 1) {
-      cells += cell(day, "day", day, isSelected(day));
+      cells += cell(day, "day", day, isSelected(day), isFuture(year, month, day));
     }
     panel.innerHTML = `<div class="calendar-header">
       <button type="button" class="calendar-nav" data-action="prev"><i class="calendar-arrow calendar-arrow-left"></i></button>
@@ -54,7 +58,7 @@ function attachCalendar(root, onChange) {
     let cells = "";
     for (let index = 0; index < 12; index = index + 1) {
       const active = selected && selected.getFullYear() === year && selected.getMonth() === index;
-      cells += cell(MONTH_NAMES[index], "month", index, active);
+      cells += cell(MONTH_NAMES[index], "month", index, active, isFuture(year, index, 1));
     }
     panel.innerHTML = `<div class="calendar-header">
       <button type="button" class="calendar-nav" data-action="prev"><i class="calendar-arrow calendar-arrow-left"></i></button>
@@ -71,7 +75,7 @@ function attachCalendar(root, onChange) {
     const start = year - 5;
     for (let value = start; value < start + 12; value = value + 1) {
       const active = selected && selected.getFullYear() === value;
-      cells += cell(value, "year", value, active);
+      cells += cell(value, "year", value, active, isFuture(value, 0, 1));
     }
     panel.innerHTML = `<div class="calendar-header">
       <button type="button" class="calendar-nav" data-action="prev"><i class="calendar-arrow calendar-arrow-left"></i></button>

@@ -3,6 +3,7 @@ from datetime import date, timedelta
 
 from repositories import plan_repository
 from services import deposit_service
+from utils import currency
 
 PAGE_SIZES = [10, 25, 50]
 PRIORITY_SIZE = 4
@@ -28,17 +29,12 @@ def month_bounds(today):
 
 def build_amounts(plan, today):
     term = deposit_service.term_months(plan.start_date, plan.end_date)
+    days = deposit_service.term_days(plan.start_date, plan.end_date)
     amount = float(plan.amount)
     interest_rate = float(plan.interest_rate)
-    term_end_accruals = round(amount * interest_rate / 100 * term / 12, 2)
-    elapsed = deposit_service.months_between(plan.start_date, today)
-    if elapsed < 0:
-        elapsed = 0
-    if elapsed > term:
-        elapsed = term
-    accrued = 0.0
-    if term > 0:
-        accrued = round(term_end_accruals * elapsed / term, 2)
+    term_end_accruals = deposit_service.interest(amount, interest_rate, days)
+    elapsed = min(max(deposit_service.term_days(plan.start_date, today), 0), days)
+    accrued = deposit_service.interest(amount, interest_rate, elapsed)
     return {
         "amount": amount,
         "interest_rate": interest_rate,
@@ -94,27 +90,30 @@ def build_accrual_history(plan, today):
     amounts = build_amounts(plan, today)
     term = amounts["term_months"]
     amount = amounts["amount"]
+    interest_rate = amounts["interest_rate"]
     if term == 0:
         return [{
             "number": 1,
             "date": plan.end_date.isoformat(),
-            "accrued": 0.0,
+            "accrued": amounts["term_end_accruals"],
             "capitalization": False,
-            "total": round(amount, 2),
+            "total": amounts["total_refund"],
         }]
-    monthly = amounts["term_end_accruals"] / term
     rows = []
+    previous_total = 0.0
     for number in range(1, term + 1):
         row_date = plan.end_date
         if number < term:
             row_date = add_months(plan.start_date, number)
+        total = deposit_service.interest(amount, interest_rate, (row_date - plan.start_date).days)
         rows.append({
             "number": number,
             "date": row_date.isoformat(),
-            "accrued": round(monthly, 2),
+            "accrued": round(total - previous_total, 2),
             "capitalization": number < term,
-            "total": round(amount + monthly * number, 2),
+            "total": round(amount + total, 2),
         })
+        previous_total = total
     return rows
 
 
@@ -134,15 +133,17 @@ def list_plans(connection, search, sort, order, page, page_size):
     return {"plans": items, "total": total, "page": page, "pages": pages, "page_size": page_size}, 200
 
 
-def get_summary(connection):
+def get_summary(connection, code):
     today = date.today()
     first_day, last_day = month_bounds(today)
     amount, returns = plan_repository.get_month_totals(connection, first_day, last_day)
     tomorrow = today + timedelta(days=1)
     week_end = today + timedelta(days=WEEK_DAYS)
+    later = plan_repository.get_reserve_amount(connection, last_day)
     reserve = None
-    if amount > 0:
-        reserve = round(plan_repository.get_reserve_amount(connection, last_day) / amount * 100)
+    if amount + later > 0:
+        reserve = round(later / (amount + later) * 100)
+    amount = currency.convert(amount, code)
     plans = plan_repository.list_priority(connection, today, PRIORITY_SIZE)
     monthly = {
         "amount": round(amount, 2),

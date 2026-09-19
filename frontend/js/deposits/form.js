@@ -43,7 +43,16 @@ function monthsBetween(startIso, endIso) {
   return months;
 }
 
-function termText(months) {
+function daysBetween(startIso, endIso) {
+  const start = new Date(startIso);
+  const end = new Date(endIso);
+  return Math.round((end - start) / 86400000);
+}
+
+function termText(months, days) {
+  if (months === 0) {
+    return days === 1 ? "1 day" : days + " days";
+  }
   if (months === 1) {
     return "1 month";
   }
@@ -101,7 +110,7 @@ function renderPreview() {
   let accruals = null;
   let toPay = null;
   if (term !== null && hasAmount && hasRate) {
-    accruals = amountNumber * rateNumber / 100 * term / 12;
+    accruals = amountNumber * rateNumber / 100 * daysBetween(values.start_date, values.end_date) / 365;
     toPay = amountNumber + accruals;
   }
   let rows = "";
@@ -109,7 +118,7 @@ function renderPreview() {
   rows += previewRow("Status", values.status);
   rows += previewRow("Amount", hasAmount ? formatMoney(amountNumber, 2) : "");
   rows += previewRow("Currency", values.currency);
-  rows += previewRow("Term", term !== null ? termText(term) : "");
+  rows += previewRow("Term", term !== null ? termText(term, daysBetween(values.start_date, values.end_date)) : "");
   rows += previewRow("Interest rate", hasRate ? values.interest_rate + "%" : "");
   rows += previewRow("Term-end accruals", accruals !== null ? formatMoney(accruals, 2) : "");
   rows += previewRow("Amount to be paid", toPay !== null ? formatMoney(toPay, 2) : "");

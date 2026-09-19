@@ -1,12 +1,9 @@
-from repositories import user_repository
-
-
 def get_overview(connection):
     return {
         "summary": {
             "depositors": None,
             "deposits": None,
-            "active": user_repository.count(connection),
+            "active": None,
             "portfolio": None,
             "percents": None,
         },

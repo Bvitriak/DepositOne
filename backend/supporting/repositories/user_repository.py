@@ -12,13 +12,6 @@ def create(connection, username, email, password_hash):
     return User(id=row[0], username=row[1])
 
 
-def count(connection):
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT count(*) FROM users")
-        total = cursor.fetchone()[0]
-    return total
-
-
 def find_by_email(connection, email):
     with connection.cursor() as cursor:
         cursor.execute(
@@ -31,6 +24,25 @@ def find_by_email(connection, email):
     return User(id=row[0], username=row[1], email=row[2], password_hash=row[3])
 
 
+def find_by_id(connection, user_id):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT id, username, email, status, created_at, last_visit_at FROM users WHERE id = %s",
+            (user_id,),
+        )
+        row = cursor.fetchone()
+    if not row:
+        return None
+    return User(
+        id=row[0],
+        username=row[1],
+        email=row[2],
+        status=row[3],
+        created_at=row[4],
+        last_visit_at=row[5],
+    )
+
+
 def update_password(connection, email, password_hash):
     with connection.cursor() as cursor:
         cursor.execute(
@@ -40,3 +52,9 @@ def update_password(connection, email, password_hash):
         updated = cursor.rowcount
         connection.commit()
     return updated
+
+
+def update_last_visit(connection, user_id):
+    with connection.cursor() as cursor:
+        cursor.execute("UPDATE users SET last_visit_at = now() WHERE id = %s", (user_id,))
+        connection.commit()

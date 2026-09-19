@@ -22,31 +22,6 @@ function formatMoney(value) {
   return groupThousands(String(Math.round(Number(value))));
 }
 
-function formatCompactMoney(value) {
-  const number = Number(value);
-  const absolute = Math.abs(number);
-  if (absolute >= 1000000000) {
-    return (number / 1000000000).toFixed(2) + " B";
-  }
-  if (absolute >= 1000000) {
-    return (number / 1000000).toFixed(2) + " M";
-  }
-  if (absolute >= 1000) {
-    return (number / 1000).toFixed(2) + " K";
-  }
-  return number.toFixed(2);
-}
-
-function cashFlowAmount(value, withCurrency) {
-  if (value === null || value === undefined) {
-    return "N/A";
-  }
-  if (withCurrency) {
-    return "$" + formatCompactMoney(value);
-  }
-  return formatCompactMoney(value);
-}
-
 function reportSearchBar() {
   return `<div class="search-bar">
     <img class="search-bar-icon" src="../assets/img/search.svg" alt="">
@@ -60,17 +35,21 @@ function cashFlowCard(card) {
     <div class="cash-flow-content">
       <div class="cash-flow-group">
         <div class="cash-flow-row">
+          <span class="cash-flow-label">Opening Balance</span>
+          <span class="cash-flow-value">${currencyMoney(card.opening)}</span>
+        </div>
+        <div class="cash-flow-row">
           <span class="cash-flow-label">Total Inflow</span>
-          <span class="cash-flow-value">${cashFlowAmount(card.inflow, true)}</span>
+          <span class="cash-flow-value">${currencyMoney(card.inflow)}</span>
         </div>
         <div class="cash-flow-row">
           <span class="cash-flow-label">Expected Outflow</span>
-          <span class="cash-flow-value">${cashFlowAmount(card.outflow, true)}</span>
+          <span class="cash-flow-value">${currencyMoney(card.outflow)}</span>
         </div>
       </div>
       <div class="cash-flow-row cash-flow-total">
         <span class="cash-flow-label">Net Liquidity</span>
-        <span class="cash-flow-value">${cashFlowAmount(card.net, false)}</span>
+        <span class="cash-flow-value">${currencyMoney(card.net)}</span>
       </div>
     </div>
   </article>`;
@@ -92,11 +71,11 @@ function reportCard(report) {
     <div class="report-card-info">
       <div class="report-card-field">
         <span class="report-card-label">TOTAL AMOUNT:</span>
-        <span class="report-card-value">${formatMoney(report.total_amount)}</span>
+        <span class="report-card-value">${currencySign()}${formatMoney(report.total_amount)}</span>
       </div>
       <div class="report-card-field">
         <span class="report-card-label">TOTAL INCOME:</span>
-        <span class="report-card-value">${formatMoney(report.total_income)}</span>
+        <span class="report-card-value">${currencySign()}${formatMoney(report.total_income)}</span>
       </div>
     </div>
   </article>`;

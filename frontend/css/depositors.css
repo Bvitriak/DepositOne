@@ -34,7 +34,7 @@
 }
 .depositor-list-head { display: flex; flex-direction: column; gap: 16px; }
 .depositor-list-heading { display: flex; flex-direction: column; gap: 6px; }
-.depositor-list-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 26px; }
+.depositor-list-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 26px; }
 .depositor-list-count { font-weight: 700; font-size: 12px; }
 .depositor-list-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 
@@ -47,7 +47,7 @@
   background: var(--white);
   color: var(--dark);
   border-radius: 15px;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 18px;
 }
 .add-depositor:hover { background: #c7cbd0; }
@@ -66,7 +66,7 @@
   border: 1px solid var(--border);
   border-radius: 15px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
 }
 .page-size-arrow {
@@ -108,7 +108,7 @@
   border: 0;
   border-radius: 8px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
   transition: background-color 0.2s ease;
 }
@@ -130,14 +130,14 @@
 }
 .depositor-card:hover { border-color: var(--muted); }
 .depositor-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.depositor-card-name { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
+.depositor-card-name { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
 .depositor-card-badge {
   flex-shrink: 0;
   padding: 5px 12px;
   background: var(--dark);
   border: 1px solid var(--border);
   border-radius: 20px;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 16px;
   white-space: nowrap;
 }
@@ -160,7 +160,7 @@
   border: 0;
   border-radius: 10px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 18px;
 }
 .page-button.is-active { background: var(--white); color: var(--dark); }

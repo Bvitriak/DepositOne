@@ -13,8 +13,8 @@ def list_plans(request: Request, connection=Depends(get_connection), user=Depend
 
 
 @router.get("/api/plans/summary")
-def get_summary(connection=Depends(get_connection), user=Depends(require_user)):
-    return plan_controller.get_summary(connection)
+def get_summary(request: Request, connection=Depends(get_connection), user=Depends(require_user)):
+    return plan_controller.get_summary(connection, request.query_params)
 
 
 @router.get("/api/plans/{deposit_id}")

@@ -46,7 +46,7 @@ function monthlyCard(monthly) {
     <div class="monthly-info">
       <p class="monthly-title">Monthly Results</p>
       <div class="monthly-amount-info">
-        <p class="monthly-amount">${formatMoney(monthly.amount)}</p>
+        <p class="monthly-amount">${currencyMoney(monthly.amount)}</p>
         <p class="monthly-description">The total amount of all scheduled repayments on active deposits for the current month</p>
       </div>
     </div>
