@@ -94,6 +94,14 @@ def count_contracts(connection, search):
     return total
 
 
+def count_by_deposit(connection, deposit_id, exclude_id):
+    query = "SELECT count(*) FROM contracts WHERE deposit_id = %s AND id <> %s"
+    with connection.cursor() as cursor:
+        cursor.execute(query, (deposit_id, exclude_id))
+        total = cursor.fetchone()[0]
+    return total
+
+
 def get_contract(connection, contract_id):
     query = "SELECT " + SELECT_COLUMNS + " " + FROM_JOIN + "WHERE ct.id = %s"
     with connection.cursor() as cursor:

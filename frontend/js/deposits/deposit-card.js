@@ -3,6 +3,7 @@ const params = new URLSearchParams(window.location.search);
 const depositId = params.get("id");
 const form = document.getElementById("depositForm");
 const status = document.getElementById("formStatus");
+const deletionCard = document.getElementById("deletionCard");
 
 let original = null;
 
@@ -108,6 +109,12 @@ document.getElementById("deleteButton").addEventListener("click", async () => {
   if (response.status === 401) {
     localStorage.removeItem("access_token");
     window.location.href = "auth/login.html";
+    return;
+  }
+  if (response.status === 409) {
+    deletionCard.hidden = false;
+    status.textContent = "Deletion is impossible while there is a contract";
+    status.classList.remove("is-success");
     return;
   }
   if (!response.ok) {

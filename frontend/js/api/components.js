@@ -1,3 +1,14 @@
+const METHODS = ["All", "GET", "POST", "PUT", "DELETE"];
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function searchBar() {
   return `<div class="search-bar">
     <img class="search-bar-icon" src="../assets/img/search.svg" alt="">
@@ -5,25 +16,33 @@ function searchBar() {
   </div>`;
 }
 
+function methodFilter(method) {
+  const buttons = METHODS.map((item) => {
+    const active = item === method ? "is-active" : "";
+    return `<button class="method-chip ${active}" type="button" data-method="${item}">${item}</button>`;
+  }).join("");
+  return `<div class="method-filter">${buttons}</div>`;
+}
+
 function apiCard(api) {
+  const auth = api.auth === "JWT" ? "JWT" : "Public";
   return `<article class="api-card">
     <div class="api-card-head">
-      <p class="api-card-name">${api.name}</p>
-      <span class="api-card-badge">${api.type}</span>
+      <span class="api-method api-method-${api.type.toLowerCase()}">${api.type}</span>
+      <code class="api-card-path">${escapeHtml(api.path)}</code>
+      <button class="api-card-copy" type="button" data-copy="${escapeHtml(api.path)}" aria-label="Copy">
+        <img class="api-card-copy-icon" src="../assets/img/copy.svg" alt="">
+        <img class="api-card-copy-icon api-card-copy-done" src="../assets/img/check.svg" alt="">
+      </button>
     </div>
-    <div class="api-card-info">
-      <div class="api-card-field">
-        <span class="api-card-label">PATH:</span>
-        <span class="api-card-value">${api.path}</span>
-      </div>
-      <div class="api-card-field">
-        <span class="api-card-label">DESCRIPTION:</span>
-        <span class="api-card-value">${api.description}</span>
-      </div>
-      <div class="api-card-field">
-        <span class="api-card-label">AUTH:</span>
-        <span class="api-card-value">${api.auth}</span>
-      </div>
+    <div class="api-card-body">
+      <p class="api-card-name">${escapeHtml(api.name)}</p>
+      <p class="api-card-description">${escapeHtml(api.description)}</p>
+    </div>
+    <div class="api-card-tags">
+      <span class="api-tag">${escapeHtml(api.module)}</span>
+      <span class="api-tag">${escapeHtml(api.service)}</span>
+      <span class="api-tag api-tag-auth">${auth}</span>
     </div>
   </article>`;
 }
@@ -31,11 +50,14 @@ function apiCard(api) {
 function pageSizeSelect(pageSize) {
   const sizes = [10, 25, 50];
   const options = sizes
-    .map((size) => `<option value="${size}" ${size === pageSize ? "selected" : ""}>${size}</option>`)
+    .map((size) => `<button type="button" class="page-size-option ${size === pageSize ? "is-active" : ""}" data-size="${size}">${size}</button>`)
     .join("");
   return `<div class="page-size">
-    <select class="page-size-select" id="pageSize">${options}</select>
-    <i class="page-size-arrow"></i>
+    <button type="button" class="page-size-trigger" data-page-size-trigger>
+      <span class="page-size-value">${pageSize}</span>
+      <i class="page-size-arrow"></i>
+    </button>
+    <div class="page-size-options">${options}</div>
   </div>`;
 }
 

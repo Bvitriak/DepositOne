@@ -38,7 +38,6 @@ const REQUIRED_FIELDS = [
   { id: "contract_date", label: "Date of the Contract" },
   { id: "signing_status", label: "Signing Status" },
   { id: "description", label: "Description of the Term" },
-  { id: "special_conditions", label: "Special Conditions" },
 ];
 
 let calendars = {};

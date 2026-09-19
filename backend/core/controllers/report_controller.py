@@ -1,6 +1,7 @@
 from fastapi.responses import JSONResponse
 
 from services import report_service
+from utils import currency
 
 
 def to_int(value, default):
@@ -16,10 +17,11 @@ def list_reports(connection, query_params):
     order = query_params.get("order") or "desc"
     page = to_int(query_params.get("page"), 1)
     page_size = to_int(query_params.get("page_size"), 10)
-    result, status = report_service.list_reports(connection, search, sort, order, page, page_size)
+    code = currency.normalize(query_params.get("currency"))
+    result, status = report_service.list_reports(connection, search, sort, order, page, page_size, code)
     return JSONResponse(result, status_code=status)
 
 
-def get_cash_flow(connection):
-    result, status = report_service.get_cash_flow(connection)
+def get_cash_flow(connection, query_params):
+    result, status = report_service.get_cash_flow(connection, currency.normalize(query_params.get("currency")))
     return JSONResponse(result, status_code=status)

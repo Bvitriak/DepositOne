@@ -13,5 +13,5 @@ def list_reports(request: Request, connection=Depends(get_connection), user=Depe
 
 
 @router.get("/api/reports/cash-flow")
-def get_cash_flow(connection=Depends(get_connection), user=Depends(require_user)):
-    return report_controller.get_cash_flow(connection)
+def get_cash_flow(request: Request, connection=Depends(get_connection), user=Depends(require_user)):
+    return report_controller.get_cash_flow(connection, request.query_params)

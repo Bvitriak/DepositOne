@@ -97,6 +97,23 @@ def get_depositor(connection, depositor_id):
     return build_row(row)
 
 
+def find_duplicate(connection, data, depositor_id):
+    query = (
+        "SELECT passport, tin, email FROM depositors "
+        "WHERE id <> %s AND (passport = %s OR tin = %s OR email = %s) LIMIT 1"
+    )
+    with connection.cursor() as cursor:
+        cursor.execute(query, (depositor_id, data["passport"], data["tin"], data["email"]))
+        row = cursor.fetchone()
+    if not row:
+        return None
+    if row[0] == data["passport"]:
+        return "passport"
+    if row[1] == data["tin"]:
+        return "tin"
+    return "email"
+
+
 def create_depositor(connection, data, created_by):
     with connection.cursor() as cursor:
         cursor.execute(

@@ -9,13 +9,13 @@
   border: 1px solid var(--border);
   border-radius: 20px;
 }
-.form-card-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
+.form-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
 .form-card-title.is-centered { text-align: center; }
 
 .deposit-form { display: flex; flex-direction: column; gap: 16px; }
 .form-row { display: flex; flex-direction: column; gap: 16px; }
 .field { display: flex; flex-direction: column; gap: 10px; }
-.field-label { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 18px; }
+.field-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 18px; }
 
 .field-control {
   width: 100%;
@@ -109,7 +109,7 @@
 .calendar-arrow { display: block; width: 8px; height: 8px; border-top: 2px solid var(--white); border-right: 2px solid var(--white); }
 .calendar-arrow-left { transform: rotate(-135deg); }
 .calendar-arrow-right { transform: rotate(45deg); }
-.calendar-title { display: flex; align-items: center; gap: 6px; font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 22px; }
+.calendar-title { display: flex; align-items: center; gap: 6px; font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 22px; }
 .calendar-title button { background: none; border: 0; color: var(--white); font-family: inherit; font-size: inherit; }
 .calendar-title button:hover { opacity: 0.75; }
 
@@ -126,7 +126,7 @@
   border: 0;
   border-radius: 10px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 18px;
   transition: background-color 0.2s ease;
 }
@@ -144,7 +144,7 @@
   border-radius: 15px;
   background: var(--white);
   color: var(--dark);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
 }
 .form-button:hover { background: #c7cbd0; }
@@ -160,7 +160,7 @@
   border: 1px solid var(--border);
   border-radius: 20px;
 }
-.data-card-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
+.data-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
 .data-card-rows { display: flex; flex-direction: column; }
 .data-card-row {
   display: flex;
@@ -173,6 +173,19 @@
 .data-card-row:last-child { border-bottom: 0; }
 .data-card-label { flex-shrink: 0; font-size: 14px; }
 .data-card-value { min-width: 0; font-size: 14px; text-align: right; word-break: break-word; }
+
+.deletion-card[hidden] { display: none; }
+.deletion-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background: linear-gradient(180deg, #141620 0%, #090a10 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.deletion-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; }
+.deletion-card-text { font-size: 14px; }
 
 @media (min-width: 1024px) {
   .deposit-form-layout { flex-direction: row; align-items: flex-start; gap: 30px; }
@@ -195,6 +208,9 @@
   .data-card { gap: 20px; padding: 25px; border-radius: 25px; }
   .data-card-title { font-size: 32px; }
   .data-card-label, .data-card-value { font-size: 16px; }
+  .deletion-card { padding: 25px; border-radius: 25px; }
+  .deletion-card-title { font-size: 32px; }
+  .deletion-card-text { font-size: 16px; }
 }
 
 @media (min-width: 1440px) {
@@ -202,11 +218,14 @@
   .deposit-form-side { width: 442px; }
   .data-card-title { font-size: 40px; }
   .data-card-label, .data-card-value { font-size: 20px; }
+  .deletion-card-title { font-size: 40px; }
+  .deletion-card-text { font-size: 20px; }
 }
 
 @media (min-width: 1920px) {
   .deposit-form-side { width: 595px; }
   .data-card-label, .data-card-value { font-size: 24px; }
+  .deletion-card-text { font-size: 24px; }
 }
 
 @media (max-width: 1023px) { .dashboard-scene { padding-bottom: 12px; } }

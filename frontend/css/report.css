@@ -1,5 +1,5 @@
 .cash-flow { display: flex; flex-direction: column; gap: 16px; }
-.cash-flow-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 26px; }
+.cash-flow-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 26px; }
 .cash-flow-list { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .cash-flow-card {
   display: flex;
@@ -11,13 +11,13 @@
   border: 1px solid var(--border);
   border-radius: 25px;
 }
-.cash-flow-period { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; }
+.cash-flow-period { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 24px; }
 .cash-flow-content { display: flex; flex-direction: column; gap: 10px; }
 .cash-flow-group { display: flex; flex-direction: column; gap: 8px; }
 .cash-flow-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .cash-flow-label { font-size: 14px; }
 .cash-flow-value {
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
   text-align: right;
   white-space: nowrap;
@@ -60,7 +60,7 @@
 }
 .report-list-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .report-list-heading { display: flex; flex-direction: column; gap: 6px; }
-.report-list-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 26px; }
+.report-list-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 26px; }
 .report-list-count { font-weight: 700; font-size: 12px; }
 
 .page-size { position: relative; flex-shrink: 0; }
@@ -76,7 +76,7 @@
   border: 1px solid var(--border);
   border-radius: 15px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
 }
 .page-size-arrow {
@@ -118,7 +118,7 @@
   border: 0;
   border-radius: 8px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
   transition: background-color 0.2s ease;
 }
@@ -138,14 +138,14 @@
   border-radius: 16px;
 }
 .report-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.report-card-name { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
+.report-card-name { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
 .report-card-badge {
   flex-shrink: 0;
   padding: 5px 12px;
   background: var(--dark);
   border: 1px solid var(--border);
   border-radius: 20px;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 16px;
   white-space: nowrap;
 }
@@ -168,7 +168,7 @@
   border: 0;
   border-radius: 10px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 18px;
 }
 .page-button.is-active { background: var(--white); color: var(--dark); }

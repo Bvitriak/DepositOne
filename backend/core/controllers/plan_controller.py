@@ -1,6 +1,7 @@
 from fastapi.responses import JSONResponse
 
 from services import plan_service
+from utils import currency
 
 
 def to_int(value, default):
@@ -20,8 +21,8 @@ def list_plans(connection, query_params):
     return JSONResponse(result, status_code=status)
 
 
-def get_summary(connection):
-    result, status = plan_service.get_summary(connection)
+def get_summary(connection, query_params):
+    result, status = plan_service.get_summary(connection, currency.normalize(query_params.get("currency")))
     return JSONResponse(result, status_code=status)
 
 

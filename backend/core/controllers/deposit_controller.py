@@ -1,6 +1,7 @@
 from fastapi.responses import JSONResponse
 
 from services import deposit_service
+from utils import currency
 
 
 def to_int(value, default):
@@ -49,8 +50,8 @@ def list_options(connection):
     return JSONResponse(result, status_code=status)
 
 
-def get_stats(connection):
-    result, status = deposit_service.get_stats(connection)
+def get_stats(connection, query_params):
+    result, status = deposit_service.get_stats(connection, currency.normalize(query_params.get("currency")))
     return JSONResponse(result, status_code=status)
 
 

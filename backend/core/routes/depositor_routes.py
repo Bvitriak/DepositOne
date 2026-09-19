@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Request
 
 from controllers import depositor_controller
+from utils import body as body_reader
 from utils.auth import require_user
 from utils.db import get_connection
 
@@ -14,7 +15,7 @@ def list_depositors(request: Request, connection=Depends(get_connection), user=D
 
 @router.post("/api/depositors")
 async def create_depositor(request: Request, connection=Depends(get_connection), user=Depends(require_user)):
-    body = await request.json()
+    body = await body_reader.read_json(request)
     return depositor_controller.create_depositor(connection, body, user)
 
 
@@ -30,7 +31,7 @@ def get_depositor(depositor_id: int, connection=Depends(get_connection), user=De
 
 @router.put("/api/depositors/{depositor_id}")
 async def update_depositor(depositor_id: int, request: Request, connection=Depends(get_connection), user=Depends(require_user)):
-    body = await request.json()
+    body = await body_reader.read_json(request)
     return depositor_controller.update_depositor(connection, depositor_id, body)
 
 

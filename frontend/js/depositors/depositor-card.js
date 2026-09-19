@@ -4,6 +4,7 @@ const depositorId = params.get("id");
 const form = document.getElementById("depositorForm");
 const status = document.getElementById("formStatus");
 const deletionCard = document.getElementById("deletionCard");
+const deletionText = document.getElementById("deletionText");
 
 let original = null;
 
@@ -111,8 +112,15 @@ document.getElementById("deleteButton").addEventListener("click", async () => {
     return;
   }
   if (response.status === 409) {
+    const data = await response.json();
+    const active = data.error === "depositor has active deposits";
+    deletionText.textContent = active
+      ? "There are active deposits assigned to the card. Close them before deleting."
+      : "There are deposits assigned to the card. Delete them before deleting.";
     deletionCard.hidden = false;
-    status.textContent = "Deletion is impossible while there are active deposits";
+    status.textContent = active
+      ? "Deletion is impossible while there are active deposits"
+      : "Deletion is impossible while there are deposits";
     status.classList.remove("is-success");
     return;
   }

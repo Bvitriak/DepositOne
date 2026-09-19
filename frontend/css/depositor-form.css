@@ -9,12 +9,12 @@
   border: 1px solid var(--border);
   border-radius: 20px;
 }
-.form-card-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
+.form-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
 
 .depositor-form { display: flex; flex-direction: column; gap: 16px; }
 .form-row { display: flex; flex-direction: column; gap: 16px; }
 .field { display: flex; flex-direction: column; gap: 10px; }
-.field-label { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 18px; }
+.field-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 18px; }
 
 .field-control {
   width: 100%;
@@ -107,7 +107,7 @@
 .calendar-arrow { display: block; width: 8px; height: 8px; border-top: 2px solid var(--white); border-right: 2px solid var(--white); }
 .calendar-arrow-left { transform: rotate(-135deg); }
 .calendar-arrow-right { transform: rotate(45deg); }
-.calendar-title { display: flex; align-items: center; gap: 6px; font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 22px; }
+.calendar-title { display: flex; align-items: center; gap: 6px; font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 22px; }
 .calendar-title button { background: none; border: 0; color: var(--white); font-family: inherit; font-size: inherit; }
 .calendar-title button:hover { opacity: 0.75; }
 
@@ -124,12 +124,13 @@
   border: 0;
   border-radius: 10px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 18px;
   transition: background-color 0.2s ease;
 }
 .calendar-cell:hover { background: rgba(244, 247, 251, 0.15); }
 .calendar-cell.is-active { background: var(--white); color: var(--dark); }
+.calendar-cell:disabled { opacity: 0.3; }
 
 .form-status { font-size: 13px; text-align: center; color: #ff6b6b; }
 .form-status.is-success { color: #7bd88f; }
@@ -142,7 +143,7 @@
   border-radius: 15px;
   background: var(--white);
   color: var(--dark);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
 }
 .form-button:hover { background: #c7cbd0; }
@@ -158,7 +159,7 @@
   border: 1px solid var(--border);
   border-radius: 20px;
 }
-.data-card-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
+.data-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; text-align: center; }
 .data-card-rows { display: flex; flex-direction: column; }
 .data-card-row {
   display: flex;
@@ -182,7 +183,7 @@
   border: 1px solid var(--border);
   border-radius: 20px;
 }
-.deletion-card-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; }
+.deletion-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 26px; }
 .deletion-card-text { font-size: 14px; }
 
 @media (min-width: 1024px) {

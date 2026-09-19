@@ -43,7 +43,7 @@
 
 .dashboard-hero { padding: 20px 0; text-align: center; }
 .dashboard-hero-title {
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-weight: 400;
   font-size: 36px;
   line-height: 1.1;
@@ -68,8 +68,8 @@
   border-radius: 25px;
 }
 .summary-card-details { display: flex; flex-direction: column; gap: 5px; }
-.summary-card-label { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 20px; }
-.summary-card-value { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 40px; }
+.summary-card-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 20px; }
+.summary-card-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 40px; }
 .summary-card-description { font-size: 16px; }
 
 .chart-cards { display: flex; flex-direction: column; gap: 16px; }
@@ -102,13 +102,13 @@
   padding: 0 14px;
   text-align: center;
 }
-.chart-donut-value { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 22px; line-height: 1; }
-.chart-donut-label { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 11px; line-height: 1; color: var(--white); }
+.chart-donut-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 22px; line-height: 1; }
+.chart-donut-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 11px; line-height: 1; color: var(--white); }
 .chart-legend { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
 .chart-legend-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.chart-legend-name { display: flex; align-items: center; gap: 8px; font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 15px; }
+.chart-legend-name { display: flex; align-items: center; gap: 8px; font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 15px; }
 .chart-legend-marker { flex-shrink: 0; width: 12px; height: 12px; border-radius: 3px; }
-.chart-legend-value { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 15px; }
+.chart-legend-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 15px; }
 
 .depositors {
   display: grid;
@@ -120,7 +120,7 @@
   background: linear-gradient(180deg, #141620 0%, #090a10 100%);
 }
 .depositors-heading { grid-area: heading; display: flex; flex-direction: column; gap: 10px; text-align: center; }
-.depositors-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 26px; }
+.depositors-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 26px; }
 .depositors-subtitle { font-size: 12px; }
 .depositors-body { grid-area: body; display: grid; grid-template-columns: 1fr; gap: 12px; }
 .depositors-body .no-content { grid-column: 1 / -1; }
@@ -136,14 +136,14 @@
 }
 .depositor-card:hover { border-color: var(--muted); }
 .depositor-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.depositor-card-name { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
+.depositor-card-name { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
 .depositor-card-badge {
   flex-shrink: 0;
   padding: 5px 12px;
   background: var(--dark);
   border: 1px solid var(--border);
   border-radius: 20px;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 16px;
   white-space: nowrap;
 }
@@ -161,7 +161,7 @@
   border: 5px dashed var(--border);
   border-radius: 32px;
 }
-.no-content-text { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 36px; text-align: center; }
+.no-content-text { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 36px; text-align: center; }
 
 .action-button {
   grid-area: button;
@@ -173,7 +173,7 @@
   background: var(--white);
   color: var(--dark);
   border-radius: 15px;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 24px;
 }
 .action-button-arrow {

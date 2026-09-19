@@ -8,26 +8,27 @@
   border-radius: 20px;
 }
 .monthly-info { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.monthly-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 20px; }
+.monthly-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 20px; }
 .monthly-amount-info { display: flex; flex-direction: column; gap: 6px; }
-.monthly-amount { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 38px; word-break: break-word; }
+.monthly-amount { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 38px; word-break: break-word; }
 .monthly-description { font-size: 12px; line-height: 1.4; }
 .monthly-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .monthly-stat {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  height: 78px;
+  min-height: 78px;
+  min-width: 0;
   padding: 10px;
   background: linear-gradient(180deg, #141620 0%, #090a10 100%);
   border: 1px solid var(--border);
   border-radius: 15px;
 }
-.monthly-stat-label { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 20px; }
-.monthly-stat-value { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; }
+.monthly-stat-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 20px; line-height: 1.1; overflow-wrap: anywhere; }
+.monthly-stat-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 24px; line-height: 1.1; overflow-wrap: anywhere; }
 
 .priority { display: flex; flex-direction: column; gap: 16px; }
-.priority-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 26px; }
+.priority-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 26px; }
 .priority-list { display: grid; grid-template-columns: 1fr; gap: 10px; }
 .priority-card {
   display: flex;
@@ -46,16 +47,16 @@ a.priority-card:hover { border-color: var(--muted); }
   background: var(--white);
   color: var(--dark);
   border-radius: 10px;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 16px;
   white-space: nowrap;
 }
-.priority-name { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 20px; word-break: break-word; }
+.priority-name { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 20px; word-break: break-word; }
 .priority-stats { display: flex; align-items: flex-start; gap: 10px; }
 .priority-stat { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 0; }
 .priority-stat-end { align-items: flex-end; text-align: right; }
 .priority-stat-label { font-size: 20px; }
-.priority-stat-value { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 20px; word-break: break-word; }
+.priority-stat-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 20px; word-break: break-word; }
 
 .search-bar {
   display: flex;
@@ -93,7 +94,7 @@ a.priority-card:hover { border-color: var(--muted); }
 }
 .plan-list-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .plan-list-heading { display: flex; flex-direction: column; gap: 6px; }
-.plan-list-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 26px; }
+.plan-list-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 26px; }
 .plan-list-count { font-weight: 700; font-size: 12px; }
 
 .page-size { position: relative; flex-shrink: 0; }
@@ -109,7 +110,7 @@ a.priority-card:hover { border-color: var(--muted); }
   border: 1px solid var(--border);
   border-radius: 15px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
 }
 .page-size-arrow {
@@ -151,7 +152,7 @@ a.priority-card:hover { border-color: var(--muted); }
   border: 0;
   border-radius: 8px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 20px;
   transition: background-color 0.2s ease;
 }
@@ -173,14 +174,14 @@ a.priority-card:hover { border-color: var(--muted); }
 }
 .plan-card:hover { border-color: var(--muted); }
 .plan-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.plan-card-name { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
+.plan-card-name { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
 .plan-card-badge {
   flex-shrink: 0;
   padding: 5px 12px;
   background: var(--dark);
   border: 1px solid var(--border);
   border-radius: 20px;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 16px;
   white-space: nowrap;
 }
@@ -203,7 +204,7 @@ a.priority-card:hover { border-color: var(--muted); }
   border: 0;
   border-radius: 10px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 18px;
 }
 .page-button.is-active { background: var(--white); color: var(--dark); }
@@ -224,7 +225,7 @@ a.priority-card:hover { border-color: var(--muted); }
   .monthly-amount-info { gap: 15px; }
   .monthly-amount { font-size: 48px; }
   .monthly-description { font-size: 16px; }
-  .monthly-stats { flex-shrink: 0; grid-template-columns: 90px 90px; gap: 10px; }
+  .monthly-stats { flex-shrink: 0; grid-template-columns: repeat(2, minmax(90px, auto)); gap: 10px; }
 
   .priority { gap: 20px; }
   .priority-title { font-size: 32px; }

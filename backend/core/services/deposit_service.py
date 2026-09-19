@@ -1,10 +1,15 @@
 from datetime import date
 from decimal import Decimal, InvalidOperation
 
-from repositories import deposit_repository, depositor_repository, currency_repository
+from repositories import deposit_repository, depositor_repository, currency_repository, contract_repository
+from utils import currency
 
 PAGE_SIZES = [10, 25, 50]
-STATUSES = ["Active", "Pending", "Closed", "Blocked"]
+DAYS_IN_YEAR = 365
+MAX_AMOUNT = Decimal("9999999999999.99")
+MAX_INTEREST_RATE = Decimal("100")
+ACTIVE_STATUS = "Active"
+STATUSES = [ACTIVE_STATUS, "Pending", "Closed", "Blocked"]
 
 
 def months_between(start_date, end_date):
@@ -21,20 +26,28 @@ def term_months(start_date, end_date):
     return months
 
 
+def term_days(start_date, end_date):
+    days = (end_date - start_date).days
+    if days < 0:
+        return 0
+    return days
+
+
+def interest(amount, interest_rate, days):
+    return round(amount * interest_rate / 100 * days / DAYS_IN_YEAR, 2)
+
+
 def serialize(deposit, today):
     term = term_months(deposit.start_date, deposit.end_date)
+    days = term_days(deposit.start_date, deposit.end_date)
     amount = float(deposit.amount)
     interest_rate = float(deposit.interest_rate)
-    term_end_accruals = round(amount * interest_rate / 100 * term / 12, 2)
+    term_end_accruals = interest(amount, interest_rate, days)
     amount_to_be_paid = round(amount + term_end_accruals, 2)
-    elapsed = months_between(deposit.start_date, today)
-    if elapsed < 0:
-        elapsed = 0
-    if elapsed > term:
-        elapsed = term
     accrued = 0.0
-    if term > 0:
-        accrued = round(term_end_accruals * elapsed / term, 2)
+    if deposit.status == ACTIVE_STATUS:
+        elapsed = min(max(term_days(deposit.start_date, today), 0), days)
+        accrued = interest(amount, interest_rate, elapsed)
     return {
         "id": deposit.id,
         "deposit_number": "D-" + str(deposit.ordinal).zfill(4),
@@ -74,14 +87,20 @@ def validate(connection, payload):
         payload["amount"] = Decimal(payload["amount"])
     except (TypeError, ValueError, InvalidOperation):
         return "amount is invalid"
+    if not payload["amount"].is_finite():
+        return "amount is invalid"
     if payload["amount"] <= 0:
         return "amount must be greater than zero"
+    if payload["amount"] > MAX_AMOUNT:
+        return "amount must not exceed " + str(MAX_AMOUNT)
     try:
         payload["interest_rate"] = Decimal(payload["interest_rate"])
     except (TypeError, ValueError, InvalidOperation):
         return "interest rate is invalid"
-    if payload["interest_rate"] < 0:
+    if not payload["interest_rate"].is_finite():
         return "interest rate is invalid"
+    if payload["interest_rate"] < 0 or payload["interest_rate"] > MAX_INTEREST_RATE:
+        return "interest rate must be between 0 and " + str(MAX_INTEREST_RATE)
     try:
         payload["start_date"] = date.fromisoformat(payload["start_date"])
     except ValueError:
@@ -115,10 +134,9 @@ def list_options(connection):
     rows = deposit_repository.list_options(connection)
     options = []
     for row in rows:
-        term = term_months(row["start_date"], row["end_date"])
         amount = float(row["amount"])
         interest_rate = float(row["interest_rate"])
-        term_end_accruals = round(amount * interest_rate / 100 * term / 12, 2)
+        term_end_accruals = interest(amount, interest_rate, term_days(row["start_date"], row["end_date"]))
         options.append({
             "id": row["id"],
             "number": "D-" + str(row["ordinal"]).zfill(4),
@@ -134,7 +152,7 @@ def list_options(connection):
     return {"deposits": options}, 200
 
 
-def get_stats(connection):
+def get_stats(connection, code):
     counts = deposit_repository.count_by_status(connection)
     active = counts.get("Active", 0)
     pending = counts.get("Pending", 0)
@@ -146,11 +164,11 @@ def get_stats(connection):
     eur = currency_counts.get("EUR", 0)
     rub = currency_counts.get("RUB", 0)
     amount_counts = deposit_repository.sum_by_currency(connection)
-    amount_usd = amount_counts.get("USD", 0.0)
-    amount_eur = amount_counts.get("EUR", 0.0)
-    amount_rub = amount_counts.get("RUB", 0.0)
+    amount_usd = currency.convert(amount_counts.get("USD", 0.0), code)
+    amount_eur = currency.convert(amount_counts.get("EUR", 0.0), code)
+    amount_rub = currency.convert(amount_counts.get("RUB", 0.0), code)
     amount_total = round(amount_usd + amount_eur + amount_rub, 2)
-    accrued = round(deposit_repository.sum_accrued(connection, date.today()), 2)
+    accrued = currency.convert(deposit_repository.sum_accrued(connection, date.today()), code)
     next_number = "D-" + str(total + 1).zfill(4)
     return {
         "total": total,
@@ -192,5 +210,7 @@ def delete_deposit(connection, deposit_id):
     deposit = deposit_repository.get_deposit(connection, deposit_id)
     if not deposit:
         return {"error": "deposit not found"}, 404
+    if contract_repository.count_by_deposit(connection, deposit_id, 0) > 0:
+        return {"error": "deposit has a contract", "deletable": False}, 409
     deposit_repository.delete_deposit(connection, deposit_id)
     return {"deleted": True}, 200

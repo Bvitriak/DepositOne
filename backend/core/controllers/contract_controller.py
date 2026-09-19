@@ -24,7 +24,7 @@ def build_payload(body):
 def is_incomplete(payload):
     if payload["deposit_id"] in (None, ""):
         return True
-    for field in ["contract_date", "signing_status", "description", "special_conditions"]:
+    for field in ["contract_date", "signing_status", "description"]:
         if payload[field] == "":
             return True
     return False

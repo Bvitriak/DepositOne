@@ -1,28 +1,27 @@
 from models.deposit import Deposit
+from utils import currency
+
+AMOUNT = currency.in_rubles("d.amount", "c.code")
+
+ACTIVE = "d.status = 'Active'"
 
 SORT_COLUMNS = {
     "created": "d.created_at",
     "name": "dep.last_name",
-    "amount": "d.amount",
+    "amount": AMOUNT,
     "rate": "d.interest_rate",
     "end": "d.end_date",
 }
 
 ORDINAL = "(SELECT count(*) FROM deposits dd WHERE dd.id <= d.id)"
 
-TERM_MONTHS = (
-    "(EXTRACT(YEAR FROM age(d.end_date, d.start_date)) * 12 "
-    "+ EXTRACT(MONTH FROM age(d.end_date, d.start_date)))"
-)
+TERM_DAYS = "(d.end_date - d.start_date)"
 
-ELAPSED_MONTHS = (
-    "(EXTRACT(YEAR FROM age(%s, d.start_date)) * 12 "
-    "+ EXTRACT(MONTH FROM age(%s, d.start_date)))"
-)
+ELAPSED_DAYS = "(%s - d.start_date)"
 
 ACCRUED = (
-    "(d.amount * d.interest_rate / 100 "
-    "* GREATEST(LEAST(" + ELAPSED_MONTHS + ", " + TERM_MONTHS + "), 0) / 12)"
+    "(" + AMOUNT + " * d.interest_rate / 100 "
+    "* GREATEST(LEAST(" + ELAPSED_DAYS + ", " + TERM_DAYS + "), 0) / 365)"
 )
 
 SEARCH_CONDITION = (
@@ -118,17 +117,20 @@ def count_by_currency(connection):
 def sum_by_currency(connection):
     with connection.cursor() as cursor:
         cursor.execute(
-            "SELECT c.code, COALESCE(sum(d.amount), 0) FROM deposits d "
-            "JOIN currencies c ON c.id = d.currency_id GROUP BY c.code"
+            "SELECT c.code, COALESCE(sum(" + AMOUNT + "), 0) FROM deposits d "
+            "JOIN currencies c ON c.id = d.currency_id WHERE " + ACTIVE + " GROUP BY c.code"
         )
         rows = cursor.fetchall()
     return {row[0]: float(row[1]) for row in rows}
 
 
 def sum_accrued(connection, today):
-    query = "SELECT COALESCE(sum(" + ACCRUED + "), 0) FROM deposits d"
+    query = (
+        "SELECT COALESCE(sum(" + ACCRUED + "), 0) FROM deposits d "
+        "JOIN currencies c ON c.id = d.currency_id WHERE " + ACTIVE
+    )
     with connection.cursor() as cursor:
-        cursor.execute(query, (today, today))
+        cursor.execute(query, (today,))
         total = cursor.fetchone()[0]
     return float(total)
 
@@ -166,6 +168,14 @@ def count_active_by_depositor(connection, depositor_id):
             "SELECT count(*) FROM deposits WHERE depositor_id = %s AND status = 'Active'",
             (depositor_id,),
         )
+        total = cursor.fetchone()[0]
+    return total
+
+
+def count_by_depositor(connection, depositor_id):
+    query = "SELECT count(*) FROM deposits WHERE depositor_id = %s"
+    with connection.cursor() as cursor:
+        cursor.execute(query, (depositor_id,))
         total = cursor.fetchone()[0]
     return total
 

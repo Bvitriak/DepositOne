@@ -23,6 +23,20 @@
 }
 .search-bar-input::placeholder { color: var(--muted); }
 
+.method-filter { display: flex; flex-wrap: wrap; gap: 8px; }
+.method-chip {
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--muted);
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 18px;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+.method-chip:hover { border-color: var(--white); color: var(--white); }
+.method-chip.is-active { background: var(--white); border-color: var(--white); color: var(--dark); }
+
 .api-list {
   display: flex;
   flex-direction: column;
@@ -34,33 +48,70 @@
 }
 .api-list-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .api-list-heading { display: flex; flex-direction: column; gap: 6px; }
-.api-list-title { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 26px; }
+.api-list-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 26px; }
 .api-list-count { font-weight: 700; font-size: 12px; }
 
 .page-size { position: relative; flex-shrink: 0; }
-.page-size-select {
-  appearance: none;
-  -webkit-appearance: none;
+.page-size-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 64px;
   height: 44px;
-  padding: 8px 34px 8px 14px;
+  padding: 0 15px;
   background: #0b0e14;
   border: 1px solid var(--border);
   border-radius: 15px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
-  font-size: 18px;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 20px;
 }
 .page-size-arrow {
-  position: absolute;
-  top: 42%;
-  right: 14px;
+  flex-shrink: 0;
   width: 7px;
   height: 7px;
+  margin-top: -3px;
   border-right: 2px solid var(--white);
   border-bottom: 2px solid var(--white);
   transform: rotate(45deg);
-  pointer-events: none;
+  transition: transform 0.2s ease;
 }
+.page-size.open .page-size-arrow { margin-top: 3px; transform: rotate(-135deg); }
+.page-size-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 64px;
+  padding: 6px;
+  background: #0b0e14;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.page-size.open .page-size-options { visibility: visible; opacity: 1; transform: translateY(0); }
+.page-size-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  color: var(--white);
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 20px;
+  transition: background-color 0.2s ease;
+}
+.page-size-option:hover { background: rgba(244, 247, 251, 0.15); }
+.page-size-option.is-active { background: var(--white); color: var(--dark); }
 
 .api-list-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .api-list-grid .no-content { grid-column: 1 / -1; }
@@ -68,32 +119,68 @@
 .api-card {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   padding: 16px;
   background: #13181f;
   border: 1px solid var(--border);
   border-radius: 16px;
+  transition: border-color 0.2s ease;
 }
-.api-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.api-card-name { font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
-.api-card-badge {
+.api-card:hover { border-color: var(--muted); }
+.api-card-head { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.api-method {
   flex-shrink: 0;
-  padding: 5px 12px;
-  background: var(--dark);
+  padding: 4px 10px;
   border: 1px solid var(--border);
-  border-radius: 20px;
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  border-radius: 8px;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 16px;
   white-space: nowrap;
 }
-.api-card-info { display: grid; grid-template-columns: 1fr; gap: 8px; }
-.api-card-field { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
-.api-card-label { flex-shrink: 0; font-weight: 700; font-size: 12px; color: var(--muted); }
-.api-card-value {
+.api-method-get { background: var(--white); border-color: var(--white); color: var(--dark); }
+.api-method-post { background: #b5b5b5; border-color: #b5b5b5; color: var(--dark); }
+.api-method-put { background: #535353; border-color: #535353; color: var(--white); }
+.api-method-delete { background: none; border-color: var(--white); color: var(--white); }
+.api-card-path {
+  flex: 1;
   min-width: 0;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 14px;
-  word-break: break-word;
+  word-break: break-all;
 }
+.api-card-copy {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color 0.2s ease;
+}
+.api-card-copy:hover { border-color: var(--white); }
+.api-card-copy-icon { display: block; width: 18px; height: 18px; }
+.api-card-copy-done { display: none; }
+.api-card-copy.is-copied .api-card-copy-icon { display: none; }
+.api-card-copy.is-copied .api-card-copy-done { display: block; }
+
+.api-card-body { display: flex; flex-direction: column; gap: 4px; }
+.api-card-name { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 24px; word-break: break-word; }
+.api-card-description { font-size: 14px; color: var(--muted); }
+
+.api-card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.api-tag {
+  padding: 4px 10px;
+  background: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.api-tag-auth { border-color: var(--muted); color: var(--muted); }
 
 .api-list-foot { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .pagination-info { font-weight: 700; font-size: 14px; }
@@ -109,7 +196,7 @@
   border: 0;
   border-radius: 10px;
   color: var(--white);
-  font-family: "Bebas Neue", "Oswald", sans-serif; text-transform: uppercase;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
   font-size: 18px;
 }
 .page-button.is-active { background: var(--white); color: var(--dark); }
@@ -122,16 +209,19 @@
   .search-bar-icon { width: 30px; height: 30px; }
   .search-bar-input { font-size: 20px; }
 
+  .method-chip { padding: 8px 20px; font-size: 20px; }
+
   .api-list { gap: 20px; padding: 24px; border-radius: 25px; }
   .api-list-title { font-size: 32px; }
   .api-list-count { font-size: 14px; }
 
-  .page-size-select { height: 49px; padding: 10px 36px 10px 15px; font-size: 20px; }
+  .page-size-trigger { height: 49px; }
 
+  .api-method { font-size: 18px; }
+  .api-card-path { font-size: 16px; }
   .api-card-name { font-size: 32px; }
-  .api-card-badge { font-size: 18px; }
-  .api-card-info { grid-template-columns: 1fr 1fr; column-gap: 16px; row-gap: 8px; }
-  .api-card-value { font-size: 16px; }
+  .api-card-description { font-size: 16px; }
+  .api-tag { font-size: 14px; }
 
   .api-list-foot { flex-direction: row; justify-content: space-between; }
   .pagination-info { font-size: 20px; }

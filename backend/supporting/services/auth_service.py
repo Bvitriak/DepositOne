@@ -19,6 +19,7 @@ def login(connection, email, password):
     user = user_repository.find_by_email(connection, email)
     if not user or not bcrypt.checkpw(password.encode(), user.password_hash.encode()):
         return {"error": "invalid email or password"}, 401
+    user_repository.update_last_visit(connection, user.id)
     return {"access_token": create_access_token(user)}, 200
 
 

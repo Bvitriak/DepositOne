@@ -2,7 +2,10 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL
+    password_hash TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'Active',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    last_visit_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE countries (
