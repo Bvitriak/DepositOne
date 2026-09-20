@@ -1,17 +1,17 @@
 from datetime import date
 
 from repositories import contract_repository, deposit_repository
-from services import deposit_service
+from utils import finance
+from utils.pagination import paginate
 
-PAGE_SIZES = [10, 25, 50]
 SIGNING_STATUSES = ["Signed", "Pending", "Rejected"]
 
 
 def serialize(contract):
     amount = float(contract.amount)
     interest_rate = float(contract.interest_rate)
-    days = deposit_service.term_days(contract.start_date, contract.end_date)
-    term_end_accruals = deposit_service.interest(amount, interest_rate, days)
+    days = finance.term_days(contract.start_date, contract.end_date)
+    term_end_accruals = finance.interest(amount, interest_rate, days)
     deposit_number = "D-" + str(contract.deposit_ordinal).zfill(4)
     year = str(contract.contract_date.year)
     month = str(contract.contract_date.month).zfill(2)
@@ -55,15 +55,8 @@ def validate(connection, payload, contract_id):
 
 
 def list_contracts(connection, search, status, sort, order, page, page_size):
-    if page_size not in PAGE_SIZES:
-        page_size = PAGE_SIZES[0]
     total = contract_repository.count_contracts(connection, search, status)
-    pages = max(1, -(-total // page_size))
-    if page < 1:
-        page = 1
-    if page > pages:
-        page = pages
-    offset = (page - 1) * page_size
+    page, pages, page_size, offset = paginate(total, page, page_size)
     contracts = contract_repository.list_contracts(connection, search, status, sort, order, page_size, offset)
     items = [serialize(contract) for contract in contracts]
     return {"contracts": items, "total": total, "page": page, "pages": pages, "page_size": page_size}, 200

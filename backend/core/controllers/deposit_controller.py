@@ -2,13 +2,7 @@ from fastapi.responses import JSONResponse
 
 from services import deposit_service
 from utils import currency
-
-
-def to_int(value, default):
-    try:
-        return int(value)
-    except (TypeError, ValueError):
-        return default
+from utils.params import read_list_params
 
 
 def build_payload(body):
@@ -36,11 +30,7 @@ def is_incomplete(payload):
 
 
 def list_deposits(connection, query_params):
-    search = (query_params.get("search") or "").strip()
-    sort = query_params.get("sort") or "created"
-    order = query_params.get("order") or "desc"
-    page = to_int(query_params.get("page"), 1)
-    page_size = to_int(query_params.get("page_size"), 10)
+    search, sort, order, page, page_size = read_list_params(query_params, "created", "desc")
     status_filter = query_params.get("status") or ""
     if status_filter not in deposit_service.STATUSES:
         status_filter = ""

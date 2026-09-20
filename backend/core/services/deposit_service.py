@@ -2,52 +2,26 @@ from datetime import date
 from decimal import Decimal, InvalidOperation
 
 from repositories import deposit_repository, depositor_repository, currency_repository, contract_repository
-from utils import currency
+from utils import currency, finance
+from utils.pagination import paginate
 
-PAGE_SIZES = [10, 25, 50]
-DAYS_IN_YEAR = 365
 MAX_AMOUNT = Decimal("9999999999999.99")
 MAX_INTEREST_RATE = Decimal("100")
 ACTIVE_STATUS = "Active"
 STATUSES = [ACTIVE_STATUS, "Pending", "Closed", "Blocked"]
 
 
-def months_between(start_date, end_date):
-    months = (end_date.year - start_date.year) * 12 + (end_date.month - start_date.month)
-    if end_date.day < start_date.day:
-        months = months - 1
-    return months
-
-
-def term_months(start_date, end_date):
-    months = months_between(start_date, end_date)
-    if months < 0:
-        return 0
-    return months
-
-
-def term_days(start_date, end_date):
-    days = (end_date - start_date).days
-    if days < 0:
-        return 0
-    return days
-
-
-def interest(amount, interest_rate, days):
-    return round(amount * interest_rate / 100 * days / DAYS_IN_YEAR, 2)
-
-
 def serialize(deposit, today):
-    term = term_months(deposit.start_date, deposit.end_date)
-    days = term_days(deposit.start_date, deposit.end_date)
+    term = finance.term_months(deposit.start_date, deposit.end_date)
+    days = finance.term_days(deposit.start_date, deposit.end_date)
     amount = float(deposit.amount)
     interest_rate = float(deposit.interest_rate)
-    term_end_accruals = interest(amount, interest_rate, days)
+    term_end_accruals = finance.interest(amount, interest_rate, days)
     amount_to_be_paid = round(amount + term_end_accruals, 2)
     accrued = 0.0
     if deposit.status == ACTIVE_STATUS:
-        elapsed = min(max(term_days(deposit.start_date, today), 0), days)
-        accrued = interest(amount, interest_rate, elapsed)
+        elapsed = min(max(finance.term_days(deposit.start_date, today), 0), days)
+        accrued = finance.interest(amount, interest_rate, elapsed)
     return {
         "id": deposit.id,
         "deposit_number": "D-" + str(deposit.ordinal).zfill(4),
@@ -115,15 +89,8 @@ def validate(connection, payload):
 
 
 def list_deposits(connection, search, status, sort, order, page, page_size):
-    if page_size not in PAGE_SIZES:
-        page_size = PAGE_SIZES[0]
     total = deposit_repository.count_deposits(connection, search, status)
-    pages = max(1, -(-total // page_size))
-    if page < 1:
-        page = 1
-    if page > pages:
-        page = pages
-    offset = (page - 1) * page_size
+    page, pages, page_size, offset = paginate(total, page, page_size)
     deposits = deposit_repository.list_deposits(connection, search, status, sort, order, page_size, offset)
     today = date.today()
     items = [serialize(deposit, today) for deposit in deposits]
@@ -136,7 +103,7 @@ def list_options(connection):
     for row in rows:
         amount = float(row["amount"])
         interest_rate = float(row["interest_rate"])
-        term_end_accruals = interest(amount, interest_rate, term_days(row["start_date"], row["end_date"]))
+        term_end_accruals = finance.interest(amount, interest_rate, finance.term_days(row["start_date"], row["end_date"]))
         options.append({
             "id": row["id"],
             "number": "D-" + str(row["ordinal"]).zfill(4),

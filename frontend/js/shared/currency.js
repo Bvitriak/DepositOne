@@ -20,10 +20,6 @@ function currencyQuery() {
   return "currency=" + currentCurrency();
 }
 
-function currencySign() {
-  return CURRENCY_SIGNS[currentCurrency()];
-}
-
 function currencyAmount(amount) {
   const code = currentCurrency();
   if (CURRENCY_SIGN_BEFORE.includes(code)) {
