@@ -18,7 +18,8 @@ Briefly describe the changes.
 - [ ] Frontend
 - [ ] Backend (Core / Business - FastAPI)
 - [ ] API Gateway (Supporting - Flask)
-- [ ] Database / schema
+- [ ] Database / schema / replication
+- [ ] Documentation
 
 ## Related issues
 
