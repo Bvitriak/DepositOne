@@ -1,27 +1,172 @@
+![DepositOne](frontend/assets/img/thumbnail.png)
+
 # DepositOne
 
-DepositOne is an educational full-stack web project - management of bank deposits.
-Made by Bogdan Vitriak OKBI-204B for Moscow Technology Institute.
+**DepositOne** - full-stack веб-приложение для управления банковскими вкладами. Внутренняя платформа сотрудника банка: учёт вкладчиков, вкладов и договоров, аналитика по портфелю, отчёты по денежным потокам и график возврата средств.
 
-## Stack
+Автор: Богдан Витряк, группа ОКБИ-204Б, Московский Технологический Институт.
 
-- **Frontend:** HTML + CSS + JavaScript, Highcharts
-- **Backend:** Python (Core / Business - FastAPI, Supporting / API Gateway - Flask)
-- **Database:** PostgreSQL 18, Master-Slave replication
-- **Authentication:** JWT
-- **Data access:** SQL
+## Содержание
 
-## Documentation
+- [Возможности](#возможности)
+- [Технологический стек](#технологический-стек)
+- [Архитектура](#архитектура)
+- [Быстрый старт](#быстрый-старт)
+- [Переменные окружения](#переменные-окружения)
+- [Порты](#порты)
+- [Начальные данные](#начальные-данные)
+- [Проверка репликации](#проверка-репликации)
+- [Структура проекта](#структура-проекта)
+- [Соответствие требованиям](#соответствие-требованиям)
+- [Дизайн](#дизайн)
+- [Git и коммиты](#git-и-коммиты)
+- [Документация](#документация)
+- [Лицензия](#лицензия)
 
-- [Annotation](docs/ANNOTATION.md)
-- [Requirements](docs/Requirements.md)
-- [Architecture](docs/Architecture.md)
-- [User Guide](docs/UserGuide.md)
+## Возможности
 
-## Contributing
+- Регистрация и вход сотрудников, защита через JWT.
+- Полный CRUD над вкладчиками, вкладами и договорами.
+- Поиск, фильтрация, сортировка и пагинация на уровне запросов к базе.
+- Автоматический расчёт срока вклада, начисленных и итоговых процентов.
+- Пересчёт сумм в выбранную валюту (USD, EUR, RUB).
+- Аналитическая панель `/dashboard` с диаграммами на Highcharts.
+- Отчёты по денежным потокам и доходности вкладчиков.
+- План возврата с расписанием выплат и приоритетами.
+- Профиль `/<username>` с выпуском нового JWT токена.
+- Публичные страницы `/about` (HTML) и `/api/about` (JSON), эндпоинт хеша `/api/hash/{str}`.
+- Резервные ответы при недоступности базы или сервиса.
 
-See [CONTRIBUTING](.github/CONTRIBUTING.md) and [SECURITY](.github/SECURITY.md).
+## Технологический стек
 
-## License
+| Слой | Технологии |
+| --- | --- |
+| Frontend | HTML, CSS, JavaScript, Highcharts |
+| Сервис Core | Python, FastAPI (бизнес-логика) |
+| Сервис Supporting | Python, Flask (API Gateway, отчёты, авторизация) |
+| База данных | PostgreSQL 18, репликация Master-Slave |
+| Авторизация | JWT (HS256) |
+| Доступ к данным | SQL без ORM (psycopg) |
+| Инфраструктура | Docker, Docker Compose, Nginx |
+
+## Архитектура
+
+Приложение состоит из пяти контейнеров. Nginx (порт 8080) отдаёт статику и проксирует запросы `/api/*` в нужный сервис. Сервис Core (FastAPI, 8002) и сервис Supporting (Flask, 8001) работают с базой PostgreSQL: Master на порту 5432 и реплика только для чтения на порту 5433. Оба сервиса построены по слоистой схеме Routes, Controllers, Services, Repositories, Models.
+
+- Core (FastAPI): вкладчики, вклады, договоры, справочники, портфель, план возврата.
+- Supporting (Flask): авторизация, профиль, отчёты, уведомления, панель, about, hash.
+
+Подробно в [docs/Architecture.md](docs/Architecture.md).
+
+## Быстрый старт
+
+Требуется установленный Docker и Docker Compose.
+
+1. Создайте файл `.env` на основе шаблона:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Задайте значения в `.env` (обязательно, иначе база не стартует).
+3. Соберите и запустите проект:
+
+   ```bash
+   docker compose up --build
+   ```
+
+4. Откройте приложение: `http://localhost:8080`.
+
+Остановка и полная очистка данных:
+
+```bash
+docker compose down -v
+```
+
+## Переменные окружения
+
+Файл `.env` обязателен. Шаблон - [.env.example](.env.example).
+
+| Переменная | Назначение |
+| --- | --- |
+| POSTGRES_DB | Имя базы данных |
+| POSTGRES_USER | Пользователь базы |
+| POSTGRES_PASSWORD | Пароль пользователя базы |
+| REPLICATION_PASSWORD | Пароль роли репликации |
+| JWT_SECRET | Секрет для подписи JWT (общий для сервисов) |
+
+## Порты
+
+| Сервис | Внешний порт | Назначение |
+| --- | --- | --- |
+| frontend (Nginx) | 8080 | Веб-интерфейс и шлюз API |
+| core (FastAPI) | 8002 | Сервис бизнес-логики |
+| supporting (Flask) | 8001 | Вспомогательный сервис |
+| db (Master) | 5432 | Основная база данных |
+| db_replica (Slave) | 5433 | Реплика только для чтения |
+
+## Начальные данные
+
+При первом запуске база наполняется тестовыми данными из [database/seed.sql](database/seed.sql): пользователь `admin` (email `admin@depositone.com`, пароль хранится как bcrypt хеш), 5 вкладчиков, 6 вкладов и 3 договора. Для входа зарегистрируйте свой аккаунт на странице регистрации.
+
+## Проверка репликации
+
+```bash
+# на Master: активные подключения репликации
+docker compose exec db psql -U depositone -d depositone -c "SELECT client_addr, state FROM pg_stat_replication;"
+
+# на реплике: true означает режим только для чтения
+docker compose exec db_replica psql -U depositone -d depositone -c "SELECT pg_is_in_recovery();"
+```
+
+## Структура проекта
+
+- `backend/core` - сервис Core (FastAPI): controllers, services, repositories, routes, models.
+- `backend/supporting` - сервис Supporting (Flask): те же слои.
+- `database` - init.sql (схема, индексы, справочники), seed.sql, скрипты Master и реплики.
+- `frontend` - HTML, CSS, JavaScript, ассеты.
+- `docs` - документация.
+- `.github` - CI, шаблоны, политики.
+- `docker-compose.yml`, `Dockerfile`, `nginx.conf` - инфраструктура.
+
+## Соответствие требованиям
+
+Кратко (полная таблица - в [docs/Requirements.md](docs/Requirements.md)):
+
+- Два сервиса разными фреймворками: Core (FastAPI) и Supporting (Flask).
+- Три связанные сущности: вкладчики, вклады, договоры, схема в 3НФ.
+- Регистрация и вход с JWT, защита маршрутов.
+- Доступ к данным только через SQL, без ORM.
+- Поиск, фильтрация, сортировка и пагинация на уровне БД.
+- CRUD модуль для главных сущностей.
+- Репликация PostgreSQL Master-Slave.
+- Эндпоинты `/dashboard`, `/<username>`, `/about`, `/api/about`, `/api/hash/{str}`.
+- Резервные ответы при сбоях.
+
+## Дизайн
+
+Макет интерфейса опубликован в Figma Community: [DepositOne в Figma](https://www.figma.com/community/file/1683550893869879528).
+
+## Git и коммиты
+
+Стратегия ветвления:
+
+- `main` - финальное состояние проекта и README.
+- `dev` - интеграция реализованных функций.
+- `feature/<username>/<task-name>` - отдельные задачи, создаются от `dev` и вливаются обратно в `dev`.
+- `release/vX.Y` - подготовка к сдаче.
+
+Правила коммитов: один коммит - одно логическое изменение, сообщения на английском, формат `<type>: <short description>` (feat, fix, docs, style, refactor, perf, seed, test). Подробнее - в [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md).
+
+## Документация
+
+- [Аннотация](docs/ANNOTATION.md)
+- [Требования и их выполнение](docs/Requirements.md)
+- [Архитектура](docs/Architecture.md)
+- [База данных](docs/Database.md)
+- [Справочник API](docs/Api.md)
+- [Руководство пользователя](docs/UserGuide.md)
+
+## Лицензия
 
 [MIT](LICENSE).

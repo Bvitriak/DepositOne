@@ -2,20 +2,51 @@ name: CI
 
 on:
   push:
-    branches: ["main", "dev"]
+    branches: ["main", "dev", "release/**"]
   pull_request:
-    branches: ["main", "dev"]
+    branches: ["main", "dev", "release/**"]
 
 jobs:
-  build:
+  backend:
+    name: Backend checks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [core, supporting]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies (${{ matrix.service }})
+        run: pip install -r backend/${{ matrix.service }}/requirements.txt
+
+      - name: Byte-compile sources (${{ matrix.service }})
+        run: python -m compileall -q backend/${{ matrix.service }}
+
+  data:
+    name: Data files check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run a one-line script
-        run: echo "Hello, DepositOne!"
+      - name: Validate about.json
+        run: python -c "import json; json.load(open('backend/supporting/about.json', encoding='utf-8'))"
 
-      - name: Run a multi-line script
-        run: |
-          echo "Add build, test and deploy steps here"
-          echo "as the project grows."
+  docker:
+    name: Docker build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create .env for compose interpolation
+        run: cp .env.example .env
+
+      - name: Validate compose file
+        run: docker compose config -q
+
+      - name: Build images
+        run: docker compose build
