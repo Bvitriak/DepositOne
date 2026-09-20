@@ -114,17 +114,17 @@ def validate(connection, payload):
     return None
 
 
-def list_deposits(connection, search, sort, order, page, page_size):
+def list_deposits(connection, search, status, sort, order, page, page_size):
     if page_size not in PAGE_SIZES:
         page_size = PAGE_SIZES[0]
-    total = deposit_repository.count_deposits(connection, search)
+    total = deposit_repository.count_deposits(connection, search, status)
     pages = max(1, -(-total // page_size))
     if page < 1:
         page = 1
     if page > pages:
         page = pages
     offset = (page - 1) * page_size
-    deposits = deposit_repository.list_deposits(connection, search, sort, order, page_size, offset)
+    deposits = deposit_repository.list_deposits(connection, search, status, sort, order, page_size, offset)
     today = date.today()
     items = [serialize(deposit, today) for deposit in deposits]
     return {"deposits": items, "total": total, "page": page, "pages": pages, "page_size": page_size}, 200

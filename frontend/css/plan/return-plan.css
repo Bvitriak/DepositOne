@@ -1,0 +1,130 @@
+.plan-cards { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+.plan-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.125rem;
+  border-radius: 25px;
+}
+.plan-summary-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.25rem; }
+.plan-summary-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 2.25rem; word-break: break-word; }
+
+.plan-layout { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+.plan-main { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.refund-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem 1rem;
+  border-radius: 16px;
+}
+.refund-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.75rem; text-align: center; }
+.refund-details, .refund-summary { display: flex; flex-direction: column; }
+.refund-row { display: flex; align-items: center; justify-content: space-between; gap: 0.625rem; padding: 0.75rem 0; }
+.refund-label { font-size: 0.875rem; }
+.refund-value { font-size: 0.875rem; text-align: right; word-break: break-word; }
+
+.accrual-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  overflow: hidden;
+}
+.accrual-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.75rem; text-align: center; padding: 0 1rem; }
+.accrual-scroll { overflow-x: auto; }
+.accrual-table { width: 100%; background: var(--card); border-collapse: collapse; }
+.accrual-table th {
+  height: 3.125rem;
+  padding: 0.5rem;
+  background: var(--card-dark);
+  border: 1px solid var(--border);
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-weight: 400;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+.accrual-table td {
+  height: 2.75rem;
+  padding: 0.5rem;
+  border: 1px solid rgba(42, 55, 72, 0.2);
+  font-size: 0.75rem;
+  text-align: center;
+  white-space: nowrap;
+}
+.accrual-table tr:last-child td { background: var(--card-dark); }
+.accrual-check { display: block; width: 0.875rem; height: 0.875rem; margin: 0 auto; }
+
+.depositor-details-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem 1rem;
+  border-radius: 16px;
+}
+.depositor-details-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.75rem; text-align: center; }
+.depositor-details { display: flex; flex-direction: column; }
+.depositor-details-row { display: flex; align-items: center; justify-content: space-between; gap: 0.625rem; padding: 0.75rem 0; }
+.depositor-details-label { font-size: 0.875rem; }
+.depositor-details-value { font-size: 0.875rem; text-align: right; word-break: break-word; }
+
+@media (min-width: 1024px) {
+  .plan-cards { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  .plan-summary-card { padding: 0.9375rem; }
+
+  .plan-layout { grid-template-columns: 1fr 21.25rem; gap: 1.25rem; }
+  .plan-main { gap: 1.25rem; }
+
+  .refund-card { gap: 1.25rem; padding: 1.5625rem 1.25rem; border: 0; border-radius: 25px; }
+  .refund-title { font-size: 2.5rem; }
+  .refund-details {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(2, auto);
+    gap: 0.625rem 1.25rem;
+    padding: 0.625rem 1.25rem;
+  }
+  .refund-summary { gap: 0.625rem; padding: 2.125rem 1.25rem 0.625rem; }
+  .refund-row { padding: 0.625rem 0; }
+  .refund-label { font-size: 1.25rem; }
+  .refund-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.5rem; }
+
+  .accrual-card { gap: 1.25rem; padding-top: 1.5625rem; border-radius: 25px; }
+  .accrual-title { font-size: 2.5rem; padding: 0 1.5625rem; }
+  .accrual-table th { height: 4.25rem; padding: 0.625rem; font-size: 1.25rem; }
+  .accrual-table td { height: 4.3125rem; padding: 0.625rem; font-size: 1rem; }
+  .accrual-check { width: 1.5rem; height: 1.5rem; }
+
+  .depositor-details-card { align-self: start; gap: 1rem; padding: 1.5rem 1.25rem; border-radius: 25px; }
+  .depositor-details-title { font-size: 2.5rem; }
+  .depositor-details { gap: 0.625rem; }
+  .depositor-details-row { padding: 0.625rem 0; }
+  .depositor-details-label { font-size: 1rem; }
+  .depositor-details-value { font-size: 1rem; }
+}
+
+@media (min-width: 1440px) {
+  .plan-cards { gap: 1.5rem; }
+  .plan-summary-card { padding: 1.5625rem; }
+  .plan-summary-value { font-size: 4rem; }
+
+  .plan-layout { grid-template-columns: 1fr 25rem; gap: 1.5rem; }
+  .plan-main { gap: 1.5rem; }
+
+  .accrual-table th { height: 3.0625rem; font-size: 1.5rem; }
+  .accrual-table td { font-size: 1.25rem; }
+
+  .depositor-details-card { padding: 1.5625rem 1.25rem 1.25rem; }
+  .depositor-details-label { font-size: 1.25rem; }
+  .depositor-details-value { font-size: 1.25rem; }
+}
+
+@media (min-width: 1920px) {
+  .plan-layout { grid-template-columns: 1fr 34.5625rem; }
+
+  .depositor-details-label { font-size: 1.5rem; }
+  .depositor-details-value { font-size: 1.5rem; }
+}
+

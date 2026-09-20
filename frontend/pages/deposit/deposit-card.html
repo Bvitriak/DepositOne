@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DepositOne Deposit Card</title>
+  <link rel="icon" type="image/png" href="/assets/favicons/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/css/shared/fonts.css">
+  <link rel="stylesheet" href="/css/shared/base.css">
+  <link rel="stylesheet" href="/css/shared/background.css">
+  <link rel="stylesheet" href="/css/shared/layout.css">
+  <link rel="stylesheet" href="/css/shared/form.css">
+</head>
+<body data-layout="page">
+  <div class="page">
+    <div class="page-scene">
+      <section class="page-hero">
+        <div class="container">
+          <h1 class="page-title">Deposit Card</h1>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="container">
+          <div class="form-layout">
+            <section class="form-card panel">
+              <h2 class="form-card-title is-centered">Deposit Parameters</h2>
+              <form class="form-body" id="entityForm" novalidate>
+                <p class="form-status" id="formStatus"></p>
+                <div class="form-actions">
+                  <button class="form-button" type="button" id="cancelButton">Cancel</button>
+                  <button class="form-button" type="button" id="deleteButton">Delete</button>
+                  <button class="form-button" type="submit">Save Changes</button>
+                </div>
+              </form>
+            </section>
+
+            <aside class="form-side">
+              <section class="data-card panel">
+                <h2 class="data-card-title">Deposit Card</h2>
+                <div class="data-card-rows" id="previewRows"></div>
+              </section>
+              <section class="deletion-card panel" id="deletionCard" hidden>
+                <h2 class="deletion-card-title">Deletion is impossible</h2>
+                <p class="deletion-card-text">There is a contract assigned to the deposit. Delete it before deleting.</p>
+              </section>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="/js/shared/language.js"></script>
+  <script src="/js/shared/layout.js"></script>
+  <script src="/js/shared/format.js"></script>
+  <script src="/js/shared/request.js"></script>
+  <script src="/js/shared/calendar.js"></script>
+  <script src="/js/shared/form.js"></script>
+  <script src="/js/deposit/deposit-form.js"></script>
+  <script src="/js/deposit/deposit-card.js"></script>
+</body>
+</html>

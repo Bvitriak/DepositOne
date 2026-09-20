@@ -1,0 +1,85 @@
+.monthly-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+.monthly-information { display: flex; flex-direction: column; gap: 0.375rem; min-width: 0; }
+.monthly-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.25rem; }
+.monthly-amount-information { display: flex; flex-direction: column; gap: 0.375rem; }
+.monthly-amount { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 2.375rem; word-break: break-word; }
+.monthly-description { font-size: 0.75rem; line-height: 1.4; }
+.monthly-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.monthly-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+  min-height: 4.875rem;
+  min-width: 0;
+  padding: 0.625rem;
+  border-radius: 15px;
+}
+.monthly-stat-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.25rem; line-height: 1.1; overflow-wrap: anywhere; }
+.monthly-stat-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.5rem; line-height: 1.1; overflow-wrap: anywhere; }
+
+.priority { display: flex; flex-direction: column; gap: 1rem; }
+.priority-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.625rem; }
+.priority-list { display: grid; grid-template-columns: 1fr; gap: 0.625rem; }
+.priority-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9375rem;
+  padding: 1.5625rem;
+  border-radius: 25px;
+  transition: border-color 0.2s ease;
+}
+a.priority-card:hover { border-color: var(--muted); }
+.priority-head { display: flex; align-items: center; justify-content: space-between; gap: 0.625rem; }
+.priority-badge {
+  padding: 0.3125rem;
+  background: var(--white);
+  color: var(--dark);
+  border-radius: 10px;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.priority-name { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.25rem; word-break: break-word; }
+.priority-stats { display: flex; align-items: flex-start; gap: 0.625rem; }
+.priority-stat { display: flex; flex-direction: column; gap: 0.625rem; flex: 1; min-width: 0; }
+.priority-stat-end { align-items: flex-end; text-align: right; }
+.priority-stat-label { font-size: 1.25rem; }
+.priority-stat-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.25rem; word-break: break-word; }
+
+@media (min-width: 1024px) {
+  .monthly-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1.5625rem;
+    border-radius: 25px;
+}
+  .monthly-information { flex: 1; gap: 1.25rem; }
+  .monthly-amount-information { gap: 0.9375rem; }
+  .monthly-amount { font-size: 3rem; }
+  .monthly-description { font-size: 1rem; }
+  .monthly-stats { flex-shrink: 0; grid-template-columns: repeat(2, minmax(5.625rem, auto)); gap: 0.625rem; }
+
+  .priority { gap: 1.25rem; }
+  .priority-title { font-size: 2rem; }
+  .priority-list { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+}
+
+@media (min-width: 1440px) {
+  .monthly-amount { font-size: 4rem; }
+  .monthly-description { font-size: 1.25rem; }
+
+  .priority-title { font-size: 2.5rem; }
+  .priority-list { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+}
+
+@media (min-width: 1920px) {
+  .priority-list { gap: 2.5rem; }
+}
+

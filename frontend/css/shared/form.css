@@ -1,0 +1,227 @@
+.form-layout { display: flex; flex-direction: column; gap: 1rem; }
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem;
+}
+.form-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 1.625rem; text-align: center; }
+
+.form-body { display: flex; flex-direction: column; gap: 1rem; }
+.form-row { display: flex; flex-direction: column; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 0.625rem; }
+.field-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 1.125rem; }
+.field-hint { font-family: "Montserrat", sans-serif; font-size: 0.75rem; color: var(--muted); }
+
+.field-control {
+  width: 100%;
+  height: 3.125rem;
+  padding: 0 1.25rem;
+  background: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--white);
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+}
+.field-control::placeholder { color: var(--white); opacity: 0.7; }
+.field-control:hover { border-color: var(--white); }
+.field-control:focus { outline: none; border-color: var(--focus); }
+.field-control[readonly] { color: var(--focus); cursor: url("/assets/cursors/webfishing_arrow.cur"), default; }
+.field-control[readonly]:hover { border-color: var(--border); }
+
+.field-textarea { height: auto; min-height: 6.875rem; padding: 0.875rem 1.25rem; resize: vertical; }
+
+.field-trigger { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; text-align: left; }
+.field-trigger-text { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.field-calendar-icon { flex-shrink: 0; display: block; width: 1.375rem; height: 1.5rem; }
+.field-arrow {
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: -0.1875rem;
+  border-right: 2px solid var(--white);
+  border-bottom: 2px solid var(--white);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.field-select.open .field-arrow { margin-top: 0.1875rem; transform: rotate(-135deg); }
+
+.field-select, .field-date { position: relative; }
+
+.field-options {
+  position: absolute;
+  top: calc(100% + 0.375rem);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  max-height: 16.375rem;
+  padding: 0.3125rem;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--dark);
+  border: 1px solid var(--focus);
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.field-select.open .field-options { visibility: visible; opacity: 1; transform: translateY(0); }
+.field-option {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 3.125rem;
+  padding: 0 1.25rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background-color 0.2s ease;
+}
+.field-option:hover { background: rgba(244, 247, 251, 0.15); }
+.field-option:active { background: rgba(0, 0, 0, 0.25); }
+
+.field-calendar {
+  position: absolute;
+  top: calc(100% + 0.375rem);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding: 0.625rem;
+  background: var(--dark);
+  border: 1px solid var(--focus);
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.field-date.open .field-calendar { visibility: visible; opacity: 1; transform: translateY(0); }
+.field-date.open-up .field-calendar { top: auto; bottom: calc(100% + 0.375rem); }
+
+.calendar-header { display: flex; align-items: center; justify-content: space-between; gap: 0.625rem; margin-bottom: 0.5rem; }
+.calendar-navigation { display: flex; align-items: center; padding: 0.375rem; background: none; border: 0; }
+.calendar-arrow { display: block; width: 0.5rem; height: 0.5rem; border-top: 2px solid var(--white); border-right: 2px solid var(--white); }
+.calendar-arrow-left { transform: rotate(-135deg); }
+.calendar-arrow-right { transform: rotate(45deg); }
+.calendar-title { display: flex; align-items: center; gap: 0.375rem; font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.375rem; }
+.calendar-title button { background: none; border: 0; color: var(--white); font-family: inherit; font-size: inherit; }
+.calendar-title button:hover { opacity: 0.75; }
+
+.calendar-grid { display: grid; gap: 0.3125rem; }
+.calendar-grid-days { grid-template-columns: repeat(8, 1fr); }
+.calendar-grid-months { grid-template-columns: repeat(3, 1fr); }
+.calendar-grid-years { grid-template-columns: repeat(4, 1fr); }
+.calendar-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  background: none;
+  border: 0;
+  border-radius: 10px;
+  color: var(--white);
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 1.125rem;
+  transition: background-color 0.2s ease;
+}
+.calendar-cell:hover { background: rgba(244, 247, 251, 0.15); }
+.calendar-cell.is-active { background: var(--white); color: var(--dark); }
+.calendar-cell:disabled { opacity: 0.3; }
+
+.form-status { font-size: 0.8125rem; text-align: center; color: var(--error); }
+.form-status:empty { display: none; }
+
+.form-actions { display: flex; flex-direction: column; gap: 0.75rem; }
+.form-button {
+  height: 3.125rem;
+  border: 0;
+  border-radius: 15px;
+  background: var(--white);
+  color: var(--dark);
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 1.25rem;
+}
+.form-button:hover { background: var(--hover); }
+.form-button:active { background: var(--active); color: var(--white); }
+
+.form-side { display: flex; flex-direction: column; gap: 1rem; }
+.data-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+.data-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 1.625rem; text-align: center; }
+.data-card-rows { display: flex; flex-direction: column; }
+.data-card-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid rgba(244, 247, 251, 0.06);
+}
+.data-card-row:last-child { border-bottom: 0; }
+.data-card-label { flex-shrink: 0; font-size: 0.875rem; }
+.data-card-value { min-width: 0; font-size: 0.875rem; text-align: right; word-break: break-word; }
+
+.deletion-card[hidden] { display: none; }
+.deletion-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+.deletion-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 1.625rem; }
+.deletion-card-text { font-size: 0.875rem; }
+
+@media (min-width: 1024px) {
+  .form-layout { flex-direction: row; align-items: flex-start; gap: 1.875rem; }
+
+  .form-card { flex: 1; min-width: 0; gap: 1.5625rem; padding: 1.5625rem; border-radius: 25px; }
+  .form-card-title { font-size: 2rem; text-align: left; }
+  .form-card-title.is-centered { text-align: center; }
+  .form-body { gap: 1.25rem; }
+  .form-row { flex-direction: row; gap: 1.875rem; }
+  .field { flex: 1; min-width: 0; }
+  .field-label { font-size: 1.5rem; }
+  .field-hint { font-size: 0.875rem; }
+  .field-control { height: 3.75rem; font-size: 1.25rem; }
+  .field-option { height: 3.75rem; font-size: 1.25rem; }
+  .field-textarea { min-height: 7.5rem; }
+  .field-options { max-height: 19.5rem; }
+  .calendar-cell { font-size: 1.25rem; }
+
+  .form-actions { flex-direction: row; justify-content: flex-end; }
+  .form-button { height: 3.0625rem; padding: 0 1.75rem; font-size: 1.5rem; }
+
+  .form-side { flex-shrink: 0; width: 23.875rem; gap: 1.25rem; }
+  .data-card { gap: 1.25rem; padding: 1.5625rem; border-radius: 25px; }
+  .data-card-title { font-size: 2rem; }
+  .data-card-label, .data-card-value { font-size: 1rem; }
+  .deletion-card { padding: 1.5625rem; border-radius: 25px; }
+  .deletion-card-title { font-size: 2rem; }
+  .deletion-card-text { font-size: 1rem; }
+}
+
+@media (min-width: 1440px) {
+  .form-card-title { font-size: 2.5rem; }
+  .form-side { width: 27.625rem; }
+  .data-card-title { font-size: 2.5rem; }
+  .data-card-label, .data-card-value { font-size: 1.25rem; }
+  .deletion-card-title { font-size: 2.5rem; }
+  .deletion-card-text { font-size: 1.25rem; }
+}
+
+@media (min-width: 1920px) {
+  .form-side { width: 37.1875rem; }
+  .data-card-label, .data-card-value { font-size: 1.5rem; }
+  .deletion-card-text { font-size: 1.5rem; }
+}

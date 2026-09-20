@@ -36,8 +36,11 @@ def list_contracts(connection, query_params):
     order = query_params.get("order") or "desc"
     page = to_int(query_params.get("page"), 1)
     page_size = to_int(query_params.get("page_size"), 10)
-    result, status = contract_service.list_contracts(connection, search, sort, order, page, page_size)
-    return JSONResponse(result, status_code=status)
+    status_filter = query_params.get("status") or ""
+    if status_filter not in contract_service.SIGNING_STATUSES:
+        status_filter = ""
+    result, response_status = contract_service.list_contracts(connection, search, status_filter, sort, order, page, page_size)
+    return JSONResponse(result, status_code=response_status)
 
 
 def get_contract(connection, contract_id):
