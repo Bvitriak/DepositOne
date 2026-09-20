@@ -2,10 +2,9 @@ import calendar
 from datetime import date, timedelta
 
 from repositories import plan_repository
-from services import deposit_service
-from utils import currency
+from utils import currency, finance
+from utils.pagination import paginate
 
-PAGE_SIZES = [10, 25, 50]
 PRIORITY_SIZE = 4
 WEEK_DAYS = 6
 
@@ -28,13 +27,13 @@ def month_bounds(today):
 
 
 def build_amounts(plan, today):
-    term = deposit_service.term_months(plan.start_date, plan.end_date)
-    days = deposit_service.term_days(plan.start_date, plan.end_date)
+    term = finance.term_months(plan.start_date, plan.end_date)
+    days = finance.term_days(plan.start_date, plan.end_date)
     amount = float(plan.amount)
     interest_rate = float(plan.interest_rate)
-    term_end_accruals = deposit_service.interest(amount, interest_rate, days)
-    elapsed = min(max(deposit_service.term_days(plan.start_date, today), 0), days)
-    accrued = deposit_service.interest(amount, interest_rate, elapsed)
+    term_end_accruals = finance.interest(amount, interest_rate, days)
+    elapsed = min(max(finance.term_days(plan.start_date, today), 0), days)
+    accrued = finance.interest(amount, interest_rate, elapsed)
     return {
         "amount": amount,
         "interest_rate": interest_rate,
@@ -105,7 +104,7 @@ def build_accrual_history(plan, today):
         row_date = plan.end_date
         if number < term:
             row_date = add_months(plan.start_date, number)
-        total = deposit_service.interest(amount, interest_rate, (row_date - plan.start_date).days)
+        total = finance.interest(amount, interest_rate, (row_date - plan.start_date).days)
         rows.append({
             "number": number,
             "date": row_date.isoformat(),
@@ -118,15 +117,8 @@ def build_accrual_history(plan, today):
 
 
 def list_plans(connection, search, sort, order, page, page_size):
-    if page_size not in PAGE_SIZES:
-        page_size = PAGE_SIZES[0]
     total = plan_repository.count_plans(connection, search)
-    pages = max(1, -(-total // page_size))
-    if page < 1:
-        page = 1
-    if page > pages:
-        page = pages
-    offset = (page - 1) * page_size
+    page, pages, page_size, offset = paginate(total, page, page_size)
     plans = plan_repository.list_plans(connection, search, sort, order, page_size, offset)
     today = date.today()
     items = [serialize(plan, today) for plan in plans]

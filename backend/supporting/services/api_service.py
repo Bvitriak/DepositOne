@@ -56,6 +56,24 @@ def get_apis():
                 "service": "Supporting",
             },
             {
+                "name": "Hash",
+                "type": "GET",
+                "path": "/api/hash/{str}",
+                "description": "Return the SHA-256 hash of a string",
+                "auth": "None",
+                "module": "System",
+                "service": "Supporting",
+            },
+            {
+                "name": "Notifications",
+                "type": "GET",
+                "path": "/api/notifications",
+                "description": "Return upcoming payouts and pending contracts",
+                "auth": "JWT",
+                "module": "Notifications",
+                "service": "Supporting",
+            },
+            {
                 "name": "Profile",
                 "type": "GET",
                 "path": "/api/profile",
@@ -242,7 +260,7 @@ def get_apis():
                 "description": "Return portfolio reports by depositor",
                 "auth": "JWT",
                 "module": "Reports",
-                "service": "Core",
+                "service": "Supporting",
             },
             {
                 "name": "Cash Flow",
@@ -251,7 +269,7 @@ def get_apis():
                 "description": "Return inflow, outflow and net liquidity by period",
                 "auth": "JWT",
                 "module": "Reports",
-                "service": "Core",
+                "service": "Supporting",
             },
             {
                 "name": "Plan List",

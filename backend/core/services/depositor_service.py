@@ -1,8 +1,8 @@
 from datetime import date
 
 from repositories import depositor_repository, country_repository, deposit_repository
+from utils.pagination import paginate
 
-PAGE_SIZES = [10, 25, 50]
 MIN_AGE_YEARS = 18
 MAX_AGE_YEARS = 120
 
@@ -67,15 +67,8 @@ def validate(connection, payload, depositor_id):
 
 
 def list_depositors(connection, search, sort, order, page, page_size):
-    if page_size not in PAGE_SIZES:
-        page_size = PAGE_SIZES[0]
     total = depositor_repository.count_depositors(connection, search)
-    pages = max(1, -(-total // page_size))
-    if page < 1:
-        page = 1
-    if page > pages:
-        page = pages
-    offset = (page - 1) * page_size
+    page, pages, page_size, offset = paginate(total, page, page_size)
     depositors = depositor_repository.list_depositors(connection, search, sort, order, page_size, offset)
     items = [serialize(depositor, count_active_deposits(connection, depositor.id)) for depositor in depositors]
     return {"depositors": items, "total": total, "page": page, "pages": pages, "page_size": page_size}, 200

@@ -408,6 +408,45 @@ const TRANSLATIONS = {
   "Organization": "Организация",
   "Version": "Версия",
   "License": "Лицензия",
+  "all fields are required": "Все поля обязательны",
+  "authorization required": "Требуется авторизация",
+  "invalid or expired token": "Недействительный или просроченный токен",
+  "database unavailable": "База данных недоступна",
+  "internal server error": "Внутренняя ошибка сервера",
+  "username, email and password are required": "Имя пользователя, почта и пароль обязательны",
+  "email and password are required": "Почта и пароль обязательны",
+  "email is required": "Почта обязательна",
+  "email or username already exists": "Почта или имя пользователя уже заняты",
+  "invalid email or password": "Неверная почта или пароль",
+  "no account with this email": "Нет аккаунта с такой почтой",
+  "date of birth is invalid": "Некорректная дата рождения",
+  "depositor must be at least 18 years old": "Вкладчику должно быть не менее 18 лет",
+  "country is invalid": "Некорректная страна",
+  "passport already belongs to another depositor": "Паспорт уже принадлежит другому вкладчику",
+  "tin already belongs to another depositor": "ИНН уже принадлежит другому вкладчику",
+  "email already belongs to another depositor": "Почта уже принадлежит другому вкладчику",
+  "depositor not found": "Вкладчик не найден",
+  "depositor has active deposits": "У вкладчика есть активные вклады",
+  "depositor has deposits": "У вкладчика есть вклады",
+  "depositor is invalid": "Некорректный вкладчик",
+  "currency is invalid": "Некорректная валюта",
+  "status is invalid": "Некорректный статус",
+  "amount is invalid": "Некорректная сумма",
+  "amount must be greater than zero": "Сумма должна быть больше нуля",
+  "amount must not exceed 9999999999999.99": "Сумма не должна превышать 9999999999999.99",
+  "interest rate is invalid": "Некорректная процентная ставка",
+  "interest rate must be between 0 and 100": "Процентная ставка должна быть от 0 до 100",
+  "start date is invalid": "Некорректная дата начала",
+  "end date is invalid": "Некорректная дата окончания",
+  "end date must be after the start date": "Дата окончания должна быть позже даты начала",
+  "deposit not found": "Вклад не найден",
+  "deposit has a contract": "У вклада есть договор",
+  "deposit is invalid": "Некорректный вклад",
+  "deposit already has a contract": "У вклада уже есть договор",
+  "signing status is invalid": "Некорректный статус подписания",
+  "contract date is invalid": "Некорректная дата договора",
+  "contract not found": "Договор не найден",
+  "return plan not found": "План возврата не найден",
 };
 
 const PATTERNS = [
@@ -466,6 +505,13 @@ function translateText(text) {
     return text.replace(key, pattern);
   }
   return text;
+}
+
+function localize(text) {
+  if (currentLanguage() !== RUSSIAN) {
+    return text;
+  }
+  return translateText(text);
 }
 
 function translateNode(node) {

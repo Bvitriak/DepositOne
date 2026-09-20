@@ -62,20 +62,12 @@
   justify-self: center;
   display: inline-flex;
   align-items: center;
-  gap: 0.625rem;
   padding: 0.625rem 0.875rem;
   background: var(--white);
   color: var(--dark);
   border-radius: 15px;
   font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
-  font-size: 1.5rem;
-}
-.action-button-arrow {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-top: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-  transform: rotate(45deg);
+  font-size: 1.25rem;
 }
 
 @media (min-width: 1024px) {

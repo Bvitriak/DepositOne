@@ -2,8 +2,7 @@ from datetime import date, timedelta
 
 from repositories import report_repository
 from utils import currency
-
-PAGE_SIZES = [10, 25, 50]
+from utils.pagination import paginate
 
 
 def serialize(report, code):
@@ -32,15 +31,8 @@ def build_periods(today):
 
 
 def list_reports(connection, search, sort, order, page, page_size, code):
-    if page_size not in PAGE_SIZES:
-        page_size = PAGE_SIZES[0]
     total = report_repository.count_reports(connection, search)
-    pages = max(1, -(-total // page_size))
-    if page < 1:
-        page = 1
-    if page > pages:
-        page = pages
-    offset = (page - 1) * page_size
+    page, pages, page_size, offset = paginate(total, page, page_size)
     reports = report_repository.list_reports(connection, search, sort, order, page_size, offset)
     items = [serialize(report, code) for report in reports]
     return {"reports": items, "total": total, "page": page, "pages": pages, "page_size": page_size}, 200

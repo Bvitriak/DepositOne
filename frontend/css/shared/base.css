@@ -49,7 +49,7 @@ a:focus-visible, button:focus-visible {
 
 ::selection { background: rgba(255, 255, 255, 0.35); }
 ::-moz-selection { background: rgba(255, 255, 255, 0.35); }
-html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff transparent; }
+html { scroll-behavior: smooth; overscroll-behavior: none; scrollbar-width: thin; scrollbar-color: #ffffff transparent; }
 ::-webkit-scrollbar { width: 0.375rem; height: 0.375rem; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #ffffff; border-radius: 999px; }
@@ -134,7 +134,7 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
 .footer-utility { display: flex; gap: 2.5rem; }
 .footer-utility a { font-weight: 700; font-size: 1rem; color: var(--muted); }
 .navigation a, .menu-navigation a, .footer-navigation a, .footer-utility a { position: relative; transition: filter 0.15s ease; }
-.navigation a::after, .menu-navigation a::after, .footer-navigation a::after, .footer-utility a::after {
+.menu-navigation a::after, .footer-navigation a::after, .footer-utility a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -147,11 +147,11 @@ html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #ffffff 
   transition: transform 0.2s ease;
 }
 
-.navigation a:hover::after, .menu-navigation a:hover::after,
+.menu-navigation a:hover::after,
 .footer-navigation a:hover::after, .footer-utility a:hover::after,
-.navigation a:active::after, .menu-navigation a:active::after,
+.menu-navigation a:active::after,
 .footer-navigation a:active::after, .footer-utility a:active::after { transform: scaleX(1); }
-.navigation a:active, .menu-navigation a:active, .footer-navigation a:active, .footer-utility a:active { filter: brightness(0.65); }
+.menu-navigation a:active, .footer-navigation a:active, .footer-utility a:active { filter: brightness(0.65); }
 
 @media (min-width: 1024px) {
   .container { padding: 0 1.5rem; }

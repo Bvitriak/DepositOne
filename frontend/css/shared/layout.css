@@ -65,8 +65,8 @@
   .page-scene .background { display: block; }
 
   .page-header { justify-content: center; padding: 1.875rem 0 0; }
-  .page-navigation { display: flex; gap: 1.5625rem; }
-  .page-navigation-link { font-weight: 700; font-size: 1.25rem; white-space: nowrap; }
+  .page-navigation { display: flex; gap: 1rem; }
+  .page-navigation-link { font-weight: 700; font-size: 1.125rem; white-space: nowrap; }
   .page-menu-button { display: none; }
 
   .page-hero { padding: 2.5rem 0 0; }
@@ -85,4 +85,6 @@
 @media (min-width: 1920px) {
   .page-scene { padding-bottom: 1.5rem; }
   .page-section { margin-top: 2rem; }
+  .page-navigation { gap: 1.5625rem; }
+  .page-navigation-link { font-size: 1.25rem; }
 }

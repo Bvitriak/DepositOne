@@ -78,7 +78,7 @@ def get_cash_flow(connection, start_date, end_date):
     query = (
         "SELECT "
         "COALESCE(sum(" + AMOUNT + ") FILTER (WHERE d.start_date BETWEEN %s AND %s), 0), "
-        "COALESCE(sum(" + AMOUNT + " + " + INCOME + ") FILTER (WHERE d.end_date BETWEEN %s AND %s), 0), "
+        "COALESCE(sum(" + AMOUNT + ") FILTER (WHERE d.end_date BETWEEN %s AND %s), 0), "
         "COALESCE(sum(" + AMOUNT + ") FILTER (WHERE d.start_date < %s AND d.end_date >= %s), 0) "
         "FROM deposits d JOIN currencies c ON c.id = d.currency_id WHERE " + ACTIVE
     )

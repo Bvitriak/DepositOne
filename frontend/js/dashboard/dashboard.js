@@ -77,6 +77,7 @@ function drawChart(containerId, legend) {
   const total = legend.reduce((sum, item) => sum + (Number(item.value) || 0), 0);
   Highcharts.chart(containerId, {
     chart: { type: "pie", backgroundColor: "transparent", margin: [0, 0, 0, 0] },
+    accessibility: { enabled: false },
     title: { text: "" },
     credits: { enabled: false },
     legend: { enabled: false },
@@ -98,7 +99,7 @@ function drawChart(containerId, legend) {
     },
     series: [{
       data: legend.map((item) => ({
-        name: item.name + ": " + (item.text ?? "N/A"),
+        name: localize(item.name) + ": " + (item.text ?? "N/A"),
         y: total > 0 ? Number(item.value) || 0 : 1,
         color: item.color,
       })),
@@ -125,7 +126,7 @@ function topDepositorsSection(depositors) {
       <p class="depositors-title">List of Top depositors</p>
       <p class="depositors-subtitle">By the amount of the deposit portfolio</p>
     </div>
-    <a class="action-button" href="/pages/depositor/depositors.html">See all Depositors<i class="action-button-arrow"></i></a>
+    <a class="action-button" href="/pages/depositor/depositors.html">See all Depositors</a>
     <div class="depositors-body">${body}</div>
   </section>`;
 }

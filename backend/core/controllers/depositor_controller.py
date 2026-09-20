@@ -1,15 +1,9 @@
 from fastapi.responses import JSONResponse
 
 from services import depositor_service
+from utils.params import read_list_params
 
 REQUIRED_FIELDS = ["first_name", "last_name", "date_of_birth", "passport", "tin", "phone", "email", "address"]
-
-
-def to_int(value, default):
-    try:
-        return int(value)
-    except (TypeError, ValueError):
-        return default
 
 
 def build_payload(body):
@@ -35,11 +29,7 @@ def is_incomplete(payload):
 
 
 def list_depositors(connection, query_params):
-    search = (query_params.get("search") or "").strip()
-    sort = query_params.get("sort") or "created"
-    order = query_params.get("order") or "desc"
-    page = to_int(query_params.get("page"), 1)
-    page_size = to_int(query_params.get("page_size"), 10)
+    search, sort, order, page, page_size = read_list_params(query_params, "created", "desc")
     result, status = depositor_service.list_depositors(connection, search, sort, order, page, page_size)
     return JSONResponse(result, status_code=status)
 
