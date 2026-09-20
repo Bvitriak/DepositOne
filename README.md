@@ -60,27 +60,72 @@
 
 ## Быстрый старт
 
-Требуется установленный Docker и Docker Compose.
+Пошаговая настройка от нуля до первого запуска. Другие команды не нужны, всё поднимается через Docker Compose.
 
-1. Создайте файл `.env` на основе шаблона:
+### 1. Установите Docker
 
-   ```bash
-   cp .env.example .env
-   ```
-
-2. Задайте значения в `.env` (обязательно, иначе база не стартует).
-3. Соберите и запустите проект:
-
-   ```bash
-   docker compose up --build
-   ```
-
-4. Откройте приложение: `http://localhost:8080`.
-
-Остановка и полная очистка данных:
+Нужны Docker и Docker Compose (входит в Docker Desktop). Docker Desktop должен быть запущен. Проверка версий:
 
 ```bash
-docker compose down -v
+docker --version
+docker compose version
+```
+
+### 2. Получите проект
+
+```bash
+git clone https://github.com/Bvitriak/DepositOne.git
+cd DepositOne
+```
+
+### 3. Создайте файл .env
+
+```bash
+cp .env.example .env
+```
+
+Файл `.env` обязателен: без него база не пройдёт проверку здоровья и сервисы не стартуют.
+
+### 4. Заполните .env
+
+Откройте `.env` и замените все значения `change-me` на свои. Пример:
+
+```
+POSTGRES_DB=depositone
+POSTGRES_USER=depositone
+POSTGRES_PASSWORD=StrongPass123
+REPLICATION_PASSWORD=StrongReplica123
+JWT_SECRET=6f1c2b9a4e7d0f3a8c5b1e9d2a4f6c8b
+```
+
+`JWT_SECRET` должен быть длинной случайной строкой. Сгенерировать можно так:
+
+```bash
+openssl rand -hex 32
+```
+
+Назначение каждой переменной - в разделе [Переменные окружения](#переменные-окружения).
+
+### 5. Соберите и запустите
+
+```bash
+docker compose up --build
+```
+
+При первом запуске собираются образы, стартует Master, создаётся схема и тестовые данные (`init.sql`, `seed.sql`), затем реплика делает базовую копию через `pg_basebackup` и поднимается как standby. Это занимает 1-2 минуты. Дождитесь, пока в логах появятся строки о готовности сервисов.
+
+### 6. Откройте приложение
+
+Перейдите на `http://localhost:8080`, зарегистрируйте аккаунт на странице регистрации и войдите.
+
+### Полезные команды
+
+```bash
+docker compose up --build -d   # запуск в фоне
+docker compose ps              # статус контейнеров
+docker compose logs -f         # логи всех сервисов
+docker compose down            # остановка
+docker compose down -v         # остановка с полной очисткой данных БД
 ```
 
 ## Переменные окружения
