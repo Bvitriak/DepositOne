@@ -1,0 +1,130 @@
+.summary-cards { display: flex; flex-direction: column; gap: 0.75rem; }
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  min-height: 9.8125rem;
+  padding: 1.5625rem;
+  border-radius: 25px;
+}
+.summary-card-details { display: flex; flex-direction: column; gap: 0.3125rem; }
+.summary-card-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.25rem; }
+.summary-card-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 2.5rem; }
+.summary-card-description { font-size: 1rem; }
+
+.chart-cards { display: flex; flex-direction: column; gap: 1rem; }
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+}
+.chart-donut { position: relative; flex-shrink: 0; width: 140px; height: 140px; }
+.chart-donut-ring { width: 100%; height: 100%; }
+.chart-donut-center {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 14px;
+  text-align: center;
+}
+.chart-donut-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 22px; line-height: 1; }
+.chart-donut-label { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 11px; line-height: 1; color: var(--white); }
+.chart-legend { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; width: 100%; }
+.chart-legend-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.chart-legend-name { display: flex; align-items: center; gap: 0.5rem; font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 0.9375rem; }
+.chart-legend-marker { flex-shrink: 0; width: 0.75rem; height: 0.75rem; border-radius: 3px; }
+.chart-legend-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 0.9375rem; }
+
+.depositors {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "heading" "body" "button";
+  gap: 1.25rem;
+  margin: 0 -1rem;
+  padding: 1rem;
+  background: linear-gradient(180deg, #141620 0%, #090a10 100%);
+}
+.depositors-heading { grid-area: heading; display: flex; flex-direction: column; gap: 0.625rem; text-align: center; }
+.depositors-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.625rem; }
+.depositors-subtitle { font-size: 0.75rem; }
+.depositors-body { grid-area: body; display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+.depositors-body .no-content { grid-column: 1 / -1; }
+
+.action-button {
+  grid-area: button;
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  background: var(--white);
+  color: var(--dark);
+  border-radius: 15px;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 1.5rem;
+}
+.action-button-arrow {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+@media (min-width: 1024px) {
+  .summary-cards { flex-direction: row; gap: 1.25rem; }
+  .summary-card { flex: 1; min-height: 11.0625rem; }
+
+  .chart-cards { flex-direction: row; gap: 1.5rem; }
+  .chart-card { flex: 1; flex-direction: row; gap: 1.5rem; padding: 2rem; border-radius: 24px; }
+  .chart-donut { width: 180px; height: 180px; }
+  .chart-donut-value { font-size: 26px; }
+  .chart-donut-label { font-size: 13px; }
+  .chart-legend { grid-template-columns: 1fr; flex: 1; gap: 0.75rem; }
+  .chart-legend-name { font-size: 1.125rem; }
+  .chart-legend-marker { width: 1rem; height: 1rem; border-radius: 4px; }
+  .chart-legend-value { font-size: 1.125rem; }
+
+  .depositors {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "heading button" "body body";
+    gap: 1.5rem;
+    margin: 0;
+    padding: 1.75rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 25px;
+  }
+  .depositors-heading { gap: 0.375rem; text-align: left; }
+  .depositors-title { font-size: 2rem; }
+  .depositors-subtitle { font-size: 0.875rem; }
+  .action-button { justify-self: end; align-self: start; }
+}
+
+@media (min-width: 1440px) {
+  .summary-cards { gap: 1.875rem; }
+  .summary-card { min-height: 11.5625rem; }
+  .summary-card-description { font-size: 1.25rem; }
+
+  .chart-cards { gap: 1.875rem; }
+  .chart-card { gap: 2.25rem; padding: 3.0625rem 3.125rem 3.1875rem; border-radius: 25px; }
+  .chart-donut { width: 299px; height: 299px; }
+  .chart-donut-value { font-size: 32px; }
+  .chart-donut-label { font-size: 16px; }
+  .chart-legend { gap: 1.25rem; }
+  .chart-legend-name { font-size: 1.5rem; }
+  .chart-legend-marker { width: 2.1875rem; height: 2.1875rem; border-radius: 10px; }
+  .chart-legend-value { font-size: 1.5rem; }
+
+  .depositors { gap: 1.25rem; padding: 1.5rem; }
+  .depositors-body { grid-template-columns: 1fr 1fr; }
+  .depositors-body .entity-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .depositors-title { font-size: 2.5rem; }
+  .depositors-subtitle { font-size: 1.25rem; }
+}

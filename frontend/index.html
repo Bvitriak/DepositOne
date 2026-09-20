@@ -4,41 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DepositOne</title>
-  <link rel="icon" type="image/png" href="assets/favicons/favicon.png">
-  <link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png">
-  <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="/assets/favicons/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/css/shared/fonts.css">
+  <link rel="stylesheet" href="/css/shared/base.css">
+  <link rel="stylesheet" href="/css/home/home.css">
 </head>
-<body>
+<body data-layout="home">
   <section class="hero" id="home">
-    <img class="glow glow-sunset" src="assets/img/glow-sunset.svg" alt="">
-    <img class="glow glow-ambient" src="assets/img/glow-ambient.svg" alt="">
+    <img class="glow glow-sunset" src="/assets/img/glow-sunset.svg" alt="">
+    <img class="glow glow-ambient" src="/assets/img/glow-ambient.svg" alt="">
     <div class="stars" id="stars"></div>
-    <img class="mountain m-far" src="assets/img/mountains-far.svg" alt="">
+    <img class="mountain mountain-far" src="/assets/img/mountains-far.svg" alt="">
     <h1 class="hero-title">Depositone</h1>
-    <img class="mountain m-mid" src="assets/img/mountains-mid.svg" alt="">
-    <img class="mountain m-near" src="assets/img/mountains-near.svg" alt="">
-    <img class="mountain m-fore" src="assets/img/mountains-foreground.svg" alt="">
+    <img class="mountain mountain-middle" src="/assets/img/mountains-mid.svg" alt="">
+    <img class="mountain mountain-near" src="/assets/img/mountains-near.svg" alt="">
+    <img class="mountain mountain-front" src="/assets/img/mountains-foreground.svg" alt="">
     <div class="hero-overlay"></div>
 
-    <nav class="nav">
-      <a href="#">Home</a>
-      <a href="pages/dashboard.html">Dashboard</a>
-      <a href="pages/depositors.html">Depositor</a>
-      <a href="#">Deposit</a>
-      <a href="#">Contract</a>
-      <a href="#">Report</a>
-      <a href="#">Return Plan</a>
+    <nav class="navigation">
+      <a href="#home">Home</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/pages/depositor/depositors.html">Depositor</a>
+      <a href="/pages/deposit/deposits.html">Deposit</a>
+      <a href="/pages/contract/contracts.html">Contract</a>
+      <a href="/pages/report/reports.html">Report</a>
+      <a href="/pages/plan/return-plans.html">Return Plan</a>
     </nav>
-    <button class="burger" id="burger" aria-label="Open menu">
-      <img src="assets/img/menu.svg" alt="">
+    <button class="burger" id="menuButton" aria-label="Open menu">
+      <img src="/assets/img/menu.svg" alt="">
     </button>
 
     <div class="hero-content">
       <p class="hero-subtitle">DepositOne is an internal platform for tracking deposit agreements and viewing analytics.</p>
       <div class="hero-actions">
-        <a class="btn btn-light" href="pages/auth/register.html">Get Started</a>
-        <a class="btn btn-outline" href="pages/auth/login.html">Welcome Back</a>
+        <a class="button button-light" href="/pages/auth/register.html">Get Started</a>
+        <a class="button button-outline" href="/pages/auth/login.html">Welcome Back</a>
       </div>
     </div>
   </section>
@@ -50,97 +51,65 @@
         <article class="card light">
           <h3 class="card-title">Dashboard</h3>
           <p class="card-text">Consolidated analytics – portfolio structure and cash flow.</p>
-          <a class="move" href="pages/dashboard.html"><span class="label-full">Move To Dashboard</span><span class="label-short">View Dashboard</span><i class="chev"></i></a>
+          <a class="move" href="/dashboard"><span class="label-full">Move To Dashboard</span><span class="label-short">View Dashboard</span><i class="chevron"></i></a>
         </article>
         <article class="card dark">
           <h3 class="card-title">Depositor</h3>
           <p class="card-text">Registration of client cards, passport and contact details.</p>
-          <a class="move" href="pages/depositors.html"><span class="label-full">Move To Depositor</span><span class="label-short">View Depositor</span><i class="chev"></i></a>
+          <a class="move" href="/pages/depositor/depositors.html"><span class="label-full">Move To Depositor</span><span class="label-short">View Depositor</span><i class="chevron"></i></a>
         </article>
         <article class="card light">
           <h3 class="card-title">Deposit</h3>
           <p class="card-text">Account opening, interest accrual, term monitoring.</p>
-          <a class="move" href="#"><span class="label-full">Move To Deposit</span><span class="label-short">View Deposit</span><i class="chev"></i></a>
+          <a class="move" href="/pages/deposit/deposits.html"><span class="label-full">Move To Deposit</span><span class="label-short">View Deposit</span><i class="chevron"></i></a>
         </article>
         <article class="card dark">
           <h3 class="card-title">Contract</h3>
           <p class="card-text">Generation, signing, and storage of depositor agreements.</p>
-          <a class="move" href="#"><span class="label-full">Move To Contract</span><span class="label-short">View Contract</span><i class="chev"></i></a>
+          <a class="move" href="/pages/contract/contracts.html"><span class="label-full">Move To Contract</span><span class="label-short">View Contract</span><i class="chevron"></i></a>
         </article>
         <article class="card light">
           <h3 class="card-title">Report</h3>
           <p class="card-text">Operational and regulatory portfolio reports.</p>
-          <a class="move" href="#"><span class="label-full">Move To Report</span><span class="label-short">View Report</span><i class="chev"></i></a>
+          <a class="move" href="/pages/report/reports.html"><span class="label-full">Move To Report</span><span class="label-short">View Report</span><i class="chevron"></i></a>
         </article>
         <article class="card dark">
           <h3 class="card-title">Returning</h3>
           <p class="card-text">Deposit repayment schedule and liquidity provisioning.</p>
-          <a class="move" href="#"><span class="label-full">Move To Returning Plan</span><span class="label-short">View Return Plan</span><i class="chev"></i></a>
+          <a class="move" href="/pages/plan/return-plans.html"><span class="label-full">Move To Returning Plan</span><span class="label-short">View Return Plan</span><i class="chevron"></i></a>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="cta-section">
+  <section class="call-to-action-section">
     <div class="container">
-      <div class="cta">
-        <div class="cta-text">
-          <h2 class="cta-title gradient-text">Ready to conveniently track deposit agreements and view analytics?</h2>
-          <p class="cta-sub">Join thousands of professionals working with investment-related data.</p>
+      <div class="call-to-action panel">
+        <div class="call-to-action-text">
+          <h2 class="call-to-action-title gradient-text">Ready to conveniently track deposit agreements and view analytics?</h2>
+          <p class="call-to-action-subtitle">Join thousands of professionals working with investment-related data.</p>
         </div>
-        <a class="btn btn-light" href="pages/auth/register.html">Get Started</a>
+        <a class="button button-light" href="/pages/auth/register.html">Get Started</a>
       </div>
     </div>
   </section>
 
-  <footer class="footer-section">
-    <div class="container">
-      <div class="footer">
-        <div class="footer-top">
-          <div class="footer-brand">
-            <a class="footer-logo" href="#" aria-label="DepositOne – на главную">
-              <img class="footer-logo-image" src="assets/img/logo.svg" alt="">
-            </a>
-            <p class="footer-desc">DepositOne is an internal platform for the operational tracking of deposit agreements and the viewing of analytics.</p>
-          </div>
-          <nav class="footer-nav">
-            <a href="pages/dashboard.html">Dashboard</a>
-            <a href="pages/depositors.html">Depositor</a>
-            <a href="#">Deposit</a>
-            <a href="#">Contract</a>
-            <a href="#">Report</a>
-            <a href="#">Return Plan</a>
-          </nav>
-        </div>
-        <div class="footer-line"></div>
-        <div class="footer-bottom">
-          <p class="copyright">© 2026 DepositOne. All rights reserved.</p>
-          <div class="footer-utility">
-            <a href="pages/api.html">API</a>
-            <a href="pages/support.html">Support</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
   <div class="menu" id="menu">
-    <button class="menu-close" id="menuClose" aria-label="Close menu"><img src="assets/img/close.svg" alt=""></button>
-    <nav class="menu-nav">
-      <a href="#">Home</a>
-      <a href="pages/dashboard.html">Dashboard</a>
-      <a href="pages/depositors.html">Depositor</a>
-      <a href="#">Deposit</a>
-      <a href="#">Contract</a>
-      <a href="#">Report</a>
-      <a href="#">Return Plan</a>
+    <button class="menu-close" id="menuClose" aria-label="Close menu"><img src="/assets/img/close.svg" alt=""></button>
+    <nav class="menu-navigation">
+      <a href="#home">Home</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/pages/depositor/depositors.html">Depositor</a>
+      <a href="/pages/deposit/deposits.html">Deposit</a>
+      <a href="/pages/contract/contracts.html">Contract</a>
+      <a href="/pages/report/reports.html">Report</a>
+      <a href="/pages/plan/return-plans.html">Return Plan</a>
     </nav>
-    <img class="menu-mountain menu-m-mid" src="assets/img/mountains-mid.svg" alt="">
-    <img class="menu-mountain menu-m-fore" src="assets/img/mountains-foreground.svg" alt="">
+    <img class="menu-mountain menu-mountain-middle" src="/assets/img/mountains-mid.svg" alt="">
+    <img class="menu-mountain menu-mountain-front" src="/assets/img/mountains-foreground.svg" alt="">
   </div>
 
-  <script src="js/stars.js"></script>
-  <script src="js/language.js"></script>
-  <script src="js/main.js"></script>
+  <script src="/js/shared/language.js"></script>
+  <script src="/js/shared/layout.js"></script>
 </body>
 </html>

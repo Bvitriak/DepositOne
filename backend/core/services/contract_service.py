@@ -54,17 +54,17 @@ def validate(connection, payload, contract_id):
     return None
 
 
-def list_contracts(connection, search, sort, order, page, page_size):
+def list_contracts(connection, search, status, sort, order, page, page_size):
     if page_size not in PAGE_SIZES:
         page_size = PAGE_SIZES[0]
-    total = contract_repository.count_contracts(connection, search)
+    total = contract_repository.count_contracts(connection, search, status)
     pages = max(1, -(-total // page_size))
     if page < 1:
         page = 1
     if page > pages:
         page = pages
     offset = (page - 1) * page_size
-    contracts = contract_repository.list_contracts(connection, search, sort, order, page_size, offset)
+    contracts = contract_repository.list_contracts(connection, search, status, sort, order, page_size, offset)
     items = [serialize(contract) for contract in contracts]
     return {"contracts": items, "total": total, "page": page, "pages": pages, "page_size": page_size}, 200
 

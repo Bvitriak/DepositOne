@@ -1,0 +1,26 @@
+{
+  "name": "DepositOne",
+  "summary": "Internal platform for the operational tracking of deposit agreements and the viewing of analytics.",
+  "description": "DepositOne keeps depositor cards, deposits and contracts in one place. Every deposit belongs to a depositor, every contract wraps a single deposit, and the repayment plan is derived from the deposit terms. The platform shows portfolio structure, cash flow by period and the schedule of upcoming returns.",
+  "author": "Bogdan Vitriak",
+  "group": "OKBI-204B",
+  "organization": "Moscow Technology Institute",
+  "version": "1.0",
+  "license": "MIT",
+  "stack": [
+    { "layer": "Frontend", "tools": "HTML, CSS, JavaScript, Highcharts" },
+    { "layer": "Core service", "tools": "Python, FastAPI" },
+    { "layer": "Supporting service", "tools": "Python, Flask" },
+    { "layer": "Database", "tools": "PostgreSQL 18" },
+    { "layer": "Authentication", "tools": "JWT" },
+    { "layer": "Data access", "tools": "SQL without ORM" }
+  ],
+  "features": [
+    "Registration and sign in protected by JWT",
+    "Depositor, deposit and contract cards with full create, read, update and delete",
+    "Search, sorting and paging performed by the database",
+    "Portfolio analytics with charts and cash flow reports",
+    "Repayment schedule derived from deposit terms",
+    "Fallback answers when a service is unavailable"
+  ]
+}

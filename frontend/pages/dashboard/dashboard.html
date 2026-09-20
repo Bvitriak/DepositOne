@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DepositOne Dashboard</title>
+  <link rel="icon" type="image/png" href="/assets/favicons/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/css/shared/fonts.css">
+  <link rel="stylesheet" href="/css/shared/base.css">
+  <link rel="stylesheet" href="/css/shared/background.css">
+  <link rel="stylesheet" href="/css/shared/layout.css">
+  <link rel="stylesheet" href="/css/shared/list.css">
+  <link rel="stylesheet" href="/css/dashboard/dashboard.css">
+</head>
+<body data-layout="page">
+  <div class="page">
+    <div class="page-scene">
+      <section class="page-hero">
+        <div class="container">
+          <h1 class="page-title">Operational analytics</h1>
+          <p class="page-subtitle">A unified dashboard for monitoring active deposits, portfolio structure, and cash flows.</p>
+        </div>
+      </section>
+      <section class="page-section">
+        <div class="container">
+          <div class="summary-cards" id="summary"></div>
+        </div>
+      </section>
+      <section class="page-section">
+        <div class="container">
+          <div class="chart-cards" id="status"></div>
+        </div>
+      </section>
+      <section class="page-section">
+        <div class="container" id="depositors"></div>
+      </section>
+    </div>
+  </div>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="/js/shared/language.js"></script>
+  <script src="/js/shared/layout.js"></script>
+  <script src="/js/shared/format.js"></script>
+  <script src="/js/shared/request.js"></script>
+  <script src="/js/shared/list.js"></script>
+  <script src="/js/shared/currency.js"></script>
+  <script src="/js/dashboard/dashboard.js"></script>
+</body>
+</html>

@@ -62,15 +62,25 @@ def build_row(row):
     )
 
 
-def list_deposits(connection, search, sort, order, limit, offset):
-    column = SORT_COLUMNS.get(sort, SORT_COLUMNS["created"])
-    direction = "ASC" if order == "asc" else "DESC"
-    where = ""
+def build_where(search, status):
+    conditions = []
     parameters = []
     if search:
-        where = "WHERE " + SEARCH_CONDITION
+        conditions.append("(" + SEARCH_CONDITION + ")")
         like = "%" + search + "%"
-        parameters = [like, like, like, like, like]
+        parameters = parameters + [like, like, like, like, like]
+    if status:
+        conditions.append("d.status = %s")
+        parameters.append(status)
+    if not conditions:
+        return "", parameters
+    return "WHERE " + " AND ".join(conditions), parameters
+
+
+def list_deposits(connection, search, status, sort, order, limit, offset):
+    column = SORT_COLUMNS.get(sort, SORT_COLUMNS["created"])
+    direction = "ASC" if order == "asc" else "DESC"
+    where, parameters = build_where(search, status)
     query = (
         "SELECT " + SELECT_COLUMNS + " " + FROM_JOIN
         + where +
@@ -83,13 +93,8 @@ def list_deposits(connection, search, sort, order, limit, offset):
     return [build_row(row) for row in rows]
 
 
-def count_deposits(connection, search):
-    where = ""
-    parameters = []
-    if search:
-        where = "WHERE " + SEARCH_CONDITION
-        like = "%" + search + "%"
-        parameters = [like, like, like, like, like]
+def count_deposits(connection, search, status):
+    where, parameters = build_where(search, status)
     query = "SELECT count(*) " + FROM_JOIN + where
     with connection.cursor() as cursor:
         cursor.execute(query, parameters)

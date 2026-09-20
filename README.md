@@ -5,7 +5,7 @@ Made by Bogdan Vitriak OKBI-204B for Moscow Technology Institute.
 
 ## Stack
 
-- **Frontend:** HTML + CSS + JavaScript React, Highcharts
+- **Frontend:** HTML + CSS + JavaScript, Highcharts
 - **Backend:** Python (Core / Business - FastAPI, Supporting / API Gateway - Flask)
 - **Database:** PostgreSQL 18, Master-Slave replication
 - **Authentication:** JWT

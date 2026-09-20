@@ -1,0 +1,142 @@
+.profile { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: 3.125rem;
+  padding: 1.5rem 0;
+  border-radius: 25px;
+}
+.profile-user { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.profile-image { display: flex; flex-direction: column; align-items: center; gap: 0.875rem; width: 100%; }
+.profile-avatar { display: block; width: 7.5rem; height: 7.5rem; }
+.profile-name {
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 2.5rem;
+  text-align: center;
+  word-break: break-word;
+}
+.profile-table {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  width: 100%;
+  border-top: 1px solid var(--border);
+}
+.profile-label, .profile-value {
+  min-width: 0;
+  padding: 0.625rem 0.9375rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem;
+  word-break: break-word;
+}
+.profile-value { text-align: right; }
+.profile-settings { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem; }
+.profile-setting {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border: 0;
+  color: var(--white);
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 1.5rem;
+  transition: opacity 0.2s ease;
+}
+.profile-setting:hover { opacity: 0.7; }
+.profile-setting-currency { gap: 0.375rem; }
+.profile-setting-icon { display: block; width: 1.875rem; height: 1.875rem; margin-top: -0.2em; }
+
+.profile-main { display: flex; flex-direction: column; gap: 0.75rem; }
+.profile-stats { display: flex; flex-direction: column; gap: 0.75rem; }
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+  padding: 1.5625rem;
+  border-radius: 25px;
+}
+.stat-card-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 2.25rem; }
+.stat-card-content { display: flex; flex-direction: column; gap: 0.9375rem; }
+.stat-card-group { display: flex; flex-direction: column; gap: 0.625rem; }
+.stat-card-row { display: flex; align-items: center; justify-content: space-between; gap: 0.625rem; }
+.stat-card-label { font-size: 1rem; }
+.stat-card-value { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 1.25rem; }
+.stat-card-total .stat-card-value { font-size: 1.5rem; }
+
+.token-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9375rem;
+  padding: 1.5625rem;
+  border-radius: 25px;
+}
+.token-head { display: flex; flex-direction: column; gap: 0.625rem; }
+.token-heading { display: flex; flex-direction: column; gap: 0.3125rem; }
+.token-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-size: 2.25rem; }
+.token-description { font-size: 1rem; }
+.token-buttons { display: flex; align-items: center; gap: 0.9375rem; }
+.token-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.625rem;
+  padding: 0.9375rem;
+  background: var(--white);
+  color: var(--dark);
+  border: 0;
+  border-radius: 15px;
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 1.25rem;
+  transition: background-color 0.35s ease;
+}
+.token-button:hover { background: var(--hover); }
+.token-button:active { background: var(--active); color: var(--white); }
+.token-value {
+  min-height: 9rem;
+  padding: 1.5625rem;
+  background: var(--card-dark);
+  border: 1px solid var(--border);
+  border-radius: 25px;
+  font-size: 1rem;
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 1024px) {
+  .profile { flex-direction: row; gap: 1.25rem; }
+  .profile-card { flex-shrink: 0; justify-content: center; width: 22.5rem; }
+  .profile-main { flex: 1; min-width: 0; gap: 1.25rem; }
+  .profile-stats { flex-direction: row; gap: 1.25rem; }
+  .stat-card { flex: 1; min-width: 0; }
+  .token-card { flex: 1; }
+  .token-value { flex: 1; }
+}
+
+@media (min-width: 1440px) {
+  .profile-card { width: 36.25rem; }
+  .profile-avatar { width: 10rem; height: 10rem; }
+  .profile-name { font-size: 3rem; }
+  .profile-label, .profile-value { font-size: 1.25rem; }
+  .profile-setting { font-size: 2rem; }
+  .profile-setting-icon { width: 2.375rem; height: 2.375rem; }
+
+  .stat-card-title { font-size: 2.5rem; }
+  .stat-card-label { font-size: 1.25rem; }
+  .stat-card-value { font-size: 1.5rem; }
+  .stat-card-total .stat-card-value { font-size: 2rem; }
+
+  .token-title { font-size: 2.5rem; }
+  .token-description { font-size: 1.25rem; }
+  .token-button { height: 3.0625rem; font-size: 1.5rem; }
+  .token-value { min-height: 9.75rem; font-size: 1.25rem; }
+}
+
+@media (min-width: 1920px) {
+  .profile-card { width: 40rem; }
+}
+
+.page-scene { flex: none; }
+.page .footer-section { flex: 1; }
+
+@media (max-width: 1023px) { .page-section { margin-top: 0; } }
+@media (min-width: 1024px) { .page-section { margin-top: 40px; } }
+@media (min-width: 1440px) { .page-section { margin-top: 50px; } }

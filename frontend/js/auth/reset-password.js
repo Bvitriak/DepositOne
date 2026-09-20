@@ -1,16 +1,17 @@
 const form = document.getElementById("resetForm");
-const error = document.getElementById("authError");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  error.textContent = "";
+  showAuthError("");
   const email = form.email.value.trim();
-  const response = await apiPost("/api/reset-password/check", { email });
-  if (!response) return;
-  const data = await response.json();
-  if (!response.ok) {
-    error.textContent = data.error || "Reset failed";
+  const response = await publicPost("/api/reset-password/check", { email: email });
+  if (!response) {
     return;
   }
-  window.location.href = "set-new-password.html?email=" + encodeURIComponent(email);
+  const data = await response.json();
+  if (!response.ok) {
+    showAuthError(data.error || "Reset failed");
+    return;
+  }
+  window.location.href = "/pages/auth/set-new-password.html?email=" + encodeURIComponent(email);
 });

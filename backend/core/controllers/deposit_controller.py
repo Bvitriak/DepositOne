@@ -41,8 +41,11 @@ def list_deposits(connection, query_params):
     order = query_params.get("order") or "desc"
     page = to_int(query_params.get("page"), 1)
     page_size = to_int(query_params.get("page_size"), 10)
-    result, status = deposit_service.list_deposits(connection, search, sort, order, page, page_size)
-    return JSONResponse(result, status_code=status)
+    status_filter = query_params.get("status") or ""
+    if status_filter not in deposit_service.STATUSES:
+        status_filter = ""
+    result, response_status = deposit_service.list_deposits(connection, search, status_filter, sort, order, page, page_size)
+    return JSONResponse(result, status_code=response_status)
 
 
 def list_options(connection):

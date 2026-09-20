@@ -1,4 +1,14 @@
-const summaryFields = [
+const EMPTY_DEPOSITORS = { depositors: [], total: null };
+
+const EMPTY_STATS = {
+  total: null,
+  active: null,
+  accrued: null,
+  statuses: { total: null, active: 0, pending: 0, closed: 0, blocked: 0 },
+  amounts: { total: null, usd: 0, eur: 0, rub: 0 },
+};
+
+const SUMMARY_FIELDS = [
   { key: "depositors", label: "depositors", description: "Total number of depositors" },
   { key: "deposits", label: "deposits", description: "Total number of deposits" },
   { key: "active", label: "Active", description: "Total number of active deposits" },
@@ -6,7 +16,7 @@ const summaryFields = [
   { key: "percents", label: "Percents", description: "Total accrued interest", money: true },
 ];
 
-const chartGroups = [
+const CHART_GROUPS = [
   {
     key: "statuses",
     centerLabel: "Deposits",
@@ -29,7 +39,96 @@ const chartGroups = [
   },
 ];
 
-let dashboardData = null;
+function summaryCard(label, description, value) {
+  return `<article class="summary-card panel">
+    <div class="summary-card-details">
+      <p class="summary-card-label">${label}</p>
+      <p class="summary-card-value">${value ?? "N/A"}</p>
+    </div>
+    <p class="summary-card-description">${description}</p>
+  </article>`;
+}
+
+function paletteColor(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function chartCard(containerId, centerValue, centerLabel, legend) {
+  const rows = legend.map((item) => `<li class="chart-legend-row">
+        <span class="chart-legend-name"><span class="chart-legend-marker" style="background:${item.color}"></span>${item.name}</span>
+        <span class="chart-legend-value">${item.text ?? "N/A"}</span>
+      </li>`).join("");
+  return `<article class="chart-card panel">
+    <div class="chart-donut">
+      <div class="chart-donut-ring" id="${containerId}"></div>
+      <div class="chart-donut-center">
+        <span class="chart-donut-value">${centerValue ?? "N/A"}</span>
+        <span class="chart-donut-label">${centerLabel}</span>
+      </div>
+    </div>
+    <ul class="chart-legend">${rows}</ul>
+  </article>`;
+}
+
+function drawChart(containerId, legend) {
+  if (typeof Highcharts === "undefined") {
+    return;
+  }
+  const total = legend.reduce((sum, item) => sum + (Number(item.value) || 0), 0);
+  Highcharts.chart(containerId, {
+    chart: { type: "pie", backgroundColor: "transparent", margin: [0, 0, 0, 0] },
+    title: { text: "" },
+    credits: { enabled: false },
+    legend: { enabled: false },
+    tooltip: {
+      backgroundColor: paletteColor("--card"),
+      borderColor: paletteColor("--border"),
+      style: { color: paletteColor("--white") },
+      headerFormat: "",
+      pointFormat: "<b>{point.name}</b>",
+      enabled: total > 0,
+    },
+    plotOptions: {
+      pie: {
+        innerSize: "80%",
+        borderWidth: 0,
+        dataLabels: { enabled: false },
+        states: { hover: { halo: { size: 0 } } },
+      },
+    },
+    series: [{
+      data: legend.map((item) => ({
+        name: item.name + ": " + (item.text ?? "N/A"),
+        y: total > 0 ? Number(item.value) || 0 : 1,
+        color: item.color,
+      })),
+    }],
+  });
+}
+
+function topDepositorsSection(depositors) {
+  const body = depositors.length === 0
+    ? `<div class="no-content"><p class="no-content-text">No Depositors Found</p></div>`
+    : depositors.map((depositor) => entityCard({
+        href: "/pages/depositor/depositor-card.html?id=" + depositor.id,
+        name: depositor.first_name + " " + depositor.last_name,
+        badge: depositor.active_deposits + " DEPOSITS",
+        fields: [
+          { label: "DOB:", value: formatDate(depositor.date_of_birth) },
+          { label: "COUNTRY:", value: depositor.country },
+          { label: "EMAIL:", value: depositor.email },
+          { label: "ADDRESS:", value: depositor.address },
+        ],
+      })).join("");
+  return `<section class="depositors">
+    <div class="depositors-heading">
+      <p class="depositors-title">List of Top depositors</p>
+      <p class="depositors-subtitle">By the amount of the deposit portfolio</p>
+    </div>
+    <a class="action-button" href="/pages/depositor/depositors.html">See all Depositors<i class="action-button-arrow"></i></a>
+    <div class="depositors-body">${body}</div>
+  </section>`;
+}
 
 function summaryValue(field, summary) {
   const value = summary[field.key];
@@ -42,12 +141,9 @@ function summaryValue(field, summary) {
   return value;
 }
 
-function chartValueText(value, money) {
+function chartValueText(value) {
   if (value === null || value === undefined) {
     return null;
-  }
-  if (money) {
-    return formatMoney(value);
   }
   return String(value);
 }
@@ -59,127 +155,48 @@ function sharePercent(value, total) {
   return (value / total * 100).toFixed(1) + "%";
 }
 
-function countLegend(group, groupData) {
-  return group.legend.map((item) => ({
-    name: item.name,
-    color: item.color,
-    value: groupData[item.key],
-    text: chartValueText(groupData[item.key], group.money),
-  }));
-}
-
-function shareLegend(group, groupData) {
+function groupLegend(group, groupData) {
   const total = group.legend.reduce((sum, item) => sum + Number(groupData[item.key] || 0), 0);
   return group.legend.map((item) => ({
     name: item.name,
     color: item.color,
     value: groupData[item.key],
-    text: sharePercent(Number(groupData[item.key] || 0), total),
+    text: group.share ? sharePercent(Number(groupData[item.key] || 0), total) : chartValueText(groupData[item.key]),
   }));
 }
 
 function render(data) {
-  document.getElementById("summary").innerHTML = summaryFields
+  document.getElementById("summary").innerHTML = SUMMARY_FIELDS
     .map((field) => summaryCard(field.label, field.description, summaryValue(field, data.summary)))
     .join("");
-  document.getElementById("status").innerHTML = chartGroups
-    .map((group) => {
-      const groupData = data[group.key];
-      if (group.share) {
-        return chartCard(String(group.legend.length), group.centerLabel, shareLegend(group, groupData));
-      }
-      return chartCard(chartValueText(groupData.total, group.money), group.centerLabel, countLegend(group, groupData));
-    })
+  const charts = CHART_GROUPS.map((group) => {
+    const groupData = data[group.key];
+    const center = group.share ? String(group.legend.length) : chartValueText(groupData.total);
+    return { containerId: "chart-" + group.key, center: center, legend: groupLegend(group, groupData), label: group.centerLabel };
+  });
+  document.getElementById("status").innerHTML = charts
+    .map((chart) => chartCard(chart.containerId, chart.center, chart.label, chart.legend))
     .join("");
-  document.getElementById("depositors").innerHTML = depositorList(data.depositors);
+  charts.forEach((chart) => drawChart(chart.containerId, chart.legend));
+  document.getElementById("depositors").innerHTML = topDepositorsSection(data.depositors);
 }
 
 async function loadDashboard() {
-  const token = localStorage.getItem("access_token");
-  if (!token) {
-    window.location.href = "auth/login.html";
+  const data = await apiRead("/api/dashboard");
+  if (!data) {
     return;
   }
-  let response;
-  try {
-    response = await fetch("/api/dashboard", { headers: { Authorization: "Bearer " + token } });
-  } catch {
-    window.location.href = "error.html?code=503";
-    return;
-  }
-  if (response.status === 401) {
-    localStorage.removeItem("access_token");
-    window.location.href = "auth/login.html";
-    return;
-  }
-  if (!response.ok) {
-    window.location.href = "error.html?code=" + response.status;
-    return;
-  }
-  const data = await response.json();
-  const top = await loadTopDepositors(token);
-  data.depositors = top.list;
+  const top = await apiRead("/api/depositors?page=1&page_size=10&sort=created&order=desc", { silent: true }) || EMPTY_DEPOSITORS;
+  const stats = await apiRead("/api/deposits/stats?" + currencyQuery(), { silent: true }) || EMPTY_STATS;
+  data.depositors = top.depositors.slice(0, 6);
   data.summary.depositors = top.total;
-  const stats = await loadDepositStats(token);
-  if (!stats) {
-    return;
-  }
   data.summary.deposits = stats.total;
   data.summary.active = stats.active;
   data.summary.portfolio = stats.amounts.total;
   data.summary.percents = stats.accrued;
   data.statuses = stats.statuses;
   data.amounts = stats.amounts;
-  dashboardData = data;
   render(data);
 }
 
-async function loadDepositStats(token) {
-  let response;
-  try {
-    response = await fetch("/api/deposits/stats?" + currencyQuery(), { headers: { Authorization: "Bearer " + token } });
-  } catch {
-    window.location.href = "error.html?code=503";
-    return null;
-  }
-  if (response.status === 401) {
-    localStorage.removeItem("access_token");
-    window.location.href = "auth/login.html";
-    return null;
-  }
-  if (!response.ok) {
-    window.location.href = "error.html?code=" + response.status;
-    return null;
-  }
-  return await response.json();
-}
-
-async function loadTopDepositors(token) {
-  let response;
-  try {
-    response = await fetch("/api/depositors?page=1&page_size=10&sort=created&order=desc", { headers: { Authorization: "Bearer " + token } });
-  } catch {
-    window.location.href = "error.html?code=503";
-    return { list: [], total: null };
-  }
-  if (response.status === 401) {
-    localStorage.removeItem("access_token");
-    window.location.href = "auth/login.html";
-    return { list: [], total: null };
-  }
-  if (!response.ok) {
-    window.location.href = "error.html?code=" + response.status;
-    return { list: [], total: null };
-  }
-  const result = await response.json();
-  return { list: result.depositors.slice(0, 6), total: result.total };
-}
-
 loadDashboard();
-
-const menuButton = document.getElementById("menuButton");
-const menu = document.getElementById("menu");
-const menuClose = document.getElementById("menuClose");
-menuButton.addEventListener("click", () => menu.classList.add("open"));
-menuClose.addEventListener("click", () => menu.classList.remove("open"));
-menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => menu.classList.remove("open")));

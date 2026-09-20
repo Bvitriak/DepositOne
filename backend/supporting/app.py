@@ -4,6 +4,7 @@ from routes.auth_routes import auth_routes
 from routes.dashboard_routes import dashboard_routes
 from routes.api_routes import api_routes
 from routes.profile_routes import profile_routes
+from routes.about_routes import about_routes
 
 
 def create_app():
@@ -12,6 +13,7 @@ def create_app():
     application.register_blueprint(dashboard_routes)
     application.register_blueprint(api_routes)
     application.register_blueprint(profile_routes)
+    application.register_blueprint(about_routes)
 
     @application.errorhandler(500)
     def internal_error(error):
