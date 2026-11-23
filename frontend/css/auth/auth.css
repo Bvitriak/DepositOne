@@ -1,0 +1,114 @@
+.authentication {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #05080f 0%, #0a0d1a 50%, #140f1a 75%, #1f140f 100%);
+}
+
+.authentication-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 28.125rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem 1.25rem;
+  border-color: #d6d9dd;
+  border-radius: 16px;
+}
+
+.authentication-logo { display: block; }
+.authentication-logo-image { display: block; width: auto; height: 3.5rem; }
+
+.authentication-body { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; width: 100%; }
+.authentication-title { font-family: "Bebas Neue", sans-serif; text-transform: uppercase; font-weight: 400; font-size: 1.75rem; text-align: center; }
+.authentication-form { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
+.authentication-fields { display: flex; flex-direction: column; gap: 0.875rem; }
+
+.authentication-field {
+  width: 100%;
+  height: 3.125rem;
+  padding: 0 1.25rem;
+  background: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--white);
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+}
+.authentication-field::placeholder { color: var(--white); opacity: 0.7; }
+.authentication-field:focus { outline: none; border-color: var(--white); }
+
+.authentication-password { position: relative; }
+.authentication-password .authentication-field { padding-right: 3.5rem; }
+.authentication-eye {
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.875rem;
+  height: 1.375rem;
+  padding: 0;
+  background: none;
+  border: 0;
+}
+.authentication-eye-icon { display: block; width: 100%; height: 100%; }
+.authentication-eye-icon .slash {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 0.3s ease;
+}
+.authentication-eye.off .slash { stroke-dashoffset: 0; }
+
+.authentication-button {
+  width: 100%;
+  height: 3.125rem;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #d6d9dd 0%, #babcbe 100%);
+  color: var(--dark);
+  font-family: "Bebas Neue", sans-serif; text-transform: uppercase;
+  font-size: 1.25rem;
+  transition: filter 0.35s ease;
+}
+.authentication-button:hover { filter: brightness(0.95); }
+.authentication-button:active { filter: brightness(0.85); }
+
+.authentication-error { color: var(--error); font-size: 0.8125rem; text-align: center; width: 100%; }
+.authentication-error:empty { display: none; }
+
+.authentication-actions { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.authentication-actions.center { justify-content: center; }
+.authentication-registration { display: flex; align-items: center; gap: 0.25rem; }
+.authentication-registration span { font-size: 0.6875rem; }
+.authentication-registration a, .authentication-forgot { font-weight: 700; font-size: 0.6875rem; }
+
+@media (min-width: 1024px) {
+  .authentication-card { max-width: 35rem; gap: 2.5rem; padding: 2.25rem 2.5rem; border-radius: 25px; }
+  .authentication-logo-image { height: 6.5rem; }
+  .authentication-body { gap: 1.25rem; }
+  .authentication-title { font-size: 2.25rem; }
+  .authentication-form { gap: 1.25rem; }
+  .authentication-fields { gap: 1rem; }
+  .authentication-field { height: 3.4375rem; font-size: 1.25rem; }
+  .authentication-button { height: 3.75rem; }
+  .authentication-registration span { font-size: 0.875rem; }
+  .authentication-registration a, .authentication-forgot { font-size: 1rem; }
+}
+
+@media (min-width: 1920px) {
+  .authentication-card { max-width: 37.5rem; gap: 4.6875rem; padding: 3.125rem; }
+  .authentication-logo-image { height: 8.25rem; }
+  .authentication-body { gap: 1.5625rem; }
+  .authentication-title { font-size: 2.5rem; }
+  .authentication-form { gap: 1.4375rem; }
+  .authentication-fields { gap: 1.25rem; }
+  .authentication-field { height: 3.75rem; }
+  .authentication-button { height: 4.375rem; border-radius: 15px; font-size: 1.5rem; }
+  .authentication-registration span { font-size: 1rem; }
+}

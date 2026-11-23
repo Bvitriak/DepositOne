@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DepositOne Registration</title>
+  <link rel="icon" type="image/png" href="/assets/favicons/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/css/shared/fonts.css">
+  <link rel="stylesheet" href="/css/shared/base.css">
+  <link rel="stylesheet" href="/css/shared/background.css">
+  <link rel="stylesheet" href="/css/auth/auth.css">
+</head>
+<body data-layout="plain">
+  <main class="authentication">
+    <div class="authentication-card panel">
+      <a class="authentication-logo" href="/index.html" aria-label="DepositOne home">
+        <img class="authentication-logo-image" src="/assets/img/logo.svg" alt="">
+      </a>
+
+      <div class="authentication-body">
+        <h1 class="authentication-title">Registration</h1>
+        <form class="authentication-form" id="registerForm">
+          <div class="authentication-fields">
+            <input class="authentication-field" type="text" name="username" placeholder="Enter Nickname" autocomplete="username" required>
+            <input class="authentication-field" type="email" name="email" placeholder="Enter Email" autocomplete="email" required>
+            <div class="authentication-password">
+              <input class="authentication-field" type="password" name="password" placeholder="Enter Password" autocomplete="new-password" required>
+              <button class="authentication-eye" type="button" aria-label="Show password"></button>
+            </div>
+            <div class="authentication-password">
+              <input class="authentication-field" type="password" name="confirm" placeholder="Confirm Password" autocomplete="new-password" required>
+              <button class="authentication-eye" type="button" aria-label="Show password"></button>
+            </div>
+          </div>
+          <button class="authentication-button" type="submit">Registration</button>
+          <p class="authentication-error" id="authError"></p>
+          <div class="authentication-actions center">
+            <div class="authentication-registration">
+              <span>Already have account?</span>
+              <a href="/pages/auth/login.html">LogIn</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <script src="/js/shared/language.js"></script>
+  <script src="/js/shared/layout.js"></script>
+  <script src="/js/shared/request.js"></script>
+  <script src="/js/shared/auth.js"></script>
+  <script src="/js/auth/register.js"></script>
+</body>
+</html>

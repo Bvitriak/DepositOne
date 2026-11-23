@@ -27,7 +27,7 @@ What actually happened.
 
 ## Environment
 
-- Layer: frontend / backend (Core) / API Gateway / DB
+- Layer: frontend / Core (FastAPI) / Supporting (Flask) / database / replication
 - Browser and version:
 - OS:
 - Branch / commit:
