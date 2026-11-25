@@ -14,10 +14,10 @@ jobs:
       matrix:
         service: [core, supporting]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -31,7 +31,7 @@ jobs:
     name: Data files check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Validate about.json
         run: python -c "import json; json.load(open('backend/supporting/about.json', encoding='utf-8'))"
@@ -40,7 +40,7 @@ jobs:
     name: Docker build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Create .env for compose interpolation
         run: cp .env.example .env
